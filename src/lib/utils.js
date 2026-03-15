@@ -70,7 +70,8 @@ export function paraRomano(num) {
 // Verifica se JWT está expirado
 export function jwtExpirado(token) {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]))
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
+    const payload = JSON.parse(atob(base64))
     return payload.exp < Math.floor(Date.now() / 1000)
   } catch {
     return true
