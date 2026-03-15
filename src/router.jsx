@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Entrada from './pages/Entrada.jsx'
 import Dashboard from './pages/Dashboard.jsx'
@@ -9,9 +9,7 @@ import AppShell from './components/layout/AppShell.jsx'
 import AdminLogin from './pages/admin/AdminLogin.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 
-// import.meta.env.BASE_URL é '/' em dev e '/confraria/' em produção
-export const router = createBrowserRouter(
-  [
+export const router = createHashRouter([
     {
       path: '/',
       element: <Home />,
@@ -50,6 +48,4 @@ export const router = createBrowserRouter(
       path: '/admin/dashboard',
       element: <AdminDashboard />,
     },
-  ],
-  { basename: import.meta.env.BASE_URL }
-)
+])
