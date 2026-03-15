@@ -39,6 +39,12 @@ jobs:
           VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
         run: npm run build
 
+      # SPA routing: GitHub Pages serve 404.html quando a rota não existe.
+      # Copiando index.html como 404.html, o React app carrega e o React Router
+      # lê o pathname real e roteia corretamente — sem redirect necessário.
+      - name: Copy index.html to 404.html for SPA routing
+        run: cp dist/index.html dist/404.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

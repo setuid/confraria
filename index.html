@@ -14,21 +14,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Restaura rota SPA após redirect do 404.html (GitHub Pages) -->
-    <script>
-      (function () {
-        var params = window.location.search.slice(1).split('&');
-        var p = params.filter(function(s){ return s.startsWith('p=') });
-        if (p.length > 0) {
-          var path = p[0].slice(2).replace(/~and~/g, '&');
-          var q = params.filter(function(s){ return s.startsWith('q=') });
-          var query = q.length > 0 ? ('?' + q[0].slice(2).replace(/~and~/g, '&')) : '';
-          // Usa o pathname atual como base (ex: /confraria/) para reconstruir a URL completa
-          var base = window.location.pathname.replace(/\/$/, '');
-          window.history.replaceState(null, null, base + '/' + path + query + window.location.hash);
-        }
-      })();
-    </script>
-    <script type="module" src="/src/main.jsx"></script>
+<script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
