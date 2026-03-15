@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // Redireciona URLs limpas para hash equivalente para o HashRouter funcionar
+      // Ex: /confraria/admin → /confraria/#/admin
+      var l = window.location;
+      var segments = l.pathname.split('/').filter(Boolean); // ['confraria', 'admin']
+      var base = segments.length > 0 ? '/' + segments[0] : '';   // '/confraria'
+      var rest = segments.slice(1).join('/');                     // 'admin'
+      var hash = rest ? '#/' + rest : '#/';
+      l.replace(l.origin + base + '/' + hash + (l.search ? '?' + l.search.slice(1) : ''));
+    </script>
+  </head>
+  <body></body>
+</html>
