@@ -39,11 +39,15 @@ export function useAuth(slug) {
     setErro(null)
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
       const resp = await fetch(
         `${supabaseUrl}/functions/v1/validar-senha`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+          },
           body: JSON.stringify({ slug, senha }),
         }
       )
