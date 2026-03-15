@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase.js'
-import { paraRomano, jwtExpirado } from '../lib/utils.js'
+import { paraRomano } from '../lib/utils.js'
 
 const ADMIN_KEY = 'the-cellar-admin'
 
 export function useAdmin() {
   const [autenticado, setAutenticado] = useState(() => {
-    const token = sessionStorage.getItem(ADMIN_KEY)
-    return !!token && !jwtExpirado(token)
+    return !!sessionStorage.getItem(ADMIN_KEY)
   })
   const [carregando, setCarregando] = useState(false)
 
