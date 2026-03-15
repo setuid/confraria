@@ -5,13 +5,11 @@ import { paraRomano, jwtExpirado } from '../lib/utils.js'
 const ADMIN_KEY = 'the-cellar-admin'
 
 export function useAdmin() {
-  const [autenticado, setAutenticado] = useState(false)
-  const [carregando, setCarregando] = useState(false)
-
-  useEffect(() => {
+  const [autenticado, setAutenticado] = useState(() => {
     const token = sessionStorage.getItem(ADMIN_KEY)
-    setAutenticado(!!token && !jwtExpirado(token))
-  }, [])
+    return !!token && !jwtExpirado(token)
+  })
+  const [carregando, setCarregando] = useState(false)
 
   async function login(senha) {
     setCarregando(true)
