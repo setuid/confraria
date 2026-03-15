@@ -1,25 +1,37 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase.js'
-import { paraRomano } from '../lib/utils.js'
+import { paraRomano, jwtExpirado } from '../lib/utils.js'
 
 const ADMIN_KEY = 'the-cellar-admin'
 
 export function useAdmin() {
   const [autenticado, setAutenticado] = useState(false)
+  const [carregando, setCarregando] = useState(false)
 
   useEffect(() => {
-    const val = sessionStorage.getItem(ADMIN_KEY)
-    setAutenticado(val === 'ok')
+    const token = sessionStorage.getItem(ADMIN_KEY)
+    setAutenticado(!!token && !jwtExpirado(token))
   }, [])
 
-  function login(senha) {
-    const senhaCorreta = import.meta.env.VITE_ADMIN_PASSWORD
-    if (senha === senhaCorreta) {
-      sessionStorage.setItem(ADMIN_KEY, 'ok')
+  async function login(senha) {
+    setCarregando(true)
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const resp = await fetch(`${supabaseUrl}/functions/v1/validar-admin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senha }),
+      })
+      const data = await resp.json()
+      if (!resp.ok) return false
+      sessionStorage.setItem(ADMIN_KEY, data.token)
       setAutenticado(true)
       return true
+    } catch {
+      return false
+    } finally {
+      setCarregando(false)
     }
-    return false
   }
 
   function logout() {
@@ -27,7 +39,7 @@ export function useAdmin() {
     setAutenticado(false)
   }
 
-  return { autenticado, login, logout }
+  return { autenticado, carregando, login, logout }
 }
 
 // CRUD Confrarias

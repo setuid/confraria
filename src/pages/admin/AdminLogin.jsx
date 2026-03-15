@@ -13,9 +13,9 @@ export default function AdminLogin() {
     if (autenticado) navigate('/admin/dashboard')
   }, [autenticado])
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    const ok = login(senha)
+    const ok = await login(senha)
     if (!ok) {
       setErro('Senha errada.')
       setSenha('')
