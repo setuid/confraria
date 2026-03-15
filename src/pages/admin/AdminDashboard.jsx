@@ -145,7 +145,7 @@ function NovaConfrariaForm({ onCreate, onCancel }) {
     if (error) {
       setErro(error.message)
     } else {
-      setLinkGerado(`${window.location.origin}/c/${form.slug}`)
+      setLinkGerado(`${window.location.origin}${import.meta.env.BASE_URL}#/c/${form.slug}`)
     }
   }
 
