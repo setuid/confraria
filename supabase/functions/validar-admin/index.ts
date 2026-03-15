@@ -1,12 +1,37 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { create } from "https://deno.land/x/djwt@v2.8/mod.ts"
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 }
 
-serve(async (req) => {
+function toBase64Url(bytes: Uint8Array): string {
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
+}
+
+function strToBase64Url(str: string): string {
+  return toBase64Url(new TextEncoder().encode(str))
+}
+
+async function criarJWT(payload: object, secret: string): Promise<string> {
+  const header = strToBase64Url(JSON.stringify({ alg: "HS256", typ: "JWT" }))
+  const body = strToBase64Url(JSON.stringify(payload))
+  const data = `${header}.${body}`
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  )
+
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(data))
+  return `${data}.${toBase64Url(new Uint8Array(sig))}`
+}
+
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders })
   }
@@ -23,21 +48,12 @@ serve(async (req) => {
     }
 
     const jwtSecret = Deno.env.get("JWT_SECRET")!
-    const key = await crypto.subtle.importKey(
-      "raw",
-      new TextEncoder().encode(jwtSecret),
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign", "verify"]
-    )
-
-    const token = await create(
-      { alg: "HS256", typ: "JWT" },
+    const token = await criarJWT(
       {
         admin: true,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 8, // 8 horas
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 8,
       },
-      key
+      jwtSecret
     )
 
     return new Response(
