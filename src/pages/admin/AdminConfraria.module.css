@@ -1,0 +1,90 @@
+.page { max-width: 560px; }
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--creme);
+}
+
+.slug {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--bronze);
+  margin-top: var(--space-1);
+}
+
+.ativa {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #4CAF82;
+  border: 0.5px solid var(--verde-escuro);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.inativa {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.linkBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--brique);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-2);
+}
+
+.link {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--ouro);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.campoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.acoes {
+  display: flex;
+  gap: var(--space-3);
+}

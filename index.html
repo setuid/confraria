@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0D0A07" />
+    <title>The Cellar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&family=Lora:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Restaura rota SPA após redirect do 404.html (GitHub Pages) -->
+    <script>
+      (function () {
+        var p = window.location.search.slice(1).split('&').filter(function(s){ return s.startsWith('p=') });
+        if (p.length > 0) {
+          var path = p[0].slice(2).replace(/~and~/g, '&');
+          var q = window.location.search.slice(1).split('&').filter(function(s){ return s.startsWith('q=') });
+          var query = q.length > 0 ? ('?' + q[0].slice(2).replace(/~and~/g, '&')) : '';
+          window.history.replaceState(null, null, '/' + path + query + window.location.hash);
+        }
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

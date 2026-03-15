@@ -1,0 +1,106 @@
+:root {
+  /* Cores */
+  --noir:         #0D0A07;
+  --cave:         #161009;
+  --brique:       #1E1510;
+  --tabac:        #2A1F10;
+  --bronze:       #5C4A2A;
+  --ouro:         #C8973A;
+  --ouro-suave:   #9A7030;
+  --pergaminho:   #E8D5B0;
+  --creme:        #F2E8D5;
+  --vinho:        #6B1F2A;
+  --verde-escuro: #1A3A2A;
+  --cinza-quente: #4A3B25;
+
+  /* Tipografia */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-ui:      'Josefin Sans', sans-serif;
+  --font-body:    'Lora', serif;
+
+  /* Espaçamento */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Bordas */
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  /* Transições */
+  --transition: 0.25s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--noir);
+  color: var(--pergaminho);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--noir);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brique);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bronze);
+}
+
+/* Seleção */
+::selection {
+  background: rgba(200, 151, 58, 0.2);
+  color: var(--creme);
+}
+
+/* Links */
+a {
+  color: var(--ouro);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: var(--creme);
+}
+
+/* Botão reset */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Input reset */
+input, textarea {
+  font-family: inherit;
+}

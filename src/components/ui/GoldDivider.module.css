@@ -1,0 +1,24 @@
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+}
+
+.line {
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--bronze) 30%,
+    var(--bronze) 70%,
+    transparent
+  );
+}
+
+.diamond {
+  color: var(--ouro);
+  font-size: 10px;
+  flex-shrink: 0;
+}

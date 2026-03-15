@@ -1,0 +1,266 @@
+/* ─── Art Déco Base Styles ─────────────────────────────────── */
+
+/* Tipografia display */
+.display {
+  font-family: var(--font-display);
+  color: var(--creme);
+}
+
+.display-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--creme);
+}
+
+/* Labels UI — Josefin Sans */
+.label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.label-ouro {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ouro);
+}
+
+/* Número romano */
+.roman {
+  font-family: var(--font-display);
+  font-weight: 300;
+  color: var(--ouro);
+  letter-spacing: 0.05em;
+}
+
+/* Corpo — Lora */
+.body-text {
+  font-family: var(--font-body);
+  color: var(--pergaminho);
+  line-height: 1.7;
+}
+
+.body-italic {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--pergaminho);
+  line-height: 1.7;
+}
+
+/* ─── Cards ─────────────────────────────────────────────────── */
+
+.card {
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+
+.card-highlight {
+  background: var(--cave);
+  border: 0.5px solid var(--tabac);
+  border-top: 0.5px solid var(--ouro);
+  border-bottom: 0.5px solid var(--ouro);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+
+/* ─── Botões ─────────────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: 0.5px solid var(--ouro);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ouro);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.btn-primary:hover {
+  background: rgba(200, 151, 58, 0.08);
+  color: var(--creme);
+}
+
+.btn-primary:active {
+  background: rgba(200, 151, 58, 0.14);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border: 0.5px solid var(--bronze);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--bronze);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.btn-ghost:hover {
+  border-color: var(--pergaminho);
+  color: var(--pergaminho);
+  background: rgba(232, 213, 176, 0.04);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-5);
+  border: 0.5px solid var(--vinho);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--vinho);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-danger:hover {
+  background: rgba(107, 31, 42, 0.15);
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  background: var(--brique);
+  border: 0.5px solid var(--tabac);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  color: var(--creme);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.input::placeholder {
+  color: var(--cinza-quente);
+  font-style: italic;
+}
+
+.input:focus {
+  border-color: var(--ouro-suave);
+}
+
+.input-display {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid var(--tabac);
+  padding: var(--space-3) 0;
+  color: var(--creme);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: italic;
+  text-align: center;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.input-display::placeholder {
+  color: var(--cinza-quente);
+  letter-spacing: 0.3em;
+}
+
+.input-display:focus {
+  border-color: var(--ouro-suave);
+}
+
+/* ─── Badges de status ───────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+}
+
+.badge-planejado {
+  border: 0.5px solid var(--bronze);
+  color: var(--bronze);
+}
+
+.badge-confirmado {
+  border: 0.5px solid var(--ouro);
+  color: var(--ouro);
+}
+
+.badge-realizado {
+  border: 0.5px solid var(--verde-escuro);
+  color: #4CAF82;
+  background: rgba(26, 58, 42, 0.3);
+}
+
+.badge-cancelado {
+  border: 0.5px solid var(--vinho);
+  color: #C05070;
+  background: rgba(107, 31, 42, 0.2);
+}
+
+/* ─── Utilitários ────────────────────────────────────────────── */
+
+.text-ouro    { color: var(--ouro); }
+.text-bronze  { color: var(--bronze); }
+.text-creme   { color: var(--creme); }
+.text-perg    { color: var(--pergaminho); }
+.text-muted   { color: var(--cinza-quente); }
+.text-vinho   { color: var(--vinho); }
+
+.text-center  { text-align: center; }
+.text-right   { text-align: right; }
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+
+.w-full { width: 100%; }

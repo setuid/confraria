@@ -1,0 +1,85 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--creme);
+}
+
+.loading,
+.vazio {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  text-align: center;
+  padding: var(--space-12);
+}
+
+.grupo {
+  margin-bottom: var(--space-4);
+}
+
+.grupoLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-4);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  transition: border-color var(--transition);
+}
+
+.row:hover {
+  border-color: var(--tabac);
+}
+
+.rowMe {
+  border-color: var(--tabac);
+}
+
+.rowInfo {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.rowNome {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--creme);
+}
+
+.rowVoce {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--bronze);
+}
+
+.sacaRolha {
+  color: var(--ouro);
+  font-size: 14px;
+}
