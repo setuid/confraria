@@ -1,0 +1,8 @@
+[functions.validar-admin]
+verify_jwt = false
+
+[functions.validar-senha]
+verify_jwt = false
+
+[functions.criar-confraria]
+verify_jwt = false
