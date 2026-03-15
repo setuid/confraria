@@ -1,0 +1,136 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.loading {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  text-align: center;
+  padding: var(--space-12);
+}
+
+.voltar {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-8);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.voltar:hover {
+  color: var(--ouro);
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--creme);
+  margin-bottom: var(--space-2);
+  line-height: 1.2;
+}
+
+.tema {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--bronze);
+  margin-bottom: var(--space-4);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+/* RSVP */
+.rsvpCard {
+  margin-bottom: var(--space-2);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-3);
+}
+
+/* Quem vem */
+.secao {
+  margin-bottom: var(--space-2);
+}
+
+.presCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-5);
+}
+
+.avatarGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.avatarItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.avatarNome {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+/* Sobre */
+.descricao {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--pergaminho);
+  line-height: 1.8;
+  margin-bottom: var(--space-4);
+}
+
+.endereco {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}

@@ -1,0 +1,115 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--noir);
+  padding: var(--space-8);
+}
+
+.container {
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
+/* Logo block */
+.logoWrap {
+  margin-bottom: var(--space-12);
+  transition: margin-bottom var(--transition-slow);
+}
+
+.logoUp {
+  margin-bottom: var(--space-8);
+}
+
+.diamond {
+  color: var(--ouro);
+  font-size: 20px;
+  letter-spacing: 0.5em;
+  margin-bottom: var(--space-3);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 300;
+  color: var(--ouro);
+  letter-spacing: 0.12em;
+  margin-bottom: var(--space-3);
+}
+
+.confrariaNome {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--pergaminho);
+  letter-spacing: 0.05em;
+  padding: var(--space-3) var(--space-6);
+  border: 0.5px solid var(--brique);
+  border-top-color: var(--ouro);
+  border-bottom-color: var(--ouro);
+  display: inline-block;
+  margin-top: var(--space-3);
+}
+
+/* Formulário */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pergunta {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.inputSenha,
+.inputApelido {
+  width: 100%;
+  font-size: 28px;
+  letter-spacing: 0.4em;
+}
+
+.inputApelido {
+  font-size: 22px;
+  letter-spacing: 0.08em;
+}
+
+.erro {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.btn {
+  min-width: 140px;
+}

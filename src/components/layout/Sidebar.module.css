@@ -1,0 +1,122 @@
+.sidebar {
+  display: none;
+  flex-direction: column;
+  width: 220px;
+  min-height: 100vh;
+  background: var(--cave);
+  border-right: 0.5px solid var(--brique);
+  padding: var(--space-8) var(--space-5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    display: flex;
+  }
+}
+
+.logo {
+  margin-bottom: var(--space-10);
+  padding-bottom: var(--space-6);
+  border-bottom: 0.5px solid var(--brique);
+}
+
+.logoText {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--ouro);
+  letter-spacing: 0.08em;
+}
+
+.logoSub {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-top: var(--space-1);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.navItem {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+  text-decoration: none;
+}
+
+.navItem:hover {
+  color: var(--pergaminho);
+  background: rgba(232, 213, 176, 0.04);
+}
+
+.navItemActive {
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.06) !important;
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--space-6);
+  border-top: 0.5px solid var(--brique);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.userName {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--pergaminho);
+}
+
+.userRole {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.sairBtn {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  padding: var(--space-2) 0;
+  text-align: left;
+  transition: color var(--transition);
+}
+
+.sairBtn:hover {
+  color: var(--vinho);
+}

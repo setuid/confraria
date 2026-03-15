@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.btn {
+  padding: var(--space-2) var(--space-4);
+  border: 0.5px solid var(--bronze);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--bronze);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--ouro-suave);
+  color: var(--pergaminho);
+  background: rgba(200, 151, 58, 0.06);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ativo {
+  border-color: var(--ouro) !important;
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.08) !important;
+}

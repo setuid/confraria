@@ -1,0 +1,224 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--noir);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--cave);
+  border-right: 0.5px solid var(--brique);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  flex-shrink: 0;
+}
+
+.sideHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: 0.5px solid var(--brique);
+}
+
+.sideLogo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--ouro);
+}
+
+.logoutBtn {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.logoutBtn:hover { color: var(--vinho); }
+
+.sideSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.sideLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-2);
+}
+
+.sideItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--pergaminho);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.sideItem:hover { background: rgba(232, 213, 176, 0.04); }
+
+.sideItemActive {
+  background: rgba(200, 151, 58, 0.08) !important;
+  color: var(--ouro) !important;
+}
+
+.sideItemInactive { opacity: 0.5; }
+
+.sideLoading {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--bronze);
+  padding: var(--space-2) var(--space-3);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+  max-width: 720px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+}
+
+.tab {
+  padding: var(--space-2) var(--space-5);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--bronze);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.tab:hover { border-color: var(--tabac); color: var(--pergaminho); }
+
+.tabAtivo {
+  border-color: var(--ouro) !important;
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.06) !important;
+}
+
+/* Vazio */
+.vazio {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  text-align: center;
+  padding: var(--space-16);
+}
+
+/* Formulário */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 480px;
+}
+
+.formTitulo {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--creme);
+  margin-bottom: var(--space-2);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.campoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.senhaWrap {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.toggleSenha {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.toggleSenha:hover { color: var(--ouro); }
+
+.erro {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--bronze);
+}
+
+.acoes {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.linkLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.linkBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--brique);
+  border-radius: var(--radius-sm);
+}
+
+.linkBox code {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--ouro);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

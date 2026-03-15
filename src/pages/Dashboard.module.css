@@ -1,0 +1,214 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.confNome {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--creme);
+  letter-spacing: 0.04em;
+}
+
+.confSub {
+  color: var(--ouro);
+  font-size: 12px;
+  margin-top: var(--space-1);
+}
+
+.userChip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.userName {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--pergaminho);
+}
+
+.loading {
+  color: var(--bronze);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-align: center;
+  padding: var(--space-8);
+}
+
+/* Próximo encontro */
+.proximoCard {
+  margin-bottom: var(--space-2);
+}
+
+.proximoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.proximoTitulo {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--creme);
+  margin-bottom: var(--space-1);
+}
+
+.proximoTema {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--bronze);
+  margin-bottom: var(--space-4);
+}
+
+.proximoMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-5);
+}
+
+.confirmados {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.avatares {
+  display: flex;
+  align-items: center;
+}
+
+.avatares > * {
+  margin-left: -6px;
+}
+.avatares > *:first-child {
+  margin-left: 0;
+}
+
+.maisConfirmados {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+  margin-left: var(--space-2);
+}
+
+.confCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.rsvpWrap {
+  padding-top: var(--space-4);
+  border-top: 0.5px solid var(--brique);
+}
+
+/* Vazio */
+.vazio {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+}
+
+/* Seção últimos encontros */
+.secao {
+  margin-top: var(--space-2);
+}
+
+.secaoTitulo {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-4);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.itemCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color var(--transition);
+}
+
+.itemCard:hover {
+  border-color: var(--tabac);
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.itemTitulo {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--pergaminho);
+}
+
+.itemData {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.verTodos {
+  display: block;
+  margin-top: var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ouro-suave);
+  text-align: right;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.verTodos:hover {
+  color: var(--ouro);
+}

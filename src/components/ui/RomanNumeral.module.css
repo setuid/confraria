@@ -1,0 +1,12 @@
+.numeral {
+  font-family: var(--font-display);
+  font-weight: 300;
+  color: var(--ouro);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.sm  { font-size: 18px; }
+.md  { font-size: 28px; }
+.lg  { font-size: 48px; }
+.xl  { font-size: 72px; }
