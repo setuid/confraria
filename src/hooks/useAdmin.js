@@ -17,9 +17,13 @@ export function useAdmin() {
     setCarregando(true)
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
       const resp = await fetch(`${supabaseUrl}/functions/v1/validar-admin`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+        },
         body: JSON.stringify({ senha }),
       })
       const data = await resp.json()
@@ -66,9 +70,13 @@ export function useAdminConfrarias() {
   async function criar({ nome, slug, descricao, senha }) {
     // Chama Edge Function que faz bcrypt hash da senha
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
     const resp = await fetch(`${supabaseUrl}/functions/v1/criar-confraria`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+      },
       body: JSON.stringify({ nome, slug, descricao, senha }),
     })
     const json = await resp.json()
