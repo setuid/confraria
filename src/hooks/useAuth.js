@@ -16,23 +16,19 @@ function salvarSessoes(sessoes) {
 }
 
 export function useAuth(slug) {
-  const [sessao, setSessao] = useState(null)
-  const [carregando, setCarregando] = useState(false)
-  const [erro, setErro] = useState(null)
-
-  // Carrega sessão do localStorage na montagem
-  useEffect(() => {
-    if (!slug) return
+  const [sessao, setSessao] = useState(() => {
+    if (!slug) return null
     const sessoes = lerSessoes()
     const s = sessoes[slug]
-    if (s && s.token && !jwtExpirado(s.token)) {
-      setSessao(s)
-    } else if (s) {
-      // Token expirado — remove
+    if (s && s.token && !jwtExpirado(s.token)) return s
+    if (s) {
       delete sessoes[slug]
       salvarSessoes(sessoes)
     }
-  }, [slug])
+    return null
+  })
+  const [carregando, setCarregando] = useState(false)
+  const [erro, setErro] = useState(null)
 
   const entrar = useCallback(async (senha, apelido) => {
     setCarregando(true)
