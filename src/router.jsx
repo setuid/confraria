@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Entrada from './pages/Entrada.jsx'
 import Dashboard from './pages/Dashboard.jsx'
@@ -9,43 +9,47 @@ import AppShell from './components/layout/AppShell.jsx'
 import AdminLogin from './pages/admin/AdminLogin.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/c/:slug',
-    element: <Entrada />,
-  },
-  {
-    path: '/c/:slug',
-    element: <AppShell />,
-    children: [
-      {
-        path: 'dashboard',
-        element: <Dashboard />,
-      },
-      {
-        path: 'encontros',
-        element: <Encontros />,
-      },
-      {
-        path: 'encontros/:id',
-        element: <EncontroDetalhe />,
-      },
-      {
-        path: 'membros',
-        element: <Membros />,
-      },
-    ],
-  },
-  {
-    path: '/admin',
-    element: <AdminLogin />,
-  },
-  {
-    path: '/admin/dashboard',
-    element: <AdminDashboard />,
-  },
-])
+// import.meta.env.BASE_URL é '/' em dev e '/confraria/' em produção
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Home />,
+    },
+    {
+      path: '/c/:slug',
+      element: <Entrada />,
+    },
+    {
+      path: '/c/:slug',
+      element: <AppShell />,
+      children: [
+        {
+          path: 'dashboard',
+          element: <Dashboard />,
+        },
+        {
+          path: 'encontros',
+          element: <Encontros />,
+        },
+        {
+          path: 'encontros/:id',
+          element: <EncontroDetalhe />,
+        },
+        {
+          path: 'membros',
+          element: <Membros />,
+        },
+      ],
+    },
+    {
+      path: '/admin',
+      element: <AdminLogin />,
+    },
+    {
+      path: '/admin/dashboard',
+      element: <AdminDashboard />,
+    },
+  ],
+  { basename: import.meta.env.BASE_URL }
+)
