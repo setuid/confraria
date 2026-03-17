@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work & Shape Einstein — Inteligência para a cura sistêmica</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #13131a;
+      --surface2:  #1c1c28;
+      --border:    #2a2a3a;
+      --accent:    #7b2ff7;
+      --accent2:   #a259ff;
+      --gold:      #c9a84c;
+      --text:      #e8e8f0;
+      --muted:     #7a7a9a;
+      --danger:    #e05252;
+      --warn:      #e09052;
+      --ok:        #52b788;
+      --radius:    12px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Layout ── */
+    .shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-logo .evento {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-logo h1 {
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent2), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-logo .subtitulo {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: all .2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text);
+      background: var(--surface2);
+      border-left-color: var(--accent);
+    }
+
+    nav a .num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    nav a.active .num {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    nav .nav-label { flex: 1; }
+    nav .nav-local {
+      font-size: 10px;
+      background: var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    nav .nav-sep {
+      padding: 12px 20px 4px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--border);
+    }
+
+    /* ── Main Content ── */
+    .main {
+      padding: 32px 40px;
+      max-width: 900px;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn .3s ease;
+    }
+
+    section.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section Header ── */
+    .sec-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .sec-meta h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .sec-meta .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .tag.speaker { border-color: var(--accent); color: var(--accent2); }
+    .tag.local   { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Blocks ── */
+    .block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .block h3 {
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .block p {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .block p:last-child { margin-bottom: 0; }
+
+    .speech-box {
+      background: var(--surface2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(123,47,247,.15), rgba(201,168,76,.08));
+      border: 1px solid rgba(123,47,247,.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .content-list {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .content-list.ordered {
+      padding-left: 24px;
+      gap: 10px;
+    }
+
+    .examples-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .examples-list li {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--accent2);
+    }
+
+    .examples-list li::before {
+      content: '🎙 ';
+    }
+
+    /* ── Cards de Provocação ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card-provocacao {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s, transform .2s;
+      perspective: 1000px;
+    }
+
+    .card-provocacao:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-inner {
+      position: relative;
+      transition: transform .5s;
+      transform-style: preserve-3d;
+    }
+
+    .card-provocacao.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      padding: 20px;
+    }
+
+    .card-front { }
+
+    .card-back {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      transform: rotateY(180deg);
+      background: var(--surface2);
+      min-height: 100%;
+    }
+
+    .card-num {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .card-titulo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .card-pergunta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .card-resposta {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-hint {
+      font-size: 10px;
+      color: var(--border);
+      margin-top: 12px;
+      text-align: right;
+      letter-spacing: .5px;
+    }
+
+    /* ── Stress Test ── */
+    .stress-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      margin-bottom: 20px;
+    }
+
+    .stress-table th {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 14px;
+      text-align: left;
+    }
+
+    .stress-table td {
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .stress-table td:first-child {
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+      font-weight: 600;
+      color: var(--text);
+      width: 160px;
+    }
+
+    .stress-table td:last-child {
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .stress-radio-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .stress-radio-group label {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--muted);
+    }
+
+    .stress-radio-group input[type=radio] { display: none; }
+
+    .stress-radio-group input[type=radio]:checked + label.fragil {
+      border-color: var(--danger);
+      background: rgba(224,82,82,.12);
+      color: var(--danger);
+    }
+
+    .stress-radio-group input[type=radio]:checked + label.parcial {
+      border-color: var(--warn);
+      background: rgba(224,144,82,.12);
+      color: var(--warn);
+    }
+
+    .stress-radio-group input[type=radio]:checked + label.solida {
+      border-color: var(--ok);
+      background: rgba(82,183,136,.12);
+      color: var(--ok);
+    }
+
+    .stress-output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .stress-output h3 {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    #stress-resultado {
+      font-size: 14px;
+      color: var(--text);
+      min-height: 40px;
+    }
+
+    /* ── Horizonte ── */
+    .horizonte-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .horizonte-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .horizonte-card:hover {
+      border-color: var(--accent);
+    }
+
+    .horizonte-card.selected {
+      border-color: var(--accent);
+      background: rgba(123,47,247,.1);
+    }
+
+    .horizonte-card .nivel {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .horizonte-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .horizonte-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .horizonte-card ul li {
+      font-size: 11px;
+      color: var(--muted);
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .horizonte-card ul li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── PAIR ── */
+    .pair-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pair-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .pair-option:hover, .pair-option.selected {
+      border-color: var(--accent);
+      background: rgba(123,47,247,.08);
+    }
+
+    .pair-option input[type=radio] { display: none; }
+
+    .pair-option .opt-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .pair-option .opt-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ── Decision Log ── */
+    .dl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .dl-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dl-field.full { grid-column: 1 / -1; }
+
+    .dl-field label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dl-field input,
+    .dl-field textarea,
+    .dl-field select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      padding: 10px 14px;
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s;
+      font-family: inherit;
+    }
+
+    .dl-field input:focus,
+    .dl-field textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .dl-field textarea { min-height: 70px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: .9;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    #dl-preview {
+      display: none;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    #dl-preview h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent2), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dl-preview-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dl-preview-row:last-child { border-bottom: none; }
+
+    .dl-preview-row .key {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dl-preview-row .val {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    /* ── Cronômetro / timing ── */
+    .timing-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .timing-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timing-step .t { color: var(--gold); font-weight: 700; }
+    .timing-step .d { color: var(--muted); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 20px; }
+      .horizonte-grid { grid-template-columns: 1fr 1fr; }
+      .dl-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .sidebar { display: none; }
+      .main { padding: 0; max-width: 100%; }
+      section { display: block !important; page-break-after: always; }
+      .btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="evento">Work & Shape</div>
+      <h1>Einstein × Accenture</h1>
+      <div class="subtitulo">Inteligência para a cura sistêmica</div>
+    </div>
+    <nav id="nav">
+      <div class="nav-sep">Programa</div>
+      <a href="#" data-sec="s1" class="active">
+        <span class="num">1</span>
+        <span class="nav-label">Otto na Cave</span>
+        <span class="nav-local">Cave</span>
+      </a>
+      <a href="#" data-sec="s2">
+        <span class="num">2</span>
+        <span class="nav-label">Narrativa-mãe</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s3">
+        <span class="num">3</span>
+        <span class="nav-label">AIR</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s4">
+        <span class="num">4</span>
+        <span class="nav-label">Stress Test</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s5">
+        <span class="num">5</span>
+        <span class="nav-label">ART</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s6">
+        <span class="num">6</span>
+        <span class="nav-label">ART Demo Live</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s7">
+        <span class="num">7</span>
+        <span class="nav-label">VRIO</span>
+        <span class="nav-local">How.se</span>
+      </a>
+      <a href="#" data-sec="s8">
+        <span class="num">8</span>
+        <span class="nav-label">Nursing 2.0</span>
+        <span class="nav-local">Cave</span>
+      </a>
+      <a href="#" data-sec="s9">
+        <span class="num">9</span>
+        <span class="nav-label">Mapeamento Horizonte</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s10">
+        <span class="num">10</span>
+        <span class="nav-label">PAIR</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s11">
+        <span class="num">11</span>
+        <span class="nav-label">Dinâmica PAIR</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <a href="#" data-sec="s12">
+        <span class="num">12</span>
+        <span class="nav-label">Fechamento</span>
+        <span class="nav-local">Arena</span>
+      </a>
+      <div class="nav-sep">Ferramentas</div>
+      <a href="#" data-sec="cartoes">
+        <span class="num">🃏</span>
+        <span class="nav-label">Cartões</span>
+      </a>
+      <a href="#" data-sec="decisionlog">
+        <span class="num">📋</span>
+        <span class="nav-label">Decision Log</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- ══════════════════════════════════════════
+         PARTE 1 — OTTO NA CAVE
+    ═══════════════════════════════════════════ -->
+    <section id="s1" class="visible">
+      <div class="sec-header">
+        <div class="sec-num">1</div>
+        <div class="sec-meta">
+          <h2>Otto na Cave</h2>
+          <div class="tags">
+            <span class="tag speaker">Ju Caligiuri</span>
+            <span class="tag speaker">Carol Muttus</span>
+            <span class="tag speaker">Sergio Mantovani</span>
+            <span class="tag local">Cave</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Mensagem central</h3>
+        <p>Tecnologia em favor das pessoas. A reserva agêntica humana como justificativa para assistentes virtuais responsáveis.</p>
+      </div>
+
+      <div class="block">
+        <h3>Speech de abertura</h3>
+        <div class="speech-box">
+          "Bem-vindos a esse local construído para nos ajudar a conquistar esse mundo de agentes. Mas, aqui, antes deles, estamos nós — gente — que se une aos nossos clientes para reinventar o necessário."
+        </div>
+        <p>Referências ao <strong>Bia (Bradesco)</strong> e ao <strong>Otto (Volkswagen)</strong> como casos onde assistentes virtuais fazem sentido — quando a reserva agêntica humana está esgotada.</p>
+      </div>
+
+      <div class="block">
+        <h3>Exemplos ao vivo — Otto em uso</h3>
+        <ul class="examples-list">
+          <li>"Fala Otto, eu não estou me sentindo muito bem."</li>
+          <li>"Fala Otto, estou com um pouco de dor no peito e falta de ar?"</li>
+          <li>"Fala Otto, qual é o pronto socorro do Albert Einstein mais próximo?"</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>Responsible AI — Mantovani</h3>
+        <div class="speech-box">
+          "Otto, vacinas causam autismo?"
+        </div>
+        <p>Demonstrar os <em>guardrails</em>: o assistente recusa responder e exemplifica como a IA responsável é construída.</p>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> Distribuição dos cartões de provocação. Orientar os executivos a guardarem o cartão — ele retorna no fechamento.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 2 — NARRATIVA-MÃE
+    ═══════════════════════════════════════════ -->
+    <section id="s2">
+      <div class="sec-header">
+        <div class="sec-num">2</div>
+        <div class="sec-meta">
+          <h2>Narrativa-mãe</h2>
+          <div class="tags">
+            <span class="tag speaker">Ju Caligiuri</span>
+            <span class="tag local">Cave → Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Tese central</h3>
+        <p>"Saúde não tem preço." Mas o sistema de saúde enfrenta limites reais — é um organismo coletivo que sofre de uma <strong>doença autoimune</strong>: o ciclo vicioso de ineficiência entre operadoras, prestadores, fornecedores, reguladores e pacientes.</p>
+      </div>
+
+      <div class="block">
+        <h3>Arco narrativo</h3>
+        <p><strong>Problema:</strong> O sistema ataca a si mesmo. Ineficiência gera ineficiência e ressentimento.</p>
+        <p><strong>Solução:</strong> Um olhar humano potencializado pela tecnologia. IA que dá visibilidade e agência sobre o fluxo assistencial — aliviando a carga agêntica das equipes.</p>
+        <p><strong>Oportunidade:</strong> Existe a chance de curar esse sistema, e esse momento é hoje — com a Inteligência Artificial Agêntica.</p>
+      </div>
+
+      <div class="block">
+        <h3>Para o Einstein</h3>
+        <p>Para um hospital que sempre combinou vanguarda com excelência, é a hora de fazer o que fazem de melhor: <em>avançar com responsabilidade e foco nas pessoas.</em></p>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> No último parágrafo de Ju, Victor Lima se levanta e entra na conversa de forma fluida, dando continuidade ao raciocínio sem sensação de "fim de parte".
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 3 — AIR
+    ═══════════════════════════════════════════ -->
+    <section id="s3">
+      <div class="sec-header">
+        <div class="sec-num">3</div>
+        <div class="sec-meta">
+          <h2>AIR — Era da Reinvenção</h2>
+          <div class="tags">
+            <span class="tag speaker">Victor Lima</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Mensagem</h3>
+        <p>Entramos em uma era de reinvenção. Da era física, passamos à era da nuvem — e agora entramos na era do <strong>AIR</strong>. A Accenture tem uma visão e um playbook para este momento.</p>
+      </div>
+
+      <div class="block">
+        <h3>As 3 Escolhas</h3>
+        <p>Ao final da apresentação AIR, Victor pergunta à plateia:</p>
+        <div class="speech-box">
+          "Vamos avaliar as condições do Einstein para escalar IA?"
+        </div>
+        <p>Essa pergunta serve de gancho para a dinâmica Stress Test (Parte 4).</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 4 — STRESS TEST (DINÂMICA INTERATIVA)
+    ═══════════════════════════════════════════ -->
+    <section id="s4">
+      <div class="sec-header">
+        <div class="sec-num">4</div>
+        <div class="sec-meta">
+          <h2>Dinâmica: Stress Test</h2>
+          <div class="tags">
+            <span class="tag speaker">Juliana Caligiuri</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Objetivo</h3>
+        <p>Avaliar com franqueza a condição do hospital para escalar IA amanhã, identificando a <strong>fragilidade prioritária</strong> e duas secundárias.</p>
+      </div>
+
+      <div class="timing-bar">
+        <div class="timing-step"><span class="t">0–5 min</span><span class="d">Apresentar as dimensões</span></div>
+        <div class="timing-step"><span class="t">5–12 min</span><span class="d">Discussão por dimensão</span></div>
+        <div class="timing-step"><span class="t">12–18 min</span><span class="d">Dimensão mais frágil?</span></div>
+        <div class="timing-step"><span class="t">18–20 min</span><span class="d">Output e síntese</span></div>
+      </div>
+
+      <div class="block">
+        <h3>Avaliação por dimensão</h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Clique para selecionar o status de cada dimensão.</p>
+        <table class="stress-table">
+          <thead>
+            <tr>
+              <th>Dimensão</th>
+              <th style="color:var(--danger)">Frágil</th>
+              <th style="color:var(--warn)">Parcial</th>
+              <th style="color:var(--ok)">Sólida</th>
+            </tr>
+          </thead>
+          <tbody id="stress-tbody">
+          </tbody>
+        </table>
+        <div class="stress-output">
+          <h3>Output da dinâmica</h3>
+          <div id="stress-resultado">— Selecione as dimensões acima para gerar o diagnóstico —</div>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> "Felizmente, nós temos ferramentas e metodologias que podem nos ajudar nessa jornada." — Flávio Barreiros entra na conversa.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 5 — ART
+    ═══════════════════════════════════════════ -->
+    <section id="s5">
+      <div class="sec-header">
+        <div class="sec-num">5</div>
+        <div class="sec-meta">
+          <h2>ART — Fórmula de Reinvenção</h2>
+          <div class="tags">
+            <span class="tag speaker">Flavio Barreiros</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Mensagem</h3>
+        <p><strong>ART</strong> é a fórmula da Accenture para reinventar empresas de qualquer nível de maturidade para a realidade da Inteligência Artificial Agêntica.</p>
+        <p>É uma metodologia apoiada por uma plataforma com arquitetura de originação suportada por agentes — que permite reinventar diferentes partes <em>simultaneamente</em>, e não linearmente.</p>
+      </div>
+
+      <div class="block">
+        <h3>Princípio-chave</h3>
+        <div class="speech-box">
+          "Comece com 3 coisas e faça-as bem."
+        </div>
+        <p>Exemplo: processo que levava <strong>8 a 10 dias</strong> transformado em <strong>1 dia</strong> com o ART.</p>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> Camila Nickel se levanta e convida: "Agora vamos aplicar essa fórmula a um processo de vocês: o fluxo do paciente cirúrgico."
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 6 — ART DEMO LIVE
+    ═══════════════════════════════════════════ -->
+    <section id="s6">
+      <div class="sec-header">
+        <div class="sec-num">6</div>
+        <div class="sec-meta">
+          <h2>ART Demo Live — Fluxo Cirúrgico</h2>
+          <div class="tags">
+            <span class="tag speaker">Camila Nickel</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Foco da demo</h3>
+        <p>Aplicar o ART ao <strong>fluxo do paciente cirúrgico</strong>, olhando simultaneamente para a experiência do paciente e para a jornada administrativa.</p>
+      </div>
+
+      <div class="block">
+        <h3>AS IS → TO BE</h3>
+        <p><strong>Processo atual:</strong> 23 etapas, 66% de manualidade, ~25 dias corridos de autorização.</p>
+        <p><strong>Após ART:</strong></p>
+        <ul class="content-list">
+          <li>Redução de redundâncias: <span style="color:var(--ok)">−5% etapas</span></li>
+          <li>Agentes de IA: <span style="color:var(--accent2)">33% das etapas</span></li>
+          <li>Automação: <span style="color:var(--gold)">61% das etapas / 82% automação média</span></li>
+          <li>Humano: supervisor e tratativa de exceções</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>Visão de escala</h3>
+        <p>Expandindo de "um processo" para "uma rede inteira" → <strong>inteligência sistêmica / digital brain</strong> para operar ecossistemas multi-hospitalares.</p>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> "Isso é só um gostinho de como a tecnologia pode ajudar vocês a se concentrarem nas pessoas. Convido vocês a nos acompanharem para a nossa How.se."
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 7 — VRIO
+    ═══════════════════════════════════════════ -->
+    <section id="s7">
+      <div class="sec-header">
+        <div class="sec-num">7</div>
+        <div class="sec-meta">
+          <h2>VRIO na How.se</h2>
+          <div class="tags">
+            <span class="tag speaker">Carol Muttus</span>
+            <span class="tag local">How.se</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Conteúdo</h3>
+        <p>Demonstração da plataforma VRIO no espaço How.se. Apresentação ao vivo com demo interativa.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 8 — NURSING 2.0
+    ═══════════════════════════════════════════ -->
+    <section id="s8">
+      <div class="sec-header">
+        <div class="sec-num">8</div>
+        <div class="sec-meta">
+          <h2>Nursing 2.0</h2>
+          <div class="tags">
+            <span class="tag speaker">Carla</span>
+            <span class="tag speaker">Camila</span>
+            <span class="tag local">Cave</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Conteúdo</h3>
+        <p>Demonstração Nursing 2.0 na Cave. Apresentação ao vivo com demo interativa.</p>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> "Vamos passar para a Arena para mais uma reflexão?"
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 9 — MAPEAMENTO DE HORIZONTE
+    ═══════════════════════════════════════════ -->
+    <section id="s9">
+      <div class="sec-header">
+        <div class="sec-num">9</div>
+        <div class="sec-meta">
+          <h2>Dinâmica: Mapeamento de Horizonte</h2>
+          <div class="tags">
+            <span class="tag speaker">Juliana Caligiuri</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Objetivo</h3>
+        <p>Diagnóstico honesto da maturidade institucional atual e definição do horizonte-alvo em 3 anos.</p>
+      </div>
+
+      <div class="timing-bar">
+        <div class="timing-step"><span class="t">0–3 min</span><span class="d">Votação: onde estamos?</span></div>
+        <div class="timing-step"><span class="t">3–8 min</span><span class="d">Por que não estamos no nível acima?</span></div>
+        <div class="timing-step"><span class="t">8–15 min</span><span class="d">Votação: onde queremos estar?</span></div>
+        <div class="timing-step"><span class="t">15–25 min</span><span class="d">3 barreiras que nos impedem</span></div>
+      </div>
+
+      <div class="horizonte-grid" id="horizonte-atual">
+      </div>
+
+      <div class="block">
+        <h3>Output da dinâmica</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div class="dl-field">
+            <label for="h-atual-out">Horizonte atual selecionado</label>
+            <input type="text" id="h-atual-out" placeholder="Selecione acima..." readonly />
+          </div>
+          <div class="dl-field">
+            <label for="h-alvo-out">Horizonte alvo (3 anos)</label>
+            <select id="h-alvo-out">
+              <option value="">Selecione...</option>
+              <option>Nível 1 — Pilotos isolados</option>
+              <option>Nível 2 — Estrutura em consolidação</option>
+              <option>Nível 3 — Sistema inteligente operando</option>
+            </select>
+          </div>
+        </div>
+        <div class="dl-field">
+          <label for="h-barreiras">3 barreiras identificadas</label>
+          <textarea id="h-barreiras" placeholder="1. &#10;2. &#10;3. "></textarea>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong>Transição →</strong> Rachel Garcia entra com uma provocação: "Toda essa revolução tecnológica passa pela reflexão sobre pessoas."
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 10 — PAIR
+    ═══════════════════════════════════════════ -->
+    <section id="s10">
+      <div class="sec-header">
+        <div class="sec-num">10</div>
+        <div class="sec-meta">
+          <h2>PAIR — Pessoas e IA</h2>
+          <div class="tags">
+            <span class="tag speaker">Rachel Garcia</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Mensagem</h3>
+        <p>A relação dos humanos com o trabalho mudou. Pela primeira vez na nossa geração, vivemos uma mudança não só em <em>como</em> trabalhamos, mas em <em>quem</em> faz o trabalho.</p>
+        <div class="speech-box">
+          "A IA permite que a humanidade se concentre no que é só dela: a humanidade mesma."
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong>Provocação →</strong> "Vamos falar sobre como um piloto tecnológico como os que vimos aqui hoje seria recebido na estrutura humana do Einstein?"
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 11 — DINÂMICA PAIR
+    ═══════════════════════════════════════════ -->
+    <section id="s11">
+      <div class="sec-header">
+        <div class="sec-num">11</div>
+        <div class="sec-meta">
+          <h2>Dinâmica: PAIR — Risco Humano</h2>
+          <div class="tags">
+            <span class="tag speaker">Rachel Garcia</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Objetivo</h3>
+        <p>Mapear o principal risco humano para o piloto e definir o plano inicial de mitigação cultural.</p>
+      </div>
+
+      <div class="timing-bar">
+        <div class="timing-step"><span class="t">0–5 min</span><span class="d">Escolher principal risco</span></div>
+        <div class="timing-step"><span class="t">5–12 min</span><span class="d">O que precisamos fazer antes?</span></div>
+        <div class="timing-step"><span class="t">12–20 min</span><span class="d">Definir ação + owner + prazo</span></div>
+      </div>
+
+      <div class="block">
+        <h3>Qual é o principal risco humano para esse piloto?</h3>
+        <div class="pair-options" id="pair-options">
+          <label class="pair-option">
+            <input type="radio" name="risco" value="Resistência médica">
+            <div class="opt-icon">🩺</div>
+            <div class="opt-text">Resistência médica</div>
+          </label>
+          <label class="pair-option">
+            <input type="radio" name="risco" value="Resistência enfermagem">
+            <div class="opt-icon">💊</div>
+            <div class="opt-text">Resistência enfermagem</div>
+          </label>
+          <label class="pair-option">
+            <input type="radio" name="risco" value="Medo jurídico">
+            <div class="opt-icon">⚖️</div>
+            <div class="opt-text">Medo jurídico</div>
+          </label>
+          <label class="pair-option">
+            <input type="radio" name="risco" value="Falta de capacitação">
+            <div class="opt-icon">📚</div>
+            <div class="opt-text">Falta de capacitação</div>
+          </label>
+          <label class="pair-option">
+            <input type="radio" name="risco" value="Desalinhamento diretivo">
+            <div class="opt-icon">🎯</div>
+            <div class="opt-text">Desalinhamento diretivo</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Plano inicial de mitigação</h3>
+        <div style="display:grid;gap:12px;">
+          <div class="dl-field">
+            <label for="pair-acao">Primeira ação</label>
+            <input type="text" id="pair-acao" placeholder="Descreva a primeira ação..." />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="dl-field">
+              <label for="pair-owner">Owner</label>
+              <input type="text" id="pair-owner" placeholder="Responsável..." />
+            </div>
+            <div class="dl-field">
+              <label for="pair-prazo">Prazo</label>
+              <input type="text" id="pair-prazo" placeholder="Ex: 30 dias" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         PARTE 12 — FECHAMENTO
+    ═══════════════════════════════════════════ -->
+    <section id="s12">
+      <div class="sec-header">
+        <div class="sec-num">12</div>
+        <div class="sec-meta">
+          <h2>Fechamento</h2>
+          <div class="tags">
+            <span class="tag speaker">Juliana Caligiuri</span>
+            <span class="tag local">Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Perguntas sequenciais de fechamento</h3>
+        <ol class="content-list ordered">
+          <li><strong>Qual horizonte estamos escolhendo?</strong></li>
+          <li><strong>Qual piloto formal?</strong></li>
+          <li><strong>Quem lidera?</strong></li>
+          <li><strong>Quais condições não podem ser violadas?</strong></li>
+          <li><strong>Qual marco concreto?</strong></li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3>Cartões — Releitura final</h3>
+        <div class="speech-box">
+          "Releia seu cartão. A decisão de hoje responde ao que ele propõe? Se não, quais condições devem ser incluídas no Decision Log?"
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong>Próximo passo →</strong> Preencher o <a href="#" data-sec="decisionlog" style="color:var(--accent2)">Decision Log</a> com os outputs da sessão.
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         CARTÕES DE PROVOCAÇÃO
+    ═══════════════════════════════════════════ -->
+    <section id="cartoes">
+      <div class="sec-header">
+        <div class="sec-num">🃏</div>
+        <div class="sec-meta">
+          <h2>Cartões de Provocação</h2>
+          <div class="tags">
+            <span class="tag">Distribuídos na Parte 1</span>
+            <span class="tag">Relidos no Fechamento</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Como usar</h3>
+        <p>Clique em um cartão para revelar o verso. Os cartões criam desconforto silencioso, personalizam responsabilidade e reaparecem no momento da decisão.</p>
+      </div>
+
+      <div class="cards-grid" id="cards-grid">
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         DECISION LOG
+    ═══════════════════════════════════════════ -->
+    <section id="decisionlog">
+      <div class="sec-header">
+        <div class="sec-num">📋</div>
+        <div class="sec-meta">
+          <h2>Decision Log</h2>
+          <div class="tags">
+            <span class="tag">Output final da sessão</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Registrar decisões</h3>
+        <div class="dl-grid">
+          <div class="dl-field">
+            <label for="dl-horizonte">Horizonte prioritário</label>
+            <select id="dl-horizonte">
+              <option value="">Selecione...</option>
+              <option>Nível 0 — Não começamos</option>
+              <option>Nível 1 — Pilotos isolados</option>
+              <option>Nível 2 — Estrutura em consolidação</option>
+              <option>Nível 3 — Sistema inteligente operando</option>
+            </select>
+          </div>
+          <div class="dl-field">
+            <label for="dl-piloto">Piloto oficial (90 dias)</label>
+            <input type="text" id="dl-piloto" placeholder="Ex: Fluxo de autorização cirúrgica" />
+          </div>
+          <div class="dl-field">
+            <label for="dl-sponsor">Sponsor executivo</label>
+            <input type="text" id="dl-sponsor" placeholder="Nome e cargo..." />
+          </div>
+          <div class="dl-field">
+            <label for="dl-marco">Marco 90 dias</label>
+            <input type="text" id="dl-marco" placeholder="Ex: MVP em produção com X processos" />
+          </div>
+          <div class="dl-field full">
+            <label for="dl-condicoes">3 condições inegociáveis</label>
+            <textarea id="dl-condicoes" placeholder="1. &#10;2. &#10;3. "></textarea>
+          </div>
+          <div class="dl-field full">
+            <label for="dl-governanca">Próxima governança</label>
+            <input type="text" id="dl-governanca" placeholder="Data e formato da próxima reunião de acompanhamento..." />
+          </div>
+          <div class="dl-field">
+            <label for="dl-risco">Risco assumido (explicitamente)</label>
+            <textarea id="dl-risco" placeholder="Descreva o risco assumido..." style="min-height:56px;"></textarea>
+          </div>
+          <div class="dl-field">
+            <label for="dl-consequencia">Consequência de não decidir hoje</label>
+            <textarea id="dl-consequencia" placeholder="O que acontece se não decidirmos hoje..." style="min-height:56px;"></textarea>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="gerarDecisionLog()">Gerar Decision Log</button>
+          <button class="btn btn-outline" onclick="imprimirDecisionLog()">Imprimir</button>
+        </div>
+      </div>
+
+      <div id="dl-preview">
+        <h3>Decision Log — Work & Shape Einstein</h3>
+        <div id="dl-preview-content"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ── Navegação ──
+  const nav = document.getElementById('nav');
+  const sections = document.querySelectorAll('section');
+
+  const navLinks = nav.querySelectorAll('a');
+  let currentSection = 's1';
+
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[data-sec]');
+    if (!link) return;
+    e.preventDefault();
+    navigate(link.dataset.sec);
+  });
+
+  function navigate(sec) {
+    if (sec === currentSection) return;
+    document.getElementById(currentSection)?.classList.remove('visible');
+    const target = document.getElementById(sec);
+    if (target) {
+      target.classList.add('visible');
+      window.scrollTo(0, 0);
+    }
+    navLinks.forEach(a => a.classList.toggle('active', a.dataset.sec === sec));
+    currentSection = sec;
+  }
+
+  // ── Stress Test ──
+  const dimensoes = ['Dados', 'Governança', 'Processos', 'Cultura'];
+  const tbody = document.getElementById('stress-tbody');
+
+  dimensoes.forEach(dim => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${dim}</td>
+      <td>
+        <div class="stress-radio-group">
+          <input type="radio" name="stress-${dim}" id="st-${dim}-f" value="Frágil">
+          <label for="st-${dim}-f" class="fragil">Frágil</label>
+        </div>
+      </td>
+      <td>
+        <div class="stress-radio-group">
+          <input type="radio" name="stress-${dim}" id="st-${dim}-p" value="Parcial">
+          <label for="st-${dim}-p" class="parcial">Parcial</label>
+        </div>
+      </td>
+      <td>
+        <div class="stress-radio-group">
+          <input type="radio" name="stress-${dim}" id="st-${dim}-s" value="Sólida">
+          <label for="st-${dim}-s" class="solida">Sólida</label>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('s4').addEventListener('change', () => {
+    const resultados = {};
+    dimensoes.forEach(dim => {
+      const sel = document.querySelector(`input[name="stress-${dim}"]:checked`);
+      if (sel) resultados[dim] = sel.value;
+    });
+
+    const fragilidade = Object.entries(resultados)
+      .filter(([, v]) => v === 'Frágil')
+      .map(([k]) => k);
+    const parcial = Object.entries(resultados)
+      .filter(([, v]) => v === 'Parcial')
+      .map(([k]) => k);
+
+    const el = document.getElementById('stress-resultado');
+    if (Object.keys(resultados).length === 0) {
+      el.textContent = '— Selecione as dimensões acima para gerar o diagnóstico —';
+      return;
+    }
+
+    let html = '';
+    if (fragilidade.length > 0) {
+      html += `<strong style="color:var(--danger)">Fragilidade prioritária:</strong> ${fragilidade[0]}<br>`;
+      if (fragilidade.length > 1) {
+        html += `<strong style="color:var(--warn)">Secundárias (frágeis):</strong> ${fragilidade.slice(1).join(', ')}<br>`;
+      }
+    }
+    if (parcial.length > 0) {
+      html += `<strong style="color:var(--warn)">Dimensões parciais:</strong> ${parcial.join(', ')}<br>`;
+    }
+    const solidas = Object.entries(resultados).filter(([,v]) => v === 'Sólida').map(([k]) => k);
+    if (solidas.length > 0) {
+      html += `<strong style="color:var(--ok)">Dimensões sólidas:</strong> ${solidas.join(', ')}`;
+    }
+    el.innerHTML = html || '— Complete a avaliação —';
+  });
+
+  // ── Horizonte ──
+  const niveis = [
+    {
+      nivel: 'Nível 0',
+      titulo: 'Não começamos',
+      items: ['Não há estratégia formal', 'Sem governança definida']
+    },
+    {
+      nivel: 'Nível 1',
+      titulo: 'Pilotos isolados',
+      items: ['Iniciativas isoladas', 'Casos pontuais']
+    },
+    {
+      nivel: 'Nível 2',
+      titulo: 'Estrutura em consolidação',
+      items: ['Alguma estrutura de dados', 'Debate inicial sobre governança', 'IA em produção']
+    },
+    {
+      nivel: 'Nível 3',
+      titulo: 'Sistema inteligente operando',
+      items: ['IA integrada à operação clínica e adm.', 'Governança auditável', 'Escala sustentável']
+    }
+  ];
+
+  const hGrid = document.getElementById('horizonte-atual');
+
+  niveis.forEach((n, i) => {
+    const card = document.createElement('div');
+    card.className = 'horizonte-card';
+    card.dataset.nivel = n.nivel;
+    card.innerHTML = `
+      <div class="nivel">${n.nivel}</div>
+      <h4>${n.titulo}</h4>
+      <ul>${n.items.map(it => `<li>${it}</li>`).join('')}</ul>
+    `;
+    hGrid.appendChild(card);
+  });
+
+  const horizonteCards = hGrid.querySelectorAll('.horizonte-card');
+  const hAtualOut = document.getElementById('h-atual-out');
+
+  horizonteCards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      horizonteCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      hAtualOut.value = `${niveis[i].nivel} — ${niveis[i].titulo}`;
+    });
+  });
+
+  // ── PAIR radio styling ──
+  const pairOptions = document.querySelectorAll('.pair-option');
+  document.getElementById('s11').addEventListener('change', e => {
+    if (e.target.name === 'risco') {
+      pairOptions.forEach(o => o.classList.remove('selected'));
+      e.target.closest('.pair-option').classList.add('selected');
+    }
+  });
+
+  // ── Cartões de Provocação ──
+  const cartoes = [
+    {
+      num: 'Cartão 1',
+      titulo: 'Responsabilidade Executiva',
+      frente: 'Se uma decisão algorítmica causar dano ao paciente, quem responde institucionalmente?',
+      verso: 'Hospitais líderes já operam IA em diagnóstico assistido. A responsabilidade continua sendo humana.'
+    },
+    {
+      num: 'Cartão 2',
+      titulo: 'Não Decidir Também é Decidir',
+      frente: 'Se não iniciarmos essa transição agora, onde estaremos em 24 meses?',
+      verso: 'A transformação digital na saúde já deixou de ser diferencial. Atualmente, é requisito.'
+    },
+    {
+      num: 'Cartão 3',
+      titulo: 'Burnout',
+      frente: 'Quanto tempo clínico desperdiçamos em tarefas administrativas?',
+      verso: 'Estudos globais mostram que enfermeiros usam até 35% do tempo em registros e documentação.'
+    },
+    {
+      num: 'Cartão 4',
+      titulo: 'Governança',
+      frente: 'Temos clareza de quem governa IA hoje em nosso sistema / hospital?',
+      verso: 'Escalar tecnologia sem governança amplia risco reputacional.'
+    },
+    {
+      num: 'Cartão 5',
+      titulo: 'Confiança',
+      frente: 'Você confiaria que sua família fosse atendida por um sistema apoiado por IA hoje?',
+      verso: 'Confiança institucional precede adoção tecnológica.'
+    },
+    {
+      num: 'Cartão 6',
+      titulo: 'Dados',
+      frente: 'Nossos dados estão prontos para suportar decisões clínicas assistidas por IA?',
+      verso: 'Sem base de dados estruturada, escala vira risco.'
+    },
+    {
+      num: 'Cartão 7',
+      titulo: 'Cultura',
+      frente: 'Qual área resistirá mais à adoção de IA?',
+      verso: 'Transformação falha mais por cultura do que por tecnologia.'
+    },
+    {
+      num: 'Cartão 8',
+      titulo: 'Reputação',
+      frente: 'Estamos preparados para explicar ao público como usamos IA?',
+      verso: 'Transparência será diferencial competitivo.'
+    }
+  ];
+
+  const cardsGrid = document.getElementById('cards-grid');
+
+  cartoes.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'card-provocacao';
+    el.innerHTML = `
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="card-num">${c.num}</div>
+          <div class="card-titulo">${c.titulo}</div>
+          <div class="card-pergunta">${c.frente}</div>
+          <div class="card-hint">Clique para revelar o verso →</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-num">${c.num} — Verso</div>
+          <div class="card-titulo">${c.titulo}</div>
+          <div class="card-resposta">${c.verso}</div>
+          <div class="card-hint">← Clique para voltar</div>
+        </div>
+      </div>
+    `;
+    el.addEventListener('click', () => el.classList.toggle('flipped'));
+    cardsGrid.appendChild(el);
+  });
+
+  // ── Decision Log ──
+  const dlFields = {
+    'Horizonte prioritário':           document.getElementById('dl-horizonte'),
+    'Piloto oficial (90 dias)':        document.getElementById('dl-piloto'),
+    'Sponsor executivo':               document.getElementById('dl-sponsor'),
+    'Marco 90 dias':                   document.getElementById('dl-marco'),
+    '3 condições inegociáveis':        document.getElementById('dl-condicoes'),
+    'Próxima governança':              document.getElementById('dl-governanca'),
+    'Risco assumido':                  document.getElementById('dl-risco'),
+    'Consequência de não decidir hoje': document.getElementById('dl-consequencia'),
+  };
+  const dlPreview = document.getElementById('dl-preview');
+  const dlPreviewContent = document.getElementById('dl-preview-content');
+
+  function gerarDecisionLog() {
+    dlPreviewContent.innerHTML = Object.entries(dlFields).map(([k, el]) => {
+      const v = el.value;
+      const val = v ? v.replace(/\n/g, '<br>') : '<em style="color:var(--muted)">Não preenchido</em>';
+      return `<div class="dl-preview-row"><div class="key">${k}</div><div class="val">${val}</div></div>`;
+    }).join('');
+    dlPreview.style.display = 'block';
+    dlPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function imprimirDecisionLog() {
+    gerarDecisionLog();
+    requestAnimationFrame(() => window.print());
+  }
+</script>
+
+</body>
+</html>
