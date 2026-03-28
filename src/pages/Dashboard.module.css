@@ -195,6 +195,20 @@
   color: var(--cinza-quente);
 }
 
+.verDetalhe {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.verDetalhe:hover { color: var(--ouro); }
+
 .verTodos {
   display: block;
   margin-top: var(--space-4);

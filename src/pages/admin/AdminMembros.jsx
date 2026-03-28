@@ -21,7 +21,7 @@ export default function AdminMembros({ confrariaId }) {
     setErro('')
     const { error } = await adicionar(form)
     if (error) {
-      setErro(error.message.includes('unique') ? 'Este apelido já existe.' : error.message)
+      setErro(error.message.includes('unique') ? 'Este nome já existe.' : error.message)
     } else {
       setForm({ apelido: '', papel: 'membro' })
     }
@@ -44,7 +44,7 @@ export default function AdminMembros({ confrariaId }) {
     setErroEdit('')
     const { error } = await atualizar(editandoId, editForm)
     if (error) {
-      setErroEdit(error.message.includes('unique') ? 'Este apelido já existe.' : error.message)
+      setErroEdit(error.message.includes('unique') ? 'Este nome já existe.' : error.message)
     } else {
       setEditandoId(null)
     }
@@ -56,7 +56,7 @@ export default function AdminMembros({ confrariaId }) {
       <form className={styles.addForm} onSubmit={handleAdicionar}>
         <input
           className="input"
-          placeholder="Apelido"
+          placeholder="Nome"
           value={form.apelido}
           onChange={(e) => setForm((f) => ({ ...f, apelido: e.target.value }))}
           maxLength={20}

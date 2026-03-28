@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="108" fill="#0D0A07"/>
+
+  <!-- Cork -->
+  <rect x="212" y="46" width="88" height="48" rx="14" fill="#7A4E2D"/>
+
+  <!-- Capsule (foil over cork top) -->
+  <rect x="204" y="90" width="104" height="22" rx="5" fill="#A06830"/>
+
+  <!-- Neck -->
+  <rect x="210" y="110" width="92" height="88" rx="8" fill="#B8872E"/>
+
+  <!-- Shoulder (tapered from neck to body) -->
+  <path d="M210 196 C172 216 160 248 158 278 L158 434 Q158 468 192 468 L320 468 Q354 468 354 434 L354 278 C352 248 340 216 302 196 Z" fill="#C8973A"/>
+
+  <!-- Glass highlight (left edge subtle) -->
+  <path d="M210 196 C172 216 160 248 158 278 L158 340 C165 320 176 305 192 296 L192 196 Z" fill="#D4A848" fill-opacity="0.35"/>
+
+  <!-- Label background -->
+  <rect x="176" y="302" width="160" height="118" rx="5" fill="#0D0A07" fill-opacity="0.22"/>
+
+  <!-- Label border lines -->
+  <rect x="183" y="309" width="146" height="104" rx="3" fill="none" stroke="#0D0A07" stroke-opacity="0.18" stroke-width="1"/>
+
+  <!-- Label content — The Cellar wordmark (simplified) -->
+  <rect x="204" y="326" width="104" height="2.5" rx="1.25" fill="#0D0A07" fill-opacity="0.32"/>
+  <rect x="218" y="334" width="76" height="2" rx="1" fill="#0D0A07" fill-opacity="0.22"/>
+
+  <!-- Diamond ornament -->
+  <polygon points="256,356 265,369 256,382 247,369" fill="#0D0A07" fill-opacity="0.28"/>
+
+  <!-- Lower label line -->
+  <rect x="204" y="392" width="104" height="2" rx="1" fill="#0D0A07" fill-opacity="0.22"/>
+</svg>

@@ -108,7 +108,7 @@ export default function Entrada() {
             <input
               className={`input-display ${styles.inputApelido}`}
               type="text"
-              placeholder="Seu apelido"
+              placeholder="Seu nome"
               value={apelido}
               onChange={(e) => setApelido(e.target.value)}
               maxLength={20}

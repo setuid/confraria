@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import { useEncontro } from '../hooks/useEncontros.js'
 import { useGarrafas, uploadFotoGarrafa } from '../hooks/useGarrafas.js'
+import { useEncontroFotos } from '../hooks/useEncontroFotos.js'
 import RomanNumeral from '../components/ui/RomanNumeral.jsx'
 import RsvpButtons from '../components/meeting/RsvpButtons.jsx'
 import MemberAvatar from '../components/ui/MemberAvatar.jsx'
@@ -27,12 +28,27 @@ export default function EncontroDetalhe() {
   const { sessao } = useAuth(slug)
   const { encontro, carregando } = useEncontro(id)
   const { garrafas, carregando: carregandoGarrafas, adicionar } = useGarrafas(id)
+  const { fotos, adicionar: adicionarFoto, remover: removerFoto, maxFotos } = useEncontroFotos(id)
+
+  const fotoInputRef = useRef(null)
+  const [upandoFoto, setUpandoFoto] = useState(false)
+  const [fotoAmpliada, setFotoAmpliada] = useState(null)
 
   const [formAberto, setFormAberto] = useState(false)
   const [form, setForm] = useState(FORM_VAZIO)
   const [fotoFile, setFotoFile] = useState(null)
   const [salvando, setSalvando] = useState(false)
   const [erroForm, setErroForm] = useState('')
+
+  async function handleFotoEncontro(e) {
+    const file = e.target.files?.[0]
+    if (!file || !sessao) return
+    if (file.size > 5 * 1024 * 1024) { alert('Máximo 5 MB por foto.'); return }
+    setUpandoFoto(true)
+    await adicionarFoto(file, sessao.apelido)
+    setUpandoFoto(false)
+    e.target.value = ''
+  }
 
   async function handleAdicionarGarrafa(e) {
     e.preventDefault()
@@ -151,16 +167,86 @@ export default function EncontroDetalhe() {
         </>
       )}
 
+      {/* Fotos do encontro */}
+      <GoldDivider />
+      <section className={styles.secao}>
+        <div className={styles.fotosHeader}>
+          <p className={styles.secLabel}>Fotos do encontro</p>
+          {sessao && fotos.length < maxFotos && (
+            <button
+              className={styles.btnAdicionarFoto}
+              onClick={() => fotoInputRef.current?.click()}
+              disabled={upandoFoto}
+            >
+              {upandoFoto ? '...' : `+ Foto (${fotos.length}/${maxFotos})`}
+            </button>
+          )}
+          <input
+            ref={fotoInputRef}
+            type="file"
+            accept="image/*"
+            className={styles.inputEscondido}
+            onChange={handleFotoEncontro}
+          />
+        </div>
+
+        {fotos.length > 0 ? (
+          <div className={styles.fotosGrid}>
+            {fotos.map((f) => (
+              <div key={f.id} className={styles.fotoItem}>
+                <img
+                  src={f.url}
+                  alt="Foto do encontro"
+                  className={styles.fotoImg}
+                  onClick={() => setFotoAmpliada(f.url)}
+                />
+                {sessao?.apelido === f.apelido && (
+                  <button
+                    className={styles.btnRemoverFoto}
+                    onClick={() => removerFoto(f.id, f.url)}
+                    aria-label="Remover foto"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className={styles.garrafasVazio}>Nenhuma foto ainda.</p>
+        )}
+      </section>
+
+      {/* Lightbox */}
+      {fotoAmpliada && (
+        <div className={styles.lightbox} onClick={() => setFotoAmpliada(null)}>
+          <img src={fotoAmpliada} alt="Foto ampliada" className={styles.lightboxImg} />
+        </div>
+      )}
+
       {/* Garrafas */}
       <GoldDivider />
       <section className={styles.secao}>
         <div className={styles.garrafasHeader}>
           <p className={styles.secLabel}>Garrafas do encontro</p>
-          {sessao && !formAberto && (
-            <button className={styles.btnAdicionarGarrafa} onClick={() => setFormAberto(true)}>
-              + Adicionar garrafa
-            </button>
-          )}
+          <div className={styles.garrafasAcoes}>
+            {garrafas.length > 0 && (
+              <a
+                href={`#/c/${slug}/encontros/${id}/imprimir`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btnImprimir}
+              >
+                ⎙ Imprimir fichas
+              </a>
+            )}
+            {sessao && !formAberto && (
+              <button className={styles.btnAdicionarGarrafa} onClick={() => setFormAberto(true)}>
+                + Adicionar garrafa
+              </button>
+            )}
+          </div>
+        </div>
         </div>
 
         {formAberto && (
