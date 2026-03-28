@@ -4,6 +4,7 @@ import Entrada from './pages/Entrada.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Encontros from './pages/Encontros.jsx'
 import EncontroDetalhe from './pages/EncontroDetalhe.jsx'
+import EncontroPrint from './pages/EncontroPrint.jsx'
 import GarrafaDetalhe from './pages/GarrafaDetalhe.jsx'
 import Membros from './pages/Membros.jsx'
 import AppShell from './components/layout/AppShell.jsx'
@@ -44,6 +45,10 @@ export const router = createHashRouter([
           element: <Membros />,
         },
       ],
+    },
+    {
+      path: '/c/:slug/encontros/:id/imprimir',
+      element: <EncontroPrint />,
     },
     {
       path: '/admin',
