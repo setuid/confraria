@@ -33,6 +33,7 @@
 }
 
 .fotoWrap {
+  position: relative;
   flex-shrink: 0;
   width: 120px;
   height: 160px;
@@ -310,6 +311,77 @@
   flex-direction: column;
   gap: var(--space-3);
 }
+
+/* Botão sobre a foto (trocar / adicionar) */
+.btnFotoAlt {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13, 10, 7, 0.75);
+  color: var(--ouro);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: var(--space-2);
+  cursor: pointer;
+  transition: background var(--transition);
+  border: none;
+}
+.btnFotoAlt:hover { background: rgba(13, 10, 7, 0.9); }
+
+/* Painel de edição de foto */
+.fotoEditPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-4);
+}
+
+.fotoEditAcoes {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.btnRemoverFoto {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #C05070;
+  border: 0.5px solid #C05070;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  min-height: 44px;
+  cursor: pointer;
+  background: transparent;
+  transition: background var(--transition);
+}
+.btnRemoverFoto:hover { background: rgba(192, 80, 112, 0.1); }
+
+/* Botão apagar vinho */
+.btnApagarGarrafa {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #C05070;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin-top: var(--space-3);
+  transition: opacity var(--transition);
+}
+.btnApagarGarrafa:hover { opacity: 0.7; }
+.btnApagarGarrafa:disabled { opacity: 0.4; cursor: not-allowed; }
 
 @media (max-width: 768px) {
   .hero { flex-direction: column; }

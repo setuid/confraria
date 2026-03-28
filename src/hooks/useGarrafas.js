@@ -35,7 +35,14 @@ export function useGarrafas(encontroId) {
     return { data, error }
   }
 
-  return { garrafas, carregando, adicionar, refetch: buscar }
+  async function remover(garrafaId, fotoUrl) {
+    if (fotoUrl) await deleteFotoStorage(fotoUrl)
+    const { error } = await supabase.from('garrafas').delete().eq('id', garrafaId)
+    if (!error) await buscar()
+    return { error }
+  }
+
+  return { garrafas, carregando, adicionar, remover, refetch: buscar }
 }
 
 // Garrafa individual com tudo
@@ -78,7 +85,16 @@ export function useGarrafa(garrafaId) {
     return { error }
   }
 
-  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, refetch: buscar }
+  async function atualizarFoto(novaFotoUrl) {
+    const { error } = await supabase
+      .from('garrafas')
+      .update({ foto_url: novaFotoUrl })
+      .eq('id', garrafaId)
+    if (!error) await buscar()
+    return { error }
+  }
+
+  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, refetch: buscar }
 }
 
 // Upload de foto para o Storage
@@ -91,4 +107,13 @@ export async function uploadFotoGarrafa(file) {
   if (error) return { url: null, error }
   const { data } = supabase.storage.from('garrafas-fotos').getPublicUrl(path)
   return { url: data.publicUrl, error: null }
+}
+
+// Apaga foto do Storage a partir da URL pública
+export async function deleteFotoStorage(url) {
+  const marker = '/garrafas-fotos/'
+  const idx = url.indexOf(marker)
+  if (idx === -1) return
+  const path = url.slice(idx + marker.length)
+  await supabase.storage.from('garrafas-fotos').remove([path])
 }
