@@ -1,0 +1,42 @@
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.readonly {
+  cursor: default;
+}
+
+.star {
+  font-size: 20px;
+  line-height: 1;
+  transition: color var(--transition);
+  position: relative;
+  display: inline-block;
+}
+
+.cheia {
+  color: var(--ouro);
+}
+
+.meia {
+  background: linear-gradient(
+    to right,
+    var(--ouro) 50%,
+    var(--brique) 50%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.vazia {
+  color: var(--brique);
+}
+
+/* Tamanho menor para uso em cards */
+.stars[data-size="sm"] .star {
+  font-size: 14px;
+}
