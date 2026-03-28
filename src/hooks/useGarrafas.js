@@ -62,10 +62,10 @@ export function useGarrafa(garrafaId) {
     setCarregando(false)
   }
 
-  async function adicionarAvaliacao(apelido, nota) {
+  async function adicionarAvaliacao(apelido, nota, ficha = null) {
     const { error } = await supabase
       .from('avaliacoes')
-      .upsert({ garrafa_id: garrafaId, apelido, nota }, { onConflict: 'garrafa_id,apelido' })
+      .upsert({ garrafa_id: garrafaId, apelido, nota, ficha }, { onConflict: 'garrafa_id,apelido' })
     if (!error) await buscar()
     return { error }
   }

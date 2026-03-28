@@ -120,9 +120,51 @@
   color: var(--cinza-quente);
 }
 
+/* Notas do dono */
+.notasDono {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--pergaminho);
+  line-height: 1.7;
+  border-left: 1px solid var(--brique);
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+/* Média no hero */
+.mediaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.mediaNum {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--ouro);
+}
+
+.mediaCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--bronze);
+}
+
 /* Seções */
 .secao {
   margin-bottom: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.secaoHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .secLabel {
@@ -132,60 +174,64 @@
   letter-spacing: 0.45em;
   text-transform: uppercase;
   color: var(--cinza-quente);
-  margin-bottom: var(--space-4);
 }
 
-.mediaLabel {
-  color: var(--ouro);
-}
+.mediaInline { color: var(--ouro); }
 
 .vazio {
   font-family: var(--font-body);
   font-style: italic;
   color: var(--cinza-quente);
   font-size: 14px;
-  margin-bottom: var(--space-4);
 }
 
-/* Avaliação própria */
-.minhaRating {
-  display: flex;
+/* Botão preencher ficha */
+.btnPreencher {
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  border: 0.5px solid rgba(200, 151, 58, 0.4);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-5);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: rgba(200, 151, 58, 0.05);
 }
+.btnPreencher:hover { background: rgba(200, 151, 58, 0.10); border-color: var(--ouro); }
 
-.donoNote {
-  font-family: var(--font-body);
-  font-style: italic;
+.btnEditar {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
   color: var(--bronze);
-  font-size: 14px;
-  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition: color var(--transition);
 }
-
-.notasDono {
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 15px;
-  color: var(--pergaminho);
-  line-height: 1.7;
-  border-left: 1px solid var(--brique);
-  padding-left: var(--space-4);
-  margin-top: var(--space-3);
-}
+.btnEditar:hover { color: var(--ouro); }
 
 /* Lista de avaliações */
 .listaAvaliacoes {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  gap: var(--space-4);
 }
 
-.avaliacaoRow {
+.avaliacaoItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.avaliacaoHeader {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .avaliacaoNome {
@@ -198,13 +244,29 @@
   flex: 1;
 }
 
-.notaVal {
+.notaNum {
   font-family: var(--font-ui);
   font-size: 10px;
   color: var(--ouro);
-  letter-spacing: 0.1em;
   min-width: 24px;
-  text-align: right;
+}
+
+.btnVerFicha {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btnVerFicha:hover { border-color: var(--tabac); color: var(--pergaminho); }
+
+.fichaExpandida {
+  padding-left: calc(28px + var(--space-3));
 }
 
 /* Comentários */
@@ -212,7 +274,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  margin-bottom: var(--space-5);
 }
 
 .comentario {
@@ -254,4 +315,5 @@
   .hero { flex-direction: column; }
   .fotoWrap { width: 100%; height: 200px; }
   .foto { object-position: center 30%; }
+  .fichaExpandida { padding-left: 0; }
 }

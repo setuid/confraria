@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import { useGarrafa } from '../hooks/useGarrafas.js'
-import StarRating from '../components/wine/StarRating.jsx'
+import FichaDegustacaoForm from '../components/wine/FichaDegustacaoForm.jsx'
+import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
 import MemberAvatar from '../components/ui/MemberAvatar.jsx'
 import GoldDivider from '../components/ui/GoldDivider.jsx'
+import StarRating from '../components/wine/StarRating.jsx'
 import { gerarCor } from '../lib/utils.js'
 import styles from './GarrafaDetalhe.module.css'
 
@@ -23,19 +25,23 @@ export default function GarrafaDetalhe() {
   const { sessao } = useAuth(slug)
   const { garrafa, carregando, adicionarAvaliacao, adicionarComentario } = useGarrafa(garrafaId)
 
+  const [formFichaAberto, setFormFichaAberto] = useState(false)
   const [comentario, setComentario] = useState('')
   const [enviando, setEnviando] = useState(false)
+  // controla qual avaliação de outro membro está expandida
+  const [fichaExpandida, setFichaExpandida] = useState(null)
 
   if (carregando) return <div className={styles.loading}>...</div>
   if (!garrafa)   return <div className={styles.loading}>Garrafa não encontrada.</div>
 
   const mediaVal = media(garrafa.avaliacoes)
   const minhaAvaliacao = garrafa.avaliacoes?.find((a) => a.apelido === sessao?.apelido)
-  const ehDono = garrafa.apelido === sessao?.apelido
+  const outrasAvaliacoes = garrafa.avaliacoes?.filter((a) => a.apelido !== sessao?.apelido) ?? []
 
-  async function handleNota(nota) {
+  async function handleSalvarFicha(nota, ficha) {
     if (!sessao) return
-    await adicionarAvaliacao(sessao.apelido, nota)
+    await adicionarAvaliacao(sessao.apelido, nota, ficha)
+    setFormFichaAberto(false)
   }
 
   async function handleComentario(e) {
@@ -76,61 +82,99 @@ export default function GarrafaDetalhe() {
           <div className={styles.tags}>
             {garrafa.safra && <span className={styles.tag}>{garrafa.safra}</span>}
             {garrafa.regiao && <span className={styles.tag}>{garrafa.regiao}</span>}
-            {garrafa.tipo && <span className={styles.tag}>{TIPO_LABELS[garrafa.tipo] || garrafa.tipo}</span>}
+            {garrafa.tipo   && <span className={styles.tag}>{TIPO_LABELS[garrafa.tipo] || garrafa.tipo}</span>}
           </div>
           <div className={styles.trazidoPor}>
             <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={24} />
             <span className={styles.trazidoNome}>{garrafa.apelido}</span>
           </div>
+          {mediaVal !== null && (
+            <div className={styles.mediaRow}>
+              <StarRating nota={mediaVal} readonly />
+              <span className={styles.mediaNum}>{mediaVal.toFixed(1)}</span>
+              <span className={styles.mediaCount}>({garrafa.avaliacoes.length})</span>
+            </div>
+          )}
         </div>
       </div>
 
+      {garrafa.notas_dono && (
+        <p className={styles.notasDono}>{garrafa.notas_dono}</p>
+      )}
+
       <GoldDivider />
 
-      {/* Avaliação do membro logado */}
+      {/* ── Minha ficha ── */}
       {sessao && (
         <section className={styles.secao}>
-          <p className={styles.secLabel}>
-            {ehDono ? 'Sua garrafa' : minhaAvaliacao ? 'Sua avaliação' : 'Avaliar este vinho'}
-          </p>
-          {ehDono ? (
-            <p className={styles.donoNote}>Você trouxe esta garrafa.</p>
-          ) : (
-            <div className={styles.minhaRating}>
-              <StarRating nota={minhaAvaliacao?.nota || 0} onChange={handleNota} />
-              {minhaAvaliacao && (
-                <span className={styles.notaVal}>{Number(minhaAvaliacao.nota).toFixed(1)}</span>
-              )}
-            </div>
+          <div className={styles.secaoHeader}>
+            <p className={styles.secLabel}>Minha ficha de degustação</p>
+            {minhaAvaliacao && !formFichaAberto && (
+              <button className={styles.btnEditar} onClick={() => setFormFichaAberto(true)}>
+                Editar
+              </button>
+            )}
+          </div>
+
+          {!minhaAvaliacao && !formFichaAberto && (
+            <button
+              className={styles.btnPreencher}
+              onClick={() => setFormFichaAberto(true)}
+            >
+              + Preencher ficha de degustação
+            </button>
           )}
-          {garrafa.notas_dono && (
-            <p className={styles.notasDono}>{garrafa.notas_dono}</p>
+
+          {minhaAvaliacao && !formFichaAberto && (
+            <FichaDegustacaoView avaliacao={minhaAvaliacao} />
+          )}
+
+          {formFichaAberto && (
+            <FichaDegustacaoForm
+              fichaInicial={minhaAvaliacao?.ficha ?? null}
+              notaInicial={minhaAvaliacao ? Number(minhaAvaliacao.nota) : 0}
+              onSalvar={handleSalvarFicha}
+              onCancelar={() => setFormFichaAberto(false)}
+            />
           )}
         </section>
       )}
 
       <GoldDivider />
 
-      {/* Avaliações de todos */}
+      {/* ── Fichas dos outros membros ── */}
       <section className={styles.secao}>
         <p className={styles.secLabel}>
-          Avaliações
-          {mediaVal !== null && (
-            <span className={styles.mediaLabel}> · média {mediaVal.toFixed(1)} ★</span>
-          )}
+          Fichas dos membros
+          {mediaVal !== null && <span className={styles.mediaInline}> · média {mediaVal.toFixed(1)} ★</span>}
         </p>
 
-        {garrafa.avaliacoes?.length === 0 && (
-          <p className={styles.vazio}>Nenhuma avaliação ainda.</p>
+        {outrasAvaliacoes.length === 0 && (
+          <p className={styles.vazio}>Nenhum outro membro avaliou ainda.</p>
         )}
 
         <div className={styles.listaAvaliacoes}>
-          {garrafa.avaliacoes?.map((a) => (
-            <div key={a.id} className={styles.avaliacaoRow}>
-              <MemberAvatar apelido={a.apelido} cor={gerarCor(a.apelido)} size={28} />
-              <span className={styles.avaliacaoNome}>{a.apelido}</span>
-              <StarRating nota={Number(a.nota)} readonly />
-              <span className={styles.notaVal}>{Number(a.nota).toFixed(1)}</span>
+          {outrasAvaliacoes.map((a) => (
+            <div key={a.id} className={styles.avaliacaoItem}>
+              <div className={styles.avaliacaoHeader}>
+                <MemberAvatar apelido={a.apelido} cor={gerarCor(a.apelido)} size={28} />
+                <span className={styles.avaliacaoNome}>{a.apelido}</span>
+                <StarRating nota={Number(a.nota)} readonly />
+                <span className={styles.notaNum}>{Number(a.nota).toFixed(1)}</span>
+                {a.ficha && (
+                  <button
+                    className={styles.btnVerFicha}
+                    onClick={() => setFichaExpandida(fichaExpandida === a.id ? null : a.id)}
+                  >
+                    {fichaExpandida === a.id ? 'Fechar' : 'Ver ficha'}
+                  </button>
+                )}
+              </div>
+              {fichaExpandida === a.id && a.ficha && (
+                <div className={styles.fichaExpandida}>
+                  <FichaDegustacaoView avaliacao={a} />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -138,7 +182,7 @@ export default function GarrafaDetalhe() {
 
       <GoldDivider />
 
-      {/* Comentários */}
+      {/* ── Comentários ── */}
       <section className={styles.secao}>
         <p className={styles.secLabel}>Comentários</p>
 
@@ -163,12 +207,12 @@ export default function GarrafaDetalhe() {
             <textarea
               className="input"
               rows={2}
-              placeholder="Suas percepções sobre este vinho..."
+              placeholder="Suas percepções sobre este vinho…"
               value={comentario}
               onChange={(e) => setComentario(e.target.value)}
             />
             <button type="submit" className="btn-primary" disabled={enviando}>
-              {enviando ? '...' : 'Enviar'}
+              {enviando ? '…' : 'Enviar'}
             </button>
           </form>
         )}
