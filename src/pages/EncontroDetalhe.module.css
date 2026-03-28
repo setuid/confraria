@@ -134,3 +134,92 @@
   text-transform: uppercase;
   color: var(--bronze);
 }
+
+/* Garrafas */
+.garrafasHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.garrafasHeader .secLabel {
+  margin-bottom: 0;
+}
+
+.btnAdicionarGarrafa {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.btnAdicionarGarrafa:hover { color: var(--ouro); }
+
+.garrafaForm {
+  background: var(--cave);
+  border: 0.5px solid var(--tabac);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.garrafaFormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.campoFull { grid-column: 1 / -1; }
+
+.campoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.garrafaFormAcoes {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.erroForm {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--vinho);
+}
+
+.garrafasLista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.garrafasLoading,
+.garrafasVazio {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .garrafaFormGrid { grid-template-columns: 1fr; }
+  .campoFull { grid-column: 1; }
+  .garrafaFormAcoes { flex-direction: column; }
+}

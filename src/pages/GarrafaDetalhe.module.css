@@ -1,0 +1,257 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.loading {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  text-align: center;
+  padding: var(--space-12);
+}
+
+.voltar {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-8);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.voltar:hover { color: var(--ouro); }
+
+/* Hero */
+.hero {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.fotoWrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 160px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--brique);
+}
+
+.foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.semFoto {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconGarrafa {
+  width: 48px;
+  height: 48px;
+  color: var(--tabac);
+}
+
+.heroInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nome {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--creme);
+  line-height: 1.2;
+}
+
+.meta {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--bronze);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.tag {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.trazidoPor {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.trazidoNome {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+/* Seções */
+.secao {
+  margin-bottom: var(--space-2);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-4);
+}
+
+.mediaLabel {
+  color: var(--ouro);
+}
+
+.vazio {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--cinza-quente);
+  font-size: 14px;
+  margin-bottom: var(--space-4);
+}
+
+/* Avaliação própria */
+.minhaRating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.donoNote {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  font-size: 14px;
+  margin-bottom: var(--space-3);
+}
+
+.notasDono {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--pergaminho);
+  line-height: 1.7;
+  border-left: 1px solid var(--brique);
+  padding-left: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+/* Lista de avaliações */
+.listaAvaliacoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.avaliacaoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avaliacaoNome {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pergaminho);
+  flex: 1;
+}
+
+.notaVal {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--ouro);
+  letter-spacing: 0.1em;
+  min-width: 24px;
+  text-align: right;
+}
+
+/* Comentários */
+.listaComentarios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.comentario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.comentarioHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.comentarioNome {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.comentarioTexto {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--pergaminho);
+  line-height: 1.7;
+  padding-left: calc(24px + var(--space-2));
+}
+
+.comentarioForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (max-width: 768px) {
+  .hero { flex-direction: column; }
+  .fotoWrap { width: 100%; height: 200px; }
+  .foto { object-position: center 30%; }
+}
