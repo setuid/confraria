@@ -99,6 +99,13 @@ export default function Dashboard() {
             </div>
           )}
 
+          <Link
+            to={`/c/${slug}/encontros/${proximoEncontro.id}`}
+            className={styles.verDetalhe}
+          >
+            Ver detalhes →
+          </Link>
+
           <div className={styles.rsvpWrap}>
             <RsvpButtons
               encontroId={proximoEncontro.id}
