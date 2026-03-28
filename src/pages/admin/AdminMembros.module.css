@@ -105,6 +105,9 @@
 .btnEditar { color: var(--bronze); }
 .btnEditar:hover { color: var(--ouro); }
 
+.btnExcluir { color: var(--bronze); }
+.btnExcluir:hover { color: var(--vinho); }
+
 .btnDesativar { color: var(--bronze); }
 .btnDesativar:hover { color: var(--vinho); }
 

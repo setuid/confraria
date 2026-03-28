@@ -141,7 +141,16 @@ export function useAdminMembros(confrariaId) {
     return atualizar(id, { ativo: !ativo })
   }
 
-  return { membros, carregando, adicionar, atualizar, alternarAtivo, refetch: buscar }
+  async function excluir(id) {
+    const { error } = await supabase
+      .from('membros')
+      .delete()
+      .eq('id', id)
+    if (!error) await buscar()
+    return { error }
+  }
+
+  return { membros, carregando, adicionar, atualizar, alternarAtivo, excluir, refetch: buscar }
 }
 
 // CRUD Encontros

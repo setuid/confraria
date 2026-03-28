@@ -6,7 +6,7 @@ import { gerarCor } from '../../lib/utils.js'
 import styles from './AdminMembros.module.css'
 
 export default function AdminMembros({ confrariaId }) {
-  const { membros, carregando, adicionar, atualizar, alternarAtivo } =
+  const { membros, carregando, adicionar, atualizar, alternarAtivo, excluir } =
     useAdminMembros(confrariaId)
 
   const [form, setForm] = useState({ apelido: '', papel: 'membro' })
@@ -128,6 +128,14 @@ export default function AdminMembros({ confrariaId }) {
                     onClick={() => alternarAtivo(m.id, m.ativo)}
                   >
                     {m.ativo ? 'Desativar' : 'Reativar'}
+                  </button>
+                  <button
+                    className={styles.btnExcluir}
+                    onClick={() => {
+                      if (confirm(`Excluir "${m.apelido}" permanentemente?`)) excluir(m.id)
+                    }}
+                  >
+                    Excluir
                   </button>
                 </div>
               </div>
