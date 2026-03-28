@@ -247,7 +247,6 @@ export default function EncontroDetalhe() {
             )}
           </div>
         </div>
-        </div>
 
         {formAberto && (
           <form className={styles.garrafaForm} onSubmit={handleAdicionarGarrafa}>
