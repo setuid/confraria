@@ -4,14 +4,14 @@
   --cave:         #161009;
   --brique:       #1E1510;
   --tabac:        #2A1F10;
-  --bronze:       #5C4A2A;
+  --bronze:       #9A7848;   /* Actualizado para contraste WCAG AA (≥4.5:1 sobre --noir) */
   --ouro:         #C8973A;
   --ouro-suave:   #9A7030;
   --pergaminho:   #E8D5B0;
   --creme:        #F2E8D5;
   --vinho:        #6B1F2A;
   --verde-escuro: #1A3A2A;
-  --cinza-quente: #4A3B25;
+  --cinza-quente: #7A6040;   /* Actualizado para contraste WCAG AA */
 
   /* Tipografia */
   --font-display: 'Cormorant Garamond', serif;
@@ -103,4 +103,26 @@ button {
 /* Input reset */
 input, textarea {
   font-family: inherit;
+}
+
+/* ─── Foco visível global (WCAG 2.1 — 2.4.11) ───────────────── */
+:focus-visible {
+  outline: 2px solid var(--ouro);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Remove outline para utilizadores de rato (mantém para teclado) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Movimento reduzido (WCAG 2.3.3) ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -23,7 +23,7 @@ export default function GarrafaCard({ garrafa, slug, encontroId }) {
           <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.img} />
         ) : (
           <div className={styles.semFoto}>
-            <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa}>
+            <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
               <path
                 d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
                 stroke="currentColor" strokeWidth="1" strokeLinejoin="round"

@@ -37,6 +37,7 @@ function BtnGroup({ opcoes, valor, onChange }) {
         <button
           key={op.valor ?? op}
           type="button"
+          aria-pressed={valor === (op.valor ?? op)}
           className={`${styles.btn} ${(valor === (op.valor ?? op)) ? styles.btnAtivo : ''}`}
           onClick={() => onChange(valor === (op.valor ?? op) ? null : (op.valor ?? op))}
         >
@@ -50,12 +51,14 @@ function BtnGroup({ opcoes, valor, onChange }) {
 function Escala({ valor, onChange, min = 1, max = 5, labelMin, labelMax }) {
   return (
     <div className={styles.escalaWrap}>
-      {labelMin && <span className={styles.escalaLabel}>{labelMin}</span>}
-      <div className={styles.escala}>
+      {labelMin && <span className={styles.escalaLabel} aria-hidden="true">{labelMin}</span>}
+      <div className={styles.escala} role="group" aria-label={labelMin && labelMax ? `${labelMin} a ${labelMax}` : undefined}>
         {Array.from({ length: max - min + 1 }, (_, i) => i + min).map((n) => (
           <button
             key={n}
             type="button"
+            aria-pressed={valor === n}
+            aria-label={n === min && labelMin ? `${n} — ${labelMin}` : n === max && labelMax ? `${n} — ${labelMax}` : String(n)}
             className={`${styles.escalaBt} ${valor === n ? styles.escalaBtAtivo : ''}`}
             onClick={() => onChange(valor === n ? null : n)}
           >
@@ -63,7 +66,7 @@ function Escala({ valor, onChange, min = 1, max = 5, labelMin, labelMax }) {
           </button>
         ))}
       </div>
-      {labelMax && <span className={styles.escalaLabel}>{labelMax}</span>}
+      {labelMax && <span className={styles.escalaLabel} aria-hidden="true">{labelMax}</span>}
     </div>
   )
 }
@@ -131,12 +134,14 @@ export default function FichaDegustacaoForm({ fichaInicial, notaInicial = 0, onS
         <SecLabel>Visual</SecLabel>
 
         <Campo label="Cor">
-          <div className={styles.cores}>
+          <div className={styles.cores} role="group" aria-label="Cor do vinho">
             {CORES.map((c) => (
               <button
                 key={c.valor}
                 type="button"
                 title={c.label}
+                aria-label={c.label}
+                aria-pressed={ficha.visual.cor === c.valor}
                 className={`${styles.corChip} ${ficha.visual.cor === c.valor ? styles.corChipAtivo : ''}`}
                 style={{ background: c.hex }}
                 onClick={() => setVisual('cor', ficha.visual.cor === c.valor ? null : c.valor)}
@@ -188,6 +193,7 @@ export default function FichaDegustacaoForm({ fichaInicial, notaInicial = 0, onS
                   <button
                     key={a}
                     type="button"
+                    aria-pressed={ficha.nariz.aromas.includes(a)}
                     className={`${styles.chip} ${ficha.nariz.aromas.includes(a) ? styles.chipAtivo : ''}`}
                     onClick={() => toggleAroma(a)}
                   >

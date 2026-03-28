@@ -31,8 +31,8 @@ export default function GarrafaDetalhe() {
   // controla qual avaliação de outro membro está expandida
   const [fichaExpandida, setFichaExpandida] = useState(null)
 
-  if (carregando) return <div className={styles.loading}>...</div>
-  if (!garrafa)   return <div className={styles.loading}>Garrafa não encontrada.</div>
+  if (carregando) return <div className={styles.loading} role="status" aria-live="polite">A carregar…</div>
+  if (!garrafa)   return <div className={styles.loading} role="status">Garrafa não encontrada.</div>
 
   const mediaVal = media(garrafa.avaliacoes)
   const minhaAvaliacao = garrafa.avaliacoes?.find((a) => a.apelido === sessao?.apelido)
@@ -66,7 +66,7 @@ export default function GarrafaDetalhe() {
             <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.foto} />
           ) : (
             <div className={styles.semFoto}>
-              <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa}>
+              <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
                 <path
                   d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
                   stroke="currentColor" strokeWidth="0.75" strokeLinejoin="round"
@@ -164,6 +164,8 @@ export default function GarrafaDetalhe() {
                 {a.ficha && (
                   <button
                     className={styles.btnVerFicha}
+                    aria-expanded={fichaExpandida === a.id}
+                    aria-controls={`ficha-${a.id}`}
                     onClick={() => setFichaExpandida(fichaExpandida === a.id ? null : a.id)}
                   >
                     {fichaExpandida === a.id ? 'Fechar' : 'Ver ficha'}
@@ -171,7 +173,7 @@ export default function GarrafaDetalhe() {
                 )}
               </div>
               {fichaExpandida === a.id && a.ficha && (
-                <div className={styles.fichaExpandida}>
+                <div id={`ficha-${a.id}`} className={styles.fichaExpandida}>
                   <FichaDegustacaoView avaliacao={a} />
                 </div>
               )}
