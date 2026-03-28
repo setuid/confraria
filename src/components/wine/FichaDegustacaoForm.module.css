@@ -1,0 +1,200 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Seções */
+.secao {
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  margin-bottom: var(--space-1);
+}
+
+/* Campo */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.campoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+/* Button group */
+.btnGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.btn {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: transparent;
+}
+
+.btn:hover { border-color: var(--tabac); color: var(--pergaminho); }
+
+.btnAtivo {
+  border-color: var(--ouro) !important;
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.08) !important;
+}
+
+/* Escala 1–5 */
+.escalaWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.escalaLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--cinza-quente);
+  white-space: nowrap;
+}
+
+.escala {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.escalaBt {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 0.5px solid var(--brique);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--bronze);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.escalaBt:hover { border-color: var(--tabac); color: var(--pergaminho); }
+
+.escalaBtAtivo {
+  border-color: var(--ouro) !important;
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.08) !important;
+}
+
+/* Cores */
+.cores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.corChip {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.corChip:hover { transform: scale(1.15); }
+
+.corChipAtivo {
+  border-color: var(--ouro) !important;
+  transform: scale(1.15);
+}
+
+.corLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ouro);
+}
+
+/* Aromas */
+.grupoAroma {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.grupoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  border-radius: 20px;
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: transparent;
+}
+
+.chip:hover { border-color: var(--tabac); color: var(--pergaminho); }
+
+.chipAtivo {
+  border-color: var(--ouro) !important;
+  color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.08) !important;
+}
+
+/* Ações */
+.acoes {
+  display: flex;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+@media (max-width: 768px) {
+  .escalaWrap { flex-wrap: wrap; }
+  .acoes { flex-direction: column; }
+}

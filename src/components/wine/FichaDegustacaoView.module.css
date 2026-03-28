@@ -1,0 +1,147 @@
+.ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.secao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--ouro);
+}
+
+/* Cor */
+.corRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.corCirculo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.corNome {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: capitalize;
+  color: var(--pergaminho);
+}
+
+.tag {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--bronze);
+  border: 0.5px solid var(--brique);
+  padding: 1px var(--space-2);
+  border-radius: 20px;
+}
+
+/* Linha label → valor */
+.linha {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.linhaLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  min-width: 70px;
+}
+
+.linhaVal {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: capitalize;
+  color: var(--pergaminho);
+}
+
+/* Escala pontos */
+.escala {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.escalaDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--brique);
+  transition: background var(--transition);
+}
+
+.escalaDotAtivo {
+  background: var(--ouro);
+}
+
+/* Chips de aromas */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+  color: var(--ouro);
+  border: 0.5px solid rgba(200, 151, 58, 0.3);
+  border-radius: 20px;
+  padding: 2px var(--space-3);
+  background: rgba(200, 151, 58, 0.06);
+}
+
+/* Conclusão */
+.secaoConclusao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.potencial {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.notas {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--pergaminho);
+  line-height: 1.7;
+  border-left: 1px solid var(--brique);
+  padding-left: var(--space-3);
+}
