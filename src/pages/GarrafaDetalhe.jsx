@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
-import { useGarrafa } from '../hooks/useGarrafas.js'
+import { useGarrafa, useGarrafas, uploadFotoGarrafa, deleteFotoStorage } from '../hooks/useGarrafas.js'
 import FichaDegustacaoForm from '../components/wine/FichaDegustacaoForm.jsx'
 import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
+import FotoUpload from '../components/wine/FotoUpload.jsx'
 import MemberAvatar from '../components/ui/MemberAvatar.jsx'
 import GoldDivider from '../components/ui/GoldDivider.jsx'
 import StarRating from '../components/wine/StarRating.jsx'
@@ -23,13 +24,18 @@ function media(avaliacoes) {
 export default function GarrafaDetalhe() {
   const { slug, encontroId, garrafaId } = useParams()
   const { sessao } = useAuth(slug)
-  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario } = useGarrafa(garrafaId)
+  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto } = useGarrafa(garrafaId)
+  const { remover } = useGarrafas(encontroId)
+  const navigate = useNavigate()
 
   const [formFichaAberto, setFormFichaAberto] = useState(false)
   const [comentario, setComentario] = useState('')
   const [enviando, setEnviando] = useState(false)
-  // controla qual avaliação de outro membro está expandida
   const [fichaExpandida, setFichaExpandida] = useState(null)
+  const [fotoEditando, setFotoEditando] = useState(false)
+  const [fotoFile, setFotoFile] = useState(null)
+  const [salvandoFoto, setSalvandoFoto] = useState(false)
+  const [apagando, setApagando] = useState(false)
 
   if (carregando) return <div className={styles.loading} role="status" aria-live="polite">A carregar…</div>
   if (!garrafa)   return <div className={styles.loading} role="status">Garrafa não encontrada.</div>
@@ -53,6 +59,36 @@ export default function GarrafaDetalhe() {
     setEnviando(false)
   }
 
+  async function handleApagarGarrafa() {
+    if (!window.confirm('Apagar este vinho? Todas as fichas e comentários serão removidos.')) return
+    setApagando(true)
+    await remover(garrafaId, garrafa.foto_url)
+    navigate(`/c/${slug}/encontros/${encontroId}`)
+  }
+
+  async function handleSalvarFoto() {
+    if (!fotoFile) return
+    setSalvandoFoto(true)
+    const fotoAntiga = garrafa.foto_url
+    const { url, error } = await uploadFotoGarrafa(fotoFile)
+    if (error) { setSalvandoFoto(false); return }
+    await atualizarFoto(url)
+    if (fotoAntiga) await deleteFotoStorage(fotoAntiga)
+    setFotoFile(null)
+    setFotoEditando(false)
+    setSalvandoFoto(false)
+  }
+
+  async function handleRemoverFoto() {
+    if (!window.confirm('Remover a foto deste vinho?')) return
+    setSalvandoFoto(true)
+    const fotoAntiga = garrafa.foto_url
+    await atualizarFoto(null)
+    if (fotoAntiga) await deleteFotoStorage(fotoAntiga)
+    setFotoEditando(false)
+    setSalvandoFoto(false)
+  }
+
   return (
     <div className={styles.page}>
       <Link to={`/c/${slug}/encontros/${encontroId}`} className={styles.voltar}>
@@ -62,7 +98,7 @@ export default function GarrafaDetalhe() {
       {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.fotoWrap}>
-          {garrafa.foto_url ? (
+          {garrafa.foto_url && !fotoEditando ? (
             <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.foto} />
           ) : (
             <div className={styles.semFoto}>
@@ -73,6 +109,15 @@ export default function GarrafaDetalhe() {
                 />
               </svg>
             </div>
+          )}
+          {sessao?.apelido === garrafa.apelido && !fotoEditando && (
+            <button
+              className={styles.btnFotoAlt}
+              onClick={() => setFotoEditando(true)}
+              disabled={salvandoFoto}
+            >
+              {garrafa.foto_url ? 'Trocar foto' : 'Adicionar foto'}
+            </button>
           )}
         </div>
 
@@ -95,8 +140,54 @@ export default function GarrafaDetalhe() {
               <span className={styles.mediaCount}>({garrafa.avaliacoes.length})</span>
             </div>
           )}
+          {sessao?.apelido === garrafa.apelido && (
+            <button
+              className={styles.btnApagarGarrafa}
+              onClick={handleApagarGarrafa}
+              disabled={apagando}
+            >
+              {apagando ? 'A apagar…' : 'Apagar vinho'}
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Painel de edição de foto */}
+      {fotoEditando && sessao?.apelido === garrafa.apelido && (
+        <div className={styles.fotoEditPanel}>
+          <FotoUpload onFile={setFotoFile} />
+          <div className={styles.fotoEditAcoes}>
+            {garrafa.foto_url && (
+              <button
+                type="button"
+                className={styles.btnRemoverFoto}
+                onClick={handleRemoverFoto}
+                disabled={salvandoFoto}
+              >
+                Remover foto
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={() => { setFotoEditando(false); setFotoFile(null) }}
+              disabled={salvandoFoto}
+            >
+              Cancelar
+            </button>
+            {fotoFile && (
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={handleSalvarFoto}
+                disabled={salvandoFoto}
+              >
+                {salvandoFoto ? 'A guardar…' : 'Guardar foto'}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {garrafa.notas_dono && (
         <p className={styles.notasDono}>{garrafa.notas_dono}</p>

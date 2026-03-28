@@ -109,7 +109,7 @@ export default function Dashboard() {
         </ArtDecoCard>
       ) : (
         <div className={styles.vazio}>
-          <p>Nada marcado ainda.</p>
+          <p>Nenhum encontro próximo agendado.</p>
         </div>
       )}
 

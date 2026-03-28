@@ -37,7 +37,9 @@ export default function Encontros() {
       {carregando ? (
         <p className={styles.loading}>...</p>
       ) : lista.length === 0 ? (
-        <p className={styles.vazio}>Nada marcado ainda.</p>
+        <p className={styles.vazio}>
+          {aba === 'proximos' ? 'Nenhum encontro próximo agendado.' : 'Nenhum encontro realizado ainda.'}
+        </p>
       ) : (
         <div className={styles.lista}>
           {lista.map((e) => (
