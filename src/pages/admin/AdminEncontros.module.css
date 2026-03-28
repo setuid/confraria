@@ -143,7 +143,19 @@
 .btnExcluir { color: var(--bronze); }
 .btnExcluir:hover { color: var(--vinho); }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
+  .page { max-width: 100%; }
   .grid { grid-template-columns: 1fr; }
   .full { grid-column: 1; }
+  .acoes { flex-direction: column; }
+  .form { padding: var(--space-4); }
+
+  .row { flex-wrap: wrap; }
+
+  .rowAcoes {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: var(--space-1);
+    border-top: 0.5px solid var(--brique);
+  }
 }

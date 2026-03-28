@@ -30,8 +30,15 @@ export default function AdminDashboard() {
     setNovaConfraria(false)
   }
 
+  function handleVoltar() {
+    setConfSelecionada(null)
+    setNovaConfraria(false)
+  }
+
+  const mostraDetalhe = confSelecionada || novaConfraria
+
   return (
-    <div className={styles.layout}>
+    <div className={`${styles.layout} ${mostraDetalhe ? styles.mostraDetalhe : ''}`}>
       {/* Sidebar */}
       <aside className={styles.sidebar}>
         <div className={styles.sideHeader}>
@@ -66,6 +73,10 @@ export default function AdminDashboard() {
 
       {/* Conteúdo */}
       <main className={styles.main}>
+        <button className={styles.btnVoltar} onClick={handleVoltar}>
+          ← Confrarias
+        </button>
+
         {novaConfraria && (
           <NovaConfrariaForm
             onCreate={async (dados) => {

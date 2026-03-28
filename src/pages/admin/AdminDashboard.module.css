@@ -222,3 +222,68 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Botão voltar — só aparece em mobile */
+.btnVoltar {
+  display: none;
+}
+
+/* ── Mobile ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: unset;
+    border-right: none;
+    border-bottom: 0.5px solid var(--brique);
+    padding: var(--space-4);
+  }
+
+  .main {
+    padding: var(--space-5) var(--space-4);
+    max-width: 100%;
+  }
+
+  /* Master-detail: quando um item está selecionado, esconde sidebar e mostra main */
+  .mostraDetalhe .sidebar {
+    display: none;
+  }
+
+  /* Quando não há detalhe, esconde o main */
+  .layout:not(.mostraDetalhe) .main {
+    display: none;
+  }
+
+  /* Botão voltar visível em mobile */
+  .btnVoltar {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    cursor: pointer;
+    margin-bottom: var(--space-5);
+    padding: var(--space-2) 0;
+    transition: color var(--transition);
+  }
+
+  .btnVoltar:hover { color: var(--ouro); }
+
+  /* Tabs mais espaçadas para toque */
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-3) var(--space-2);
+  }
+
+  /* Ações em coluna */
+  .acoes {
+    flex-direction: column;
+  }
+}
