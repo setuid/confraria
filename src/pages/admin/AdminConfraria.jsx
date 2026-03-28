@@ -18,7 +18,7 @@ export default function AdminConfraria({ confraria, onUpdate, onToggle }) {
     setTimeout(() => setSalvo(false), 2000)
   }
 
-  const link = `${window.location.origin}/c/${confraria.slug}`
+  const link = `${window.location.origin}${import.meta.env.BASE_URL}#/c/${confraria.slug}`
 
   return (
     <div className={styles.page}>
