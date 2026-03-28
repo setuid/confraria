@@ -235,16 +235,6 @@ export default function EncontroDetalhe() {
         <div className={styles.garrafasHeader}>
           <p className={styles.secLabel}>Garrafas do encontro</p>
           <div className={styles.garrafasAcoes}>
-            {garrafas.length > 0 && (
-              <a
-                href={`#/c/${slug}/encontros/${id}/imprimir`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btnImprimir}
-              >
-                ⎙ Imprimir fichas
-              </a>
-            )}
             {sessao && !formAberto && (
               <button className={styles.btnAdicionarGarrafa} onClick={() => setFormAberto(true)}>
                 + Adicionar garrafa
