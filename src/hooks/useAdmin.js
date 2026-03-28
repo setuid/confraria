@@ -95,7 +95,24 @@ export function useAdminConfrarias() {
     return atualizar(id, { ativa: !ativo })
   }
 
-  return { confrarias, carregando, criar, atualizar, alternarAtivo, refetch: buscar }
+  async function atualizarSenha(id, senha) {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+    const resp = await fetch(`${supabaseUrl}/functions/v1/atualizar-senha`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+      },
+      body: JSON.stringify({ confrariaId: id, senha }),
+    })
+    const json = await resp.json()
+    if (!resp.ok) return { error: { message: json.erro } }
+    await buscar()
+    return { error: null }
+  }
+
+  return { confrarias, carregando, criar, atualizar, alternarAtivo, atualizarSenha, refetch: buscar }
 }
 
 // CRUD Membros
@@ -141,7 +158,16 @@ export function useAdminMembros(confrariaId) {
     return atualizar(id, { ativo: !ativo })
   }
 
-  return { membros, carregando, adicionar, atualizar, alternarAtivo, refetch: buscar }
+  async function excluir(id) {
+    const { error } = await supabase
+      .from('membros')
+      .delete()
+      .eq('id', id)
+    if (!error) await buscar()
+    return { error }
+  }
+
+  return { membros, carregando, adicionar, atualizar, alternarAtivo, excluir, refetch: buscar }
 }
 
 // CRUD Encontros

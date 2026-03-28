@@ -9,7 +9,7 @@ import styles from './AdminDashboard.module.css'
 export default function AdminDashboard() {
   const { autenticado, logout } = useAdmin()
   const navigate = useNavigate()
-  const { confrarias, carregando, criar, atualizar, alternarAtivo } = useAdminConfrarias()
+  const { confrarias, carregando, criar, atualizar, alternarAtivo, atualizarSenha } = useAdminConfrarias()
 
   const [confSelecionada, setConfSelecionada] = useState(null)
   const [aba, setAba] = useState('confraria')
@@ -110,6 +110,7 @@ export default function AdminDashboard() {
                 confraria={confSelecionada}
                 onUpdate={(campos) => atualizar(confSelecionada.id, campos)}
                 onToggle={() => alternarAtivo(confSelecionada.id, confSelecionada.ativa)}
+                onAtualizarSenha={(senha) => atualizarSenha(confSelecionada.id, senha)}
               />
             )}
             {aba === 'membros' && (

@@ -12,11 +12,11 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { nome, slug, descricao, senha } = await req.json()
+    const { confrariaId, senha } = await req.json()
 
-    if (!nome || !slug || !senha) {
+    if (!confrariaId || !senha) {
       return new Response(
-        JSON.stringify({ erro: "Nome, slug e senha são obrigatórios." }),
+        JSON.stringify({ erro: "confrariaId e senha são obrigatórios." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       )
     }
@@ -28,11 +28,10 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     )
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("confrarias")
-      .insert({ nome, slug, descricao, senha_hash: senhaHash, senha_texto: senha })
-      .select()
-      .single()
+      .update({ senha_hash: senhaHash, senha_texto: senha })
+      .eq("id", confrariaId)
 
     if (error) {
       return new Response(
@@ -42,10 +41,10 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ confraria: data }),
+      JSON.stringify({ ok: true }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     )
-  } catch (err) {
+  } catch {
     return new Response(
       JSON.stringify({ erro: "Erro interno." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
