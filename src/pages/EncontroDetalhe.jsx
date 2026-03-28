@@ -32,6 +32,7 @@ export default function EncontroDetalhe() {
 
   const fotoInputRef = useRef(null)
   const [upandoFoto, setUpandoFoto] = useState(false)
+  const [erroFoto, setErroFoto] = useState('')
   const [fotoAmpliada, setFotoAmpliada] = useState(null)
 
   const [formAberto, setFormAberto] = useState(false)
@@ -43,9 +44,11 @@ export default function EncontroDetalhe() {
   async function handleFotoEncontro(e) {
     const file = e.target.files?.[0]
     if (!file || !sessao) return
-    if (file.size > 5 * 1024 * 1024) { alert('Máximo 5 MB por foto.'); return }
+    if (file.size > 5 * 1024 * 1024) { setErroFoto('Máximo 5 MB por foto.'); return }
+    setErroFoto('')
     setUpandoFoto(true)
-    await adicionarFoto(file, sessao.apelido)
+    const { error } = await adicionarFoto(file, sessao.apelido)
+    if (error) setErroFoto(`Erro ao enviar foto: ${error.message}`)
     setUpandoFoto(false)
     e.target.value = ''
   }
@@ -189,6 +192,8 @@ export default function EncontroDetalhe() {
             onChange={handleFotoEncontro}
           />
         </div>
+
+        {erroFoto && <p className={styles.erroForm}>{erroFoto}</p>}
 
         {fotos.length > 0 ? (
           <div className={styles.fotosGrid}>
