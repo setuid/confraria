@@ -23,157 +23,192 @@ const COR_HEX = {
   dourado: '#C8B400', palha: '#D4C87A', rosé: '#E8A0A0', salmão: '#E87060',
 }
 
-function Estrelas({ nota }) {
-  if (!nota) return null
+const POTENCIAL_LABELS = {
+  agora: 'Beber agora', '1-3': '1–3 anos', '3-5': '3–5 anos', '5+': '5+ anos',
+}
+
+function Estrelas({ nota, size = 'md' }) {
+  if (nota == null) return null
   const total = 5
   const filled = Math.floor(nota)
   const half = nota - filled >= 0.5
   return (
-    <span className={styles.estrelas}>
+    <span className={`${styles.estrelas} ${styles[`estrelas_${size}`]}`}>
       {Array.from({ length: total }, (_, i) => {
         if (i < filled) return <span key={i} className={styles.estrelaCheio}>★</span>
         if (i === filled && half) return <span key={i} className={styles.estrelaMetade}>★</span>
         return <span key={i} className={styles.estrelaVazio}>☆</span>
       })}
-      <span className={styles.notaNum}>{nota.toFixed(1)}</span>
+      <span className={styles.notaNum}>{Number(nota).toFixed(1)}</span>
     </span>
   )
 }
 
-function FichaCompacta({ avaliacao }) {
+function Escala({ valor, max = 5 }) {
+  return (
+    <span className={styles.escala}>
+      {Array.from({ length: max }, (_, i) => (
+        <span key={i} className={i < valor ? styles.escalaPonto : styles.escalaVazio}>●</span>
+      ))}
+    </span>
+  )
+}
+
+function FichaCard({ avaliacao }) {
   const f = avaliacao.ficha
-  if (!f) return null
-  const aromas = f.nariz?.aromas || []
+  const aromas = f?.nariz?.aromas || []
 
   return (
     <div className={styles.fichaCard}>
-      <div className={styles.fichaAutor}>
-        <span className={styles.fichaInicial}>{avaliacao.apelido[0]?.toUpperCase()}</span>
-        <span className={styles.fichaNome}>{avaliacao.apelido}</span>
-        {avaliacao.nota && <Estrelas nota={avaliacao.nota} />}
+      {/* Cabeçalho do membro */}
+      <div className={styles.fichaHead}>
+        <div className={styles.fichaInicial}>{avaliacao.apelido[0]?.toUpperCase()}</div>
+        <div className={styles.fichaHeadInfo}>
+          <span className={styles.fichaMembro}>{avaliacao.apelido}</span>
+          {avaliacao.nota != null && <Estrelas nota={avaliacao.nota} size="sm" />}
+        </div>
       </div>
 
-      <div className={styles.fichaCorpo}>
-        {/* Visual */}
-        {(f.visual?.cor || f.visual?.intensidade) && (
-          <div className={styles.fichaLinha}>
-            <span className={styles.fichaSecLabel}>Visual</span>
-            <span className={styles.fichaVal}>
-              {f.visual.cor && (
-                <span
-                  className={styles.corDot}
-                  style={{ background: COR_HEX[f.visual.cor] || '#888' }}
-                />
-              )}
-              {[f.visual.cor, f.visual.intensidade, f.visual.limpidez]
-                .filter(Boolean).join(' · ')}
-            </span>
-          </div>
-        )}
+      {f ? (
+        <div className={styles.fichaBody}>
+          {/* Visual */}
+          {(f.visual?.cor || f.visual?.intensidade || f.visual?.limpidez) && (
+            <div className={styles.fichaSecao}>
+              <p className={styles.fichaSecTitulo}>Visual</p>
+              <div className={styles.fichaVisual}>
+                {f.visual.cor && (
+                  <span
+                    className={styles.corBolinha}
+                    style={{ background: COR_HEX[f.visual.cor] || '#888' }}
+                    title={f.visual.cor}
+                  />
+                )}
+                <span className={styles.fichaTexto}>
+                  {[f.visual.cor, f.visual.intensidade, f.visual.limpidez].filter(Boolean).join(' · ')}
+                </span>
+              </div>
+            </div>
+          )}
 
-        {/* Nariz */}
-        {(f.nariz?.intensidade || aromas.length > 0) && (
-          <div className={styles.fichaLinha}>
-            <span className={styles.fichaSecLabel}>Nariz</span>
-            <span className={styles.fichaVal}>
-              {f.nariz.intensidade && <span>{f.nariz.intensidade}</span>}
+          {/* Nariz */}
+          {(f.nariz?.intensidade || aromas.length > 0) && (
+            <div className={styles.fichaSecao}>
+              <p className={styles.fichaSecTitulo}>Nariz</p>
+              {f.nariz?.intensidade && (
+                <p className={styles.fichaTexto}>{f.nariz.intensidade}</p>
+              )}
               {aromas.length > 0 && (
-                <span className={styles.aromas}>{aromas.join(', ')}</span>
+                <div className={styles.aromasWrap}>
+                  {aromas.map((a) => (
+                    <span key={a} className={styles.aromaChip}>{a}</span>
+                  ))}
+                </div>
               )}
-            </span>
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* Boca */}
-        {(f.boca?.acidez || f.boca?.tanino || f.boca?.corpo || f.boca?.doçura) && (
-          <div className={styles.fichaLinha}>
-            <span className={styles.fichaSecLabel}>Boca</span>
-            <span className={styles.fichaVal}>
-              {[
-                f.boca.doçura,
-                f.boca.corpo && `corpo ${f.boca.corpo}`,
-                f.boca.acidez && `acidez ${f.boca.acidez}/5`,
-                f.boca.tanino && `tanino ${f.boca.tanino}/5`,
-                f.boca.final && `final ${f.boca.final}`,
-              ].filter(Boolean).join(' · ')}
-            </span>
-          </div>
-        )}
+          {/* Boca */}
+          {(f.boca?.doçura || f.boca?.acidez || f.boca?.tanino || f.boca?.corpo || f.boca?.final) && (
+            <div className={styles.fichaSecao}>
+              <p className={styles.fichaSecTitulo}>Boca</p>
+              {(f.boca.doçura || f.boca.corpo) && (
+                <p className={styles.fichaTexto}>
+                  {[f.boca.doçura, f.boca.corpo].filter(Boolean).join(' · ')}
+                </p>
+              )}
+              {f.boca.acidez != null && (
+                <div className={styles.fichaEscalaRow}>
+                  <span className={styles.fichaEscalaLabel}>Acidez</span>
+                  <Escala valor={f.boca.acidez} />
+                </div>
+              )}
+              {f.boca.tanino != null && (
+                <div className={styles.fichaEscalaRow}>
+                  <span className={styles.fichaEscalaLabel}>Tanino</span>
+                  <Escala valor={f.boca.tanino} />
+                </div>
+              )}
+              {f.boca.final && (
+                <p className={styles.fichaTexto}>Final {f.boca.final}</p>
+              )}
+            </div>
+          )}
 
-        {/* Potencial */}
-        {f.conclusao?.potencial && (
-          <div className={styles.fichaLinha}>
-            <span className={styles.fichaSecLabel}>Guarda</span>
-            <span className={styles.fichaVal}>{f.conclusao.potencial}</span>
-          </div>
-        )}
-
-        {/* Notas livres */}
-        {f.conclusao?.notas && (
-          <p className={styles.fichaNotas}>"{f.conclusao.notas}"</p>
-        )}
-      </div>
+          {/* Conclusão */}
+          {(f.conclusao?.potencial || f.conclusao?.notas) && (
+            <div className={styles.fichaSecao}>
+              {f.conclusao.potencial && (
+                <p className={styles.fichaPotencial}>
+                  {POTENCIAL_LABELS[f.conclusao.potencial] || f.conclusao.potencial}
+                </p>
+              )}
+              {f.conclusao.notas && (
+                <p className={styles.fichaNotas}>"{f.conclusao.notas}"</p>
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles.fichaBody}>
+          <p className={styles.fichaSemFicha}>Sem ficha de degustação</p>
+        </div>
+      )}
     </div>
   )
 }
 
-function GarrafaPrint({ garrafa, index }) {
-  const avaliacoesComFicha = garrafa.avaliacoes?.filter((a) => a.ficha) ?? []
-  const avaliacoesSemFicha = garrafa.avaliacoes?.filter((a) => !a.ficha) ?? []
-  const media = garrafa.avaliacoes?.length
-    ? garrafa.avaliacoes.reduce((s, a) => s + Number(a.nota), 0) / garrafa.avaliacoes.length
+function VinhoPrint({ garrafa, index }) {
+  const avaliacoes = garrafa.avaliacoes || []
+  const comFicha = avaliacoes.filter((a) => a.ficha)
+  const semFicha = avaliacoes.filter((a) => !a.ficha)
+  const media = avaliacoes.length
+    ? avaliacoes.reduce((s, a) => s + Number(a.nota), 0) / avaliacoes.length
     : null
 
   return (
-    <div className={styles.garrafa}>
-      <div className={styles.garrafaHeader}>
-        <div className={styles.garrafaNum}>
-          {String(index + 1).padStart(2, '0')}
-        </div>
-        <div className={styles.garrafaInfo}>
-          <h2 className={styles.garrafaNome}>{garrafa.nome}</h2>
-          <div className={styles.garrafaMeta}>
-            {[garrafa.produtor, garrafa.regiao, garrafa.safra, garrafa.tipo && TIPO_LABELS[garrafa.tipo]]
-              .filter(Boolean).join('  ·  ')}
+    <div className={styles.vinho}>
+      {/* Cabeçalho do vinho */}
+      <div className={styles.vinhoHeader}>
+        <div className={styles.vinhoNum}>{String(index + 1).padStart(2, '0')}</div>
+        <div className={styles.vinhoInfo}>
+          <h2 className={styles.vinhoNome}>{garrafa.nome}</h2>
+          <div className={styles.vinhoMeta}>
+            {[
+              garrafa.produtor,
+              garrafa.regiao,
+              garrafa.safra,
+              garrafa.tipo && TIPO_LABELS[garrafa.tipo],
+            ].filter(Boolean).join('  ·  ')}
           </div>
-          <div className={styles.garrafaRodape}>
-            <span className={styles.trazidoPor}>Por {garrafa.apelido}</span>
-            {media !== null && (
-              <span className={styles.garrafaMedia}>
-                Média: <Estrelas nota={media} />
-                {' '}({garrafa.avaliacoes.length} {garrafa.avaliacoes.length === 1 ? 'ficha' : 'fichas'})
+          <div className={styles.vinhoRodape}>
+            <span className={styles.trazidoPor}>Apresentado por {garrafa.apelido}</span>
+            {media != null && (
+              <span className={styles.vinhoMedia}>
+                <Estrelas nota={media} size="md" />
+                <span className={styles.mediaCount}>
+                  {avaliacoes.length} {avaliacoes.length === 1 ? 'avaliação' : 'avaliações'}
+                </span>
               </span>
             )}
           </div>
+          {garrafa.notas_dono && (
+            <p className={styles.notasDono}>"{garrafa.notas_dono}"</p>
+          )}
         </div>
         {garrafa.foto_url && (
-          <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.garrafaFoto} />
+          <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.vinhoFoto} />
         )}
       </div>
 
-      {/* Notas do dono */}
-      {garrafa.notas_dono && (
-        <p className={styles.notasDono}>"{garrafa.notas_dono}"</p>
-      )}
-
       {/* Fichas */}
-      {avaliacoesComFicha.length > 0 && (
+      {avaliacoes.length > 0 ? (
         <div className={styles.fichasGrid}>
-          {avaliacoesComFicha.map((a) => (
-            <FichaCompacta key={a.id} avaliacao={a} />
+          {[...comFicha, ...semFicha].map((a) => (
+            <FichaCard key={a.id} avaliacao={a} />
           ))}
         </div>
-      )}
-
-      {/* Avaliações sem ficha */}
-      {avaliacoesSemFicha.length > 0 && (
-        <div className={styles.notasSimples}>
-          {avaliacoesSemFicha.map((a) => (
-            <span key={a.id} className={styles.notaSimples}>
-              {a.apelido}: <Estrelas nota={a.nota} />
-            </span>
-          ))}
-        </div>
+      ) : (
+        <p className={styles.semAvaliacoes}>Nenhuma avaliação registada.</p>
       )}
     </div>
   )
@@ -203,67 +238,60 @@ export default function EncontroPrint() {
 
   useEffect(() => {
     if (!carregando && encontro) {
-      // Pequeno delay para garantir que imagens carregam antes de imprimir
-      const t = setTimeout(() => window.print(), 600)
+      const t = setTimeout(() => window.print(), 800)
       return () => clearTimeout(t)
     }
   }, [carregando, encontro])
 
-  if (carregando) {
-    return <div className={styles.loading}>A preparar para impressão…</div>
-  }
-  if (!encontro) {
-    return <div className={styles.loading}>Encontro não encontrado.</div>
-  }
-
-  const confirmados = /* pressas */ []
+  if (carregando) return <div className={styles.loading}>A preparar para impressão…</div>
+  if (!encontro)  return <div className={styles.loading}>Encontro não encontrado.</div>
 
   return (
     <div className={styles.pagina}>
 
-      {/* Cabeçalho */}
+      {/* ── Cabeçalho ── */}
       <header className={styles.cabecalho}>
-        <div className={styles.cabecalhoEsq}>
+        <div className={styles.cabEsq}>
           <div className={styles.logoMarca}>◆ The Cellar</div>
           {confraria && <div className={styles.confNome}>{confraria.nome}</div>}
         </div>
-        <div className={styles.cabecalhoDir}>
+        <div className={styles.cabDir}>
           {encontro.numero_romano && (
-            <div className={styles.encontroNum}>Encontro {encontro.numero_romano}</div>
+            <div className={styles.encNum}>Encontro {encontro.numero_romano}</div>
           )}
           {encontro.data_hora && (
-            <div className={styles.encontroData}>{formatarDataExt(encontro.data_hora)}</div>
+            <div className={styles.encData}>{formatarDataExt(encontro.data_hora)}</div>
           )}
         </div>
       </header>
 
-      <div className={styles.headerDivider} />
+      <div className={styles.dividerOuro} />
 
-      {/* Título */}
+      {/* ── Título do encontro ── */}
       <div className={styles.tituloArea}>
         <h1 className={styles.titulo}>{encontro.titulo}</h1>
         {encontro.tema && <p className={styles.tema}>{encontro.tema}</p>}
-        {encontro.local_nome && (
-          <p className={styles.local}>{encontro.local_nome}</p>
-        )}
+        {encontro.local_nome && <p className={styles.local}>{encontro.local_nome}</p>}
       </div>
 
-      {/* Garrafas */}
+      <div className={styles.dividerFino} />
+
+      {/* ── Vinhos ── */}
       {garrafas.length > 0 ? (
-        <div className={styles.garrafas}>
+        <div className={styles.vinhos}>
           {garrafas.map((g, i) => (
-            <GarrafaPrint key={g.id} garrafa={g} index={i} />
+            <VinhoPrint key={g.id} garrafa={g} index={i} />
           ))}
         </div>
       ) : (
         <p className={styles.vazio}>Nenhum vinho registado neste encontro.</p>
       )}
 
-      {/* Rodapé */}
+      {/* ── Rodapé ── */}
       <footer className={styles.rodape}>
         <span className={styles.rodapeTexto}>The Cellar · {confraria?.nome}</span>
         <span className={styles.rodapeDiamond}>◆</span>
-        <span className={styles.rodapeTexto}>Impresso em {formatarDataExt(new Date().toISOString())}</span>
+        <span className={styles.rodapeTexto}>{formatarDataExt(new Date().toISOString())}</span>
       </footer>
 
     </div>

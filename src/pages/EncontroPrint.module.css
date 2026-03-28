@@ -1,6 +1,5 @@
-/* ─── Print page — A4 layout ───────────────────────────────────────────────── */
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 
-/* Tela de carregamento */
 .loading {
   display: flex;
   align-items: center;
@@ -8,162 +7,169 @@
   height: 100vh;
   font-family: Georgia, serif;
   font-style: italic;
-  color: #555;
+  color: #888;
 }
 
-/* Container principal */
 .pagina {
-  width: 794px;          /* ≈ 21cm a 96dpi */
+  width: 794px;
   margin: 0 auto;
-  padding: 40px 48px;
+  padding: 44px 52px;
   background: #fff;
-  color: #1a1208;
+  color: #1C1008;
   font-family: Georgia, 'Times New Roman', serif;
-  min-height: 1123px;    /* ≈ 29.7cm */
+  min-height: 1123px;
   box-sizing: border-box;
 }
 
-/* ── Cabeçalho ── */
+/* ─── Cabeçalho ─────────────────────────────────────────────────────────────── */
+
 .cabecalho {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .logoMarca {
   font-family: Georgia, serif;
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 18px;
   color: #8B6914;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-weight: 400;
 }
 
 .confNome {
   font-family: Georgia, serif;
   font-size: 11px;
   font-style: italic;
-  color: #5A4010;
+  color: #6A4A18;
   margin-top: 3px;
-  letter-spacing: 0.02em;
 }
 
-.cabecalhoDir {
-  text-align: right;
-}
+.cabDir { text-align: right; }
 
-.encontroNum {
+.encNum {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.35em;
+  font-size: 9px;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   color: #8B6914;
 }
 
-.encontroData {
+.encData {
   font-family: Georgia, serif;
-  font-size: 11px;
-  color: #5A4010;
+  font-size: 10px;
   font-style: italic;
+  color: #6A4A18;
   margin-top: 3px;
 }
 
-.headerDivider {
+/* ─── Divisores ─────────────────────────────────────────────────────────────── */
+
+.dividerOuro {
   height: 1px;
-  background: linear-gradient(to right, transparent, #8B6914 20%, #8B6914 80%, transparent);
-  margin-bottom: 20px;
+  background: linear-gradient(to right, transparent, #C8973A 15%, #C8973A 85%, transparent);
+  margin: 0 0 18px;
 }
 
-/* ── Título do encontro ── */
+.dividerFino {
+  height: 0.5px;
+  background: linear-gradient(to right, transparent, #D4B87A 20%, #D4B87A 80%, transparent);
+  margin: 16px 0 24px;
+}
+
+.dividerVinho {
+  height: 0.5px;
+  background: #EAD8A8;
+  margin: 24px 0;
+}
+
+/* ─── Título do encontro ─────────────────────────────────────────────────────── */
+
 .tituloArea {
   text-align: center;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 0.5px solid #D4B87A;
+  padding: 0 20px 0;
 }
 
 .titulo {
   font-family: Georgia, serif;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 400;
-  color: #1a1208;
+  color: #1C1008;
   margin: 0 0 6px;
   letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 
 .tema {
   font-family: Georgia, serif;
-  font-size: 14px;
+  font-size: 13px;
   font-style: italic;
-  color: #5A4010;
+  color: #6A4A18;
   margin: 0 0 4px;
 }
 
 .local {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.35em;
+  font-size: 8px;
+  letter-spacing: 0.45em;
   text-transform: uppercase;
   color: #8B6914;
-  margin: 0;
+  margin: 4px 0 0;
 }
 
-/* ── Cada garrafa ── */
-.garrafas {
+/* ─── Vinho ──────────────────────────────────────────────────────────────────── */
+
+.vinhos { display: flex; flex-direction: column; gap: 0; }
+
+.vinho {
+  padding: 20px 0;
+  border-bottom: 0.5px solid #EAD8A8;
+  break-inside: avoid;
+}
+
+.vinhoHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.garrafa {
-  padding: 18px 0;
-  border-bottom: 0.5px solid #E8D8A0;
-}
-
-.garrafaHeader {
-  display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
-.garrafaNum {
+.vinhoNum {
   font-family: Georgia, serif;
-  font-size: 32px;
-  font-weight: 400;
-  color: #D4B87A;
+  font-size: 36px;
+  color: #C8973A;
   line-height: 1;
-  min-width: 40px;
+  min-width: 46px;
   letter-spacing: -0.02em;
   padding-top: 2px;
 }
 
-.garrafaInfo {
-  flex: 1;
-}
+.vinhoInfo { flex: 1; }
 
-.garrafaNome {
+.vinhoNome {
   font-family: Georgia, serif;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 400;
-  color: #1a1208;
-  margin: 0 0 3px;
-  letter-spacing: 0.01em;
+  color: #1C1008;
+  margin: 0 0 4px;
 }
 
-.garrafaMeta {
+.vinhoMeta {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.3em;
+  font-size: 8.5px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   color: #7A5A20;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
-.garrafaRodape {
+.vinhoRodape {
   display: flex;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 4px;
 }
 
 .trazidoPor {
@@ -173,58 +179,80 @@
   color: #8B7040;
 }
 
-.garrafaMedia {
-  font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #7A5A20;
+.vinhoMedia {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.garrafaFoto {
-  width: 60px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 3px;
-  flex-shrink: 0;
+.mediaCount {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8B7040;
 }
 
 .notasDono {
   font-family: Georgia, serif;
-  font-size: 11px;
+  font-size: 10px;
   font-style: italic;
-  color: #5A4010;
-  margin: 0 0 12px 54px;
-  line-height: 1.6;
+  color: #6A4A18;
+  margin: 6px 0 0;
+  line-height: 1.5;
 }
 
-/* ── Grid de fichas ── */
+.vinhoFoto {
+  width: 64px;
+  height: 86px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+  border: 0.5px solid #D4B87A;
+}
+
+.semAvaliacoes {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 10px;
+  color: #AAA;
+  margin: 0;
+  padding-left: 62px;
+}
+
+/* ─── Grid de fichas ─────────────────────────────────────────────────────────── */
+
 .fichasGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-left: 54px;
+  padding-left: 62px;
 }
 
-/* ── Ficha individual ── */
+/* ─── Ficha card ─────────────────────────────────────────────────────────────── */
+
 .fichaCard {
   border: 0.5px solid #D4B87A;
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  break-inside: avoid;
 }
 
-.fichaAutor {
+/* Cabeçalho da ficha */
+.fichaHead {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: #F5EDD5;
-  padding: 5px 8px;
+  gap: 7px;
+  background: #F9F3E3;
+  padding: 6px 8px;
   border-bottom: 0.5px solid #D4B87A;
 }
 
 .fichaInicial {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
   border-radius: 50%;
   background: #8B6914;
   color: #fff;
@@ -233,118 +261,175 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-.fichaNome {
-  font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #1a1208;
-  flex: 1;
-}
-
-.fichaCorpo {
-  padding: 6px 8px;
+.fichaHeadInfo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
-.fichaLinha {
-  display: flex;
-  gap: 5px;
-  align-items: baseline;
-}
-
-.fichaSecLabel {
+.fichaMembro {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 7.5px;
+  font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #8B6914;
-  min-width: 38px;
-  flex-shrink: 0;
+  color: #1C1008;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.fichaVal {
+/* Corpo da ficha */
+.fichaBody {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fichaSecao {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fichaSecTitulo {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #8B6914;
+  margin: 0;
+  border-bottom: 0.5px solid #EAD8A8;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.fichaTexto {
   font-family: Georgia, serif;
   font-size: 9px;
   color: #2A1A05;
   line-height: 1.4;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Visual — cor */
+.fichaVisual {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 3px;
+  gap: 5px;
 }
 
-.aromas {
-  font-style: italic;
-  color: #5A3A10;
-}
-
-.corDot {
-  width: 8px;
-  height: 8px;
+.corBolinha {
+  width: 11px;
+  height: 11px;
+  min-width: 11px;
   border-radius: 50%;
   display: inline-block;
-  flex-shrink: 0;
-  margin-right: 2px;
+  border: 0.5px solid rgba(0,0,0,0.15);
 }
 
-.fichaNotas {
-  font-family: Georgia, serif;
-  font-size: 8.5px;
-  font-style: italic;
-  color: #5A3A10;
-  margin: 4px 0 0;
-  line-height: 1.4;
-  padding-top: 4px;
-  border-top: 0.5px solid #E8D8A0;
-}
-
-/* ── Avaliações sem ficha ── */
-.notasSimples {
+/* Aromas */
+.aromasWrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  margin-left: 54px;
-  margin-top: 6px;
+  gap: 3px;
+  margin-top: 2px;
 }
 
-.notaSimples {
-  font-family: Georgia, serif;
-  font-size: 10px;
-  color: #3A2A10;
+.aromaChip {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 7.5px;
+  letter-spacing: 0.05em;
+  color: #6A4A18;
+  background: #F5EDD5;
+  border: 0.5px solid #D4B87A;
+  border-radius: 10px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+
+/* Escala de pontos */
+.fichaEscalaRow {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
-/* ── Estrelas ── */
-.estrelas {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
-  line-height: 1;
+.fichaEscalaLabel {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8B7040;
+  min-width: 36px;
 }
 
-.estrelaCheio  { color: #8B6914; font-size: 11px; }
-.estrelaMetade { color: #8B6914; font-size: 11px; opacity: 0.65; }
-.estrelaVazio  { color: #C8B87A; font-size: 11px; }
+.escala { display: inline-flex; gap: 2px; }
+.escalaPonto { font-size: 7px; color: #8B6914; line-height: 1; }
+.escalaVazio  { font-size: 7px; color: #D4B87A; line-height: 1; }
 
+/* Potencial */
+.fichaPotencial {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #8B6914;
+  margin: 0;
+}
+
+/* Notas livres */
+.fichaNotas {
+  font-family: Georgia, serif;
+  font-size: 8px;
+  font-style: italic;
+  color: #6A4A18;
+  margin: 2px 0 0;
+  line-height: 1.5;
+  border-top: 0.5px solid #EAD8A8;
+  padding-top: 4px;
+}
+
+.fichaSemFicha {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 9px;
+  color: #BBB;
+  margin: 0;
+}
+
+/* ─── Estrelas ───────────────────────────────────────────────────────────────── */
+
+.estrelas { display: inline-flex; align-items: center; gap: 1px; }
+
+.estrelas_sm .estrelaCheio,
+.estrelas_sm .estrelaMetade,
+.estrelas_sm .estrelaVazio { font-size: 9px; }
+.estrelas_sm .notaNum { font-size: 7.5px; margin-left: 2px; }
+
+.estrelas_md .estrelaCheio,
+.estrelas_md .estrelaMetade,
+.estrelas_md .estrelaVazio { font-size: 12px; }
+.estrelas_md .notaNum { font-size: 9px; margin-left: 3px; }
+
+.estrelaCheio  { color: #8B6914; }
+.estrelaMetade { color: #8B6914; opacity: 0.6; }
+.estrelaVazio  { color: #D4B87A; }
 .notaNum {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 8.5px;
-  color: #7A5A20;
-  margin-left: 3px;
+  color: #8B7040;
   letter-spacing: 0.05em;
 }
 
-/* ── Rodapé ── */
+/* ─── Rodapé ─────────────────────────────────────────────────────────────────── */
+
 .rodape {
-  margin-top: 24px;
+  margin-top: 28px;
   padding-top: 10px;
   border-top: 0.5px solid #D4B87A;
   display: flex;
@@ -355,31 +440,26 @@
 
 .rodapeTexto {
   font-family: 'Arial Narrow', Arial, sans-serif;
-  font-size: 8px;
-  letter-spacing: 0.3em;
+  font-size: 7.5px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   color: #8B7040;
 }
 
-.rodapeDiamond {
-  color: #8B6914;
-  font-size: 8px;
-}
+.rodapeDiamond { color: #8B6914; font-size: 8px; }
 
 .vazio {
   font-family: Georgia, serif;
   font-style: italic;
-  color: #888;
+  color: #999;
   text-align: center;
-  padding: 32px 0;
+  padding: 40px 0;
 }
 
-/* ─── Impressão ────────────────────────────────────────────────────────────── */
+/* ─── Impressão ──────────────────────────────────────────────────────────────── */
+
 @media print {
-  @page {
-    size: A4;
-    margin: 12mm 14mm;
-  }
+  @page { size: A4; margin: 12mm 14mm; }
 
   body {
     background: white !important;
@@ -387,28 +467,17 @@
     print-color-adjust: exact;
   }
 
-  .pagina {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-    min-height: 0;
-  }
-
-  /* forçar quebra de página entre garrafas se necessário */
-  .garrafa {
-    break-inside: avoid;
-  }
+  .pagina { width: 100%; padding: 0; margin: 0; box-shadow: none; min-height: 0; }
+  .vinho { break-inside: avoid; }
+  .fichaCard { break-inside: avoid; }
 }
 
-/* ─── Ecrã (preview antes de imprimir) ───────────────────────────────────── */
-@media screen {
-  body {
-    background: #e8e0d0;
-  }
+/* ─── Ecrã (preview) ─────────────────────────────────────────────────────────── */
 
+@media screen {
+  body { background: #D8CDB8; }
   .pagina {
-    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-    margin: 24px auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+    margin: 32px auto;
   }
 }
