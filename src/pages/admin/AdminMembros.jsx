@@ -11,6 +11,9 @@ export default function AdminMembros({ confrariaId }) {
 
   const [form, setForm] = useState({ apelido: '', papel: 'membro' })
   const [erro, setErro] = useState('')
+  const [editandoId, setEditandoId] = useState(null)
+  const [editForm, setEditForm] = useState({ apelido: '', papel: 'membro' })
+  const [erroEdit, setErroEdit] = useState('')
 
   async function handleAdicionar(e) {
     e.preventDefault()
@@ -21,6 +24,29 @@ export default function AdminMembros({ confrariaId }) {
       setErro(error.message.includes('unique') ? 'Este apelido já existe.' : error.message)
     } else {
       setForm({ apelido: '', papel: 'membro' })
+    }
+  }
+
+  function iniciarEdicao(m) {
+    setEditandoId(m.id)
+    setEditForm({ apelido: m.apelido, papel: m.papel })
+    setErroEdit('')
+  }
+
+  function cancelarEdicao() {
+    setEditandoId(null)
+    setErroEdit('')
+  }
+
+  async function handleSalvarEdicao(e) {
+    e.preventDefault()
+    if (!editForm.apelido.trim()) return
+    setErroEdit('')
+    const { error } = await atualizar(editandoId, editForm)
+    if (error) {
+      setErroEdit(error.message.includes('unique') ? 'Este apelido já existe.' : error.message)
+    } else {
+      setEditandoId(null)
     }
   }
 
@@ -56,29 +82,56 @@ export default function AdminMembros({ confrariaId }) {
       ) : (
         <div className={styles.lista}>
           {membros.map((m) => (
-            <div key={m.id} className={`${styles.row} ${!m.ativo ? styles.rowInativo : ''}`}>
-              <MemberAvatar apelido={m.apelido} cor={m.cor || gerarCor(m.apelido)} size={36} />
-              <div className={styles.rowInfo}>
-                <span className={styles.rowNome}>{m.apelido}</span>
-                <span className={styles.rowPapel}>{m.papel}</span>
-              </div>
-              <div className={styles.rowAcoes}>
+            editandoId === m.id ? (
+              <form
+                key={m.id}
+                className={`${styles.row} ${styles.rowEditando}`}
+                onSubmit={handleSalvarEdicao}
+              >
+                <input
+                  className={`input ${styles.inputEdit}`}
+                  value={editForm.apelido}
+                  onChange={(e) => setEditForm((f) => ({ ...f, apelido: e.target.value }))}
+                  maxLength={20}
+                  autoFocus
+                />
                 <select
                   className={styles.selectPapel}
-                  value={m.papel}
-                  onChange={(e) => atualizar(m.id, { papel: e.target.value })}
+                  value={editForm.papel}
+                  onChange={(e) => setEditForm((f) => ({ ...f, papel: e.target.value }))}
                 >
                   <option value="membro">Membro</option>
                   <option value="organizador">Organizador</option>
                 </select>
-                <button
-                  className={m.ativo ? styles.btnDesativar : styles.btnReativar}
-                  onClick={() => alternarAtivo(m.id, m.ativo)}
-                >
-                  {m.ativo ? 'Desativar' : 'Reativar'}
-                </button>
+                <div className={styles.rowAcoes}>
+                  {erroEdit && <span className={styles.erroEdit}>{erroEdit}</span>}
+                  <button type="submit" className={styles.btnSalvar}>Salvar</button>
+                  <button type="button" className={styles.btnCancelar} onClick={cancelarEdicao}>Cancelar</button>
+                </div>
+              </form>
+            ) : (
+              <div key={m.id} className={`${styles.row} ${!m.ativo ? styles.rowInativo : ''}`}>
+                <MemberAvatar apelido={m.apelido} cor={m.cor || gerarCor(m.apelido)} size={36} />
+                <div className={styles.rowInfo}>
+                  <span className={styles.rowNome}>{m.apelido}</span>
+                  <span className={styles.rowPapel}>{m.papel}</span>
+                </div>
+                <div className={styles.rowAcoes}>
+                  <button
+                    className={styles.btnEditar}
+                    onClick={() => iniciarEdicao(m)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className={m.ativo ? styles.btnDesativar : styles.btnReativar}
+                    onClick={() => alternarAtivo(m.id, m.ativo)}
+                  >
+                    {m.ativo ? 'Desativar' : 'Reativar'}
+                  </button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       )}
