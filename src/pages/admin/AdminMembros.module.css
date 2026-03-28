@@ -107,3 +107,22 @@
 
 .btnReativar { color: var(--ouro-suave); }
 .btnReativar:hover { color: var(--ouro); }
+
+@media (max-width: 768px) {
+  .page { max-width: 100%; }
+
+  .addForm { flex-direction: column; }
+
+  .row {
+    flex-wrap: wrap;
+    padding: var(--space-3) var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .rowAcoes {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: var(--space-1);
+    border-top: 0.5px solid var(--brique);
+  }
+}
