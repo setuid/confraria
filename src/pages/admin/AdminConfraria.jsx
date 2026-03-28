@@ -2,20 +2,33 @@ import { useState } from 'react'
 import GoldDivider from '../../components/ui/GoldDivider.jsx'
 import styles from './AdminConfraria.module.css'
 
-export default function AdminConfraria({ confraria, onUpdate, onToggle }) {
+export default function AdminConfraria({ confraria, onUpdate, onToggle, onAtualizarSenha }) {
   const [form, setForm] = useState({
     nome: confraria.nome || '',
     descricao: confraria.descricao || '',
   })
   const [salvo, setSalvo] = useState(false)
-  const [editandoSenha, setEditandoSenha] = useState(false)
-  const [novaSenha, setNovaSenha] = useState('')
+  const [senha, setSenha] = useState(confraria.senha_texto || '')
+  const [senhaStatus, setSenhaStatus] = useState('')
+  const [mostrarSenha, setMostrarSenha] = useState(false)
 
   async function handleSalvar(e) {
     e.preventDefault()
     await onUpdate(form)
     setSalvo(true)
     setTimeout(() => setSalvo(false), 2000)
+  }
+
+  async function handleSalvarSenha(e) {
+    e.preventDefault()
+    if (!senha.trim()) return
+    const { error } = await onAtualizarSenha(senha)
+    if (error) {
+      setSenhaStatus('Erro ao salvar.')
+    } else {
+      setSenhaStatus('Salva.')
+      setTimeout(() => setSenhaStatus(''), 2000)
+    }
   }
 
   const link = `${window.location.origin}${import.meta.env.BASE_URL}#/c/${confraria.slug}`
@@ -74,6 +87,42 @@ export default function AdminConfraria({ confraria, onUpdate, onToggle }) {
             onClick={onToggle}
           >
             {confraria.ativa ? 'Desativar' : 'Reativar'}
+          </button>
+        </div>
+      </form>
+
+      <GoldDivider />
+
+      <form className={styles.form} onSubmit={handleSalvarSenha}>
+        <div className={styles.campo}>
+          <label className={styles.campoLabel}>Senha de acesso</label>
+          <div className={styles.senhaWrap}>
+            <input
+              className="input"
+              type={mostrarSenha ? 'text' : 'password'}
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Nova senha"
+            />
+            <button
+              type="button"
+              className={styles.toggleSenha}
+              onClick={() => setMostrarSenha((v) => !v)}
+            >
+              {mostrarSenha ? 'ocultar' : 'mostrar'}
+            </button>
+          </div>
+        </div>
+        <div className={styles.acoes}>
+          <button type="submit" className="btn-primary">
+            {senhaStatus || 'Salvar senha'}
+          </button>
+          <button
+            type="button"
+            className="btn-ghost"
+            onClick={() => navigator.clipboard.writeText(senha)}
+          >
+            Copiar senha
           </button>
         </div>
       </form>

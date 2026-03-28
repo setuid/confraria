@@ -89,6 +89,24 @@
   gap: var(--space-3);
 }
 
+.senhaWrap {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.toggleSenha {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.toggleSenha:hover { color: var(--ouro); }
+
 @media (max-width: 768px) {
   .page { max-width: 100%; }
 
