@@ -94,6 +94,15 @@ export function useGarrafa(garrafaId) {
     return { error }
   }
 
+  async function atualizarInfo(campos) {
+    const { error } = await supabase
+      .from('garrafas')
+      .update(campos)
+      .eq('id', garrafaId)
+    if (!error) await buscar()
+    return { error }
+  }
+
   async function revelar() {
     const { error } = await supabase
       .from('garrafas')
@@ -103,7 +112,7 @@ export function useGarrafa(garrafaId) {
     return { error }
   }
 
-  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, revelar, refetch: buscar }
+  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar, refetch: buscar }
 }
 
 // Upload de foto para o Storage
