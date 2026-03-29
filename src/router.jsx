@@ -5,8 +5,10 @@ import Dashboard from './pages/Dashboard.jsx'
 import Encontros from './pages/Encontros.jsx'
 import EncontroDetalhe from './pages/EncontroDetalhe.jsx'
 import EncontroPrint from './pages/EncontroPrint.jsx'
+import EncontroPartilhar from './pages/EncontroPartilhar.jsx'
 import GarrafaDetalhe from './pages/GarrafaDetalhe.jsx'
 import Membros from './pages/Membros.jsx'
+import Estatisticas from './pages/Estatisticas.jsx'
 import AppShell from './components/layout/AppShell.jsx'
 import AdminLogin from './pages/admin/AdminLogin.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
@@ -44,11 +46,19 @@ export const router = createHashRouter([
           path: 'membros',
           element: <Membros />,
         },
+        {
+          path: 'estatisticas',
+          element: <Estatisticas />,
+        },
       ],
     },
     {
       path: '/c/:slug/encontros/:id/imprimir',
       element: <EncontroPrint />,
+    },
+    {
+      path: '/c/:slug/encontros/:id/partilhar',
+      element: <EncontroPartilhar />,
     },
     {
       path: '/admin',

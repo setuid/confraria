@@ -112,3 +112,15 @@
   letter-spacing: 0.2em;
   color: var(--cinza-quente);
 }
+
+.cardCego {
+  border-color: var(--tabac);
+  background: rgba(90, 70, 50, 0.15);
+}
+
+.cegoIcone {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--tabac);
+  user-select: none;
+}

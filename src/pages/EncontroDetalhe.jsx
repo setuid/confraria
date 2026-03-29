@@ -21,7 +21,7 @@ const STATUS_LABELS = {
   cancelado: 'Cancelado',
 }
 
-const FORM_VAZIO = { nome: '', produtor: '', safra: '', regiao: '', tipo: '', notas_dono: '' }
+const FORM_VAZIO = { nome: '', produtor: '', safra: '', regiao: '', tipo: '', notas_dono: '', cego: false }
 
 export default function EncontroDetalhe() {
   const { slug, id } = useParams()
@@ -40,6 +40,15 @@ export default function EncontroDetalhe() {
   const [fotoFile, setFotoFile] = useState(null)
   const [salvando, setSalvando] = useState(false)
   const [erroForm, setErroForm] = useState('')
+  const [linkCopiado, setLinkCopiado] = useState(false)
+
+  function handlePartilhar() {
+    const url = `${window.location.href.split('#')[0]}#/c/${slug}/encontros/${id}/partilhar`
+    navigator.clipboard.writeText(url).then(() => {
+      setLinkCopiado(true)
+      setTimeout(() => setLinkCopiado(false), 2000)
+    })
+  }
 
   async function handleFotoEncontro(e) {
     const file = e.target.files?.[0]
@@ -117,6 +126,9 @@ export default function EncontroDetalhe() {
           <span>{formatarData(encontro.data_hora)} às {formatarHora(encontro.data_hora)}</span>
         )}
         {encontro.local_nome && <span>{encontro.local_nome}</span>}
+        <button className={styles.btnPartilhar} onClick={handlePartilhar}>
+          {linkCopiado ? '✓ Link copiado' : '↗ Partilhar'}
+        </button>
       </div>
 
       <GoldDivider />
@@ -289,6 +301,16 @@ export default function EncontroDetalhe() {
                 <label className={styles.campoLabel}>Foto</label>
                 <FotoUpload onFile={setFotoFile} />
               </div>
+              <div className={`${styles.campo} ${styles.campoFull}`}>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={form.cego}
+                    onChange={(e) => setForm((f) => ({ ...f, cego: e.target.checked }))}
+                  />
+                  Modo cego — ocultar nome e informações do vinho até revelar
+                </label>
+              </div>
             </div>
 
             {erroForm && <p className={styles.erroForm}>{erroForm}</p>}
@@ -312,7 +334,7 @@ export default function EncontroDetalhe() {
         ) : (
           <div className={styles.garrafasLista}>
             {garrafas.map((g) => (
-              <GarrafaCard key={g.id} garrafa={g} slug={slug} encontroId={id} />
+              <GarrafaCard key={g.id} garrafa={g} slug={slug} encontroId={id} sessaoApelido={sessao?.apelido} />
             ))}
           </div>
         )}

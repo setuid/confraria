@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { to: 'dashboard', label: 'Início', icon: '⌂' },
   { to: 'encontros', label: 'Encontros', icon: '◈' },
   { to: 'membros', label: 'Membros', icon: '◉' },
+  { to: 'estatisticas', label: 'Stats', icon: '❖' },
 ]
 
 export default function BottomBar({ slug }) {

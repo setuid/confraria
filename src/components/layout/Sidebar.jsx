@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { to: 'dashboard', label: 'Início' },
   { to: 'encontros', label: 'Encontros' },
   { to: 'membros', label: 'Membros' },
+  { to: 'estatisticas', label: 'Estatísticas' },
 ]
 
 export default function Sidebar({ slug, sessao }) {
