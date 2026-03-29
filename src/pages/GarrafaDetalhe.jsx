@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import { useGarrafa, useGarrafas, uploadFotoGarrafa, deleteFotoStorage } from '../hooks/useGarrafas.js'
+import { useNotasExternas } from '../hooks/useNotasExternas.js'
 import FichaDegustacaoForm from '../components/wine/FichaDegustacaoForm.jsx'
 import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
 import FotoUpload from '../components/wine/FotoUpload.jsx'
@@ -16,6 +17,11 @@ const TIPO_LABELS = {
   espumante: 'Espumante', sobremesa: 'Sobremesa', outro: 'Outro',
 }
 
+const FONTES_EXTERNAS = [
+  'Robert Parker', 'James Suckling', 'Decanter', 'Wine Spectator',
+  'Wine Enthusiast', 'Jancis Robinson', 'Vinous', 'Produtor', 'Outro',
+]
+
 function media(avaliacoes) {
   if (!avaliacoes?.length) return null
   return avaliacoes.reduce((s, a) => s + Number(a.nota), 0) / avaliacoes.length
@@ -26,6 +32,7 @@ export default function GarrafaDetalhe() {
   const { sessao } = useAuth(slug)
   const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto } = useGarrafa(garrafaId)
   const { remover } = useGarrafas(encontroId)
+  const { notas: notasExternas, buscandoIA, sugestoesIA, adicionar: adicionarNotaExt, remover: removerNotaExt, buscarComIA, descartarSugestao, descartarSugestoes } = useNotasExternas(garrafaId)
   const navigate = useNavigate()
 
   const [formFichaAberto, setFormFichaAberto] = useState(false)
@@ -37,6 +44,9 @@ export default function GarrafaDetalhe() {
   const [fotoFile, setFotoFile] = useState(null)
   const [salvandoFoto, setSalvandoFoto] = useState(false)
   const [apagando, setApagando] = useState(false)
+  const [notaFormAberto, setNotaFormAberto] = useState(false)
+  const [notaForm, setNotaForm] = useState({ fonte: 'Robert Parker', fonteCustom: '', pontuacao: '', notas: '', url: '' })
+  const [salvandoNota, setSalvandoNota] = useState(false)
 
   if (carregando) return <div className={styles.loading} role="status" aria-live="polite">A carregar…</div>
   if (!garrafa)   return <div className={styles.loading} role="status">Garrafa não encontrada.</div>
@@ -44,6 +54,7 @@ export default function GarrafaDetalhe() {
   const mediaVal = media(garrafa.avaliacoes)
   const minhaAvaliacao = garrafa.avaliacoes?.find((a) => a.apelido === sessao?.apelido)
   const outrasAvaliacoes = garrafa.avaliacoes?.filter((a) => a.apelido !== sessao?.apelido) ?? []
+  const fichasCount = garrafa.avaliacoes?.filter((a) => a.ficha).length ?? 0
 
   async function handleSalvarFicha(nota, ficha) {
     if (!sessao) return
@@ -88,6 +99,19 @@ export default function GarrafaDetalhe() {
     if (fotoAntiga) await deleteFotoStorage(fotoAntiga)
     setFotoEditando(false)
     setSalvandoFoto(false)
+  }
+
+  async function handleSalvarNota(e) {
+    e.preventDefault()
+    if (!sessao) return
+    const fonte = notaForm.fonte === 'Outro' ? notaForm.fonteCustom.trim() : notaForm.fonte
+    if (!fonte) return
+    setSalvandoNota(true)
+    await adicionarNotaExt({ fonte, pontuacao: notaForm.pontuacao, notas: notaForm.notas, url: notaForm.url, adicionado_por: sessao.apelido })
+    setNotaForm({ fonte: 'Robert Parker', fonteCustom: '', pontuacao: '', notas: '', url: '' })
+    setNotaFormAberto(false)
+    setSalvandoNota(false)
+    if (!comparacaoAberta) setComparacaoAberta(true)
   }
 
   return (
@@ -275,25 +299,38 @@ export default function GarrafaDetalhe() {
       </section>
 
       {/* ── Comparação de fichas ── */}
-      {garrafa.avaliacoes?.filter((a) => a.ficha).length >= 2 && (
+      {(sessao || fichasCount >= 1 || notasExternas.length >= 1) && (
         <>
           <GoldDivider />
           <section className={styles.secao}>
             <div className={styles.secaoHeader}>
               <p className={styles.secLabel}>Comparar fichas</p>
-              <button
-                className={styles.btnEditar}
-                aria-expanded={comparacaoAberta}
-                onClick={() => setComparacaoAberta((v) => !v)}
-              >
-                {comparacaoAberta ? 'Fechar' : 'Ver lado a lado'}
-              </button>
+              <div className={styles.comparacaoAcoes}>
+                {fichasCount + notasExternas.length >= 2 && (
+                  <button
+                    className={styles.btnEditar}
+                    aria-expanded={comparacaoAberta}
+                    onClick={() => setComparacaoAberta((v) => !v)}
+                  >
+                    {comparacaoAberta ? 'Fechar' : 'Ver lado a lado'}
+                  </button>
+                )}
+                {sessao && (
+                  <button
+                    className={styles.btnBuscarIA}
+                    onClick={() => buscarComIA(garrafa)}
+                    disabled={buscandoIA}
+                  >
+                    {buscandoIA ? '…' : '★ Especialistas'}
+                  </button>
+                )}
+              </div>
             </div>
 
             {comparacaoAberta && (
               <div className={styles.comparacaoScroll}>
                 {garrafa.avaliacoes
-                  .filter((a) => a.ficha)
+                  ?.filter((a) => a.ficha)
                   .map((a) => (
                     <div key={a.id} className={styles.comparacaoCard}>
                       <div className={styles.comparacaoCardHeader}>
@@ -305,7 +342,113 @@ export default function GarrafaDetalhe() {
                       </div>
                     </div>
                   ))}
+                {notasExternas.map((nota) => (
+                  <div key={nota.id} className={styles.comparacaoCard}>
+                    <div className={`${styles.comparacaoCardHeader} ${styles.comparacaoCardHeaderExt}`}>
+                      <span className={styles.comparacaoIconeExt}>★</span>
+                      <span className={styles.comparacaoNome}>{nota.fonte}</span>
+                      {nota.pontuacao && <span className={styles.comparacaoPontuacao}>{nota.pontuacao}</span>}
+                      {nota.adicionado_por === sessao?.apelido && (
+                        <button className={styles.btnRemoverNota} onClick={() => removerNotaExt(nota.id)}>×</button>
+                      )}
+                    </div>
+                    <div className={styles.comparacaoCardBody}>
+                      {nota.notas && <p className={styles.extNotas}>{nota.notas}</p>}
+                      {nota.url && (
+                        <a href={nota.url} target="_blank" rel="noopener noreferrer" className={styles.extLink}>
+                          ↗ Fonte
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
+            )}
+
+            {/* Painel de sugestões da IA */}
+            {sugestoesIA !== null && (
+              <div className={styles.sugestoesPanel}>
+                <div className={styles.sugestoesPanelHeader}>
+                  <span className={styles.secLabel}>Sugestões da IA</span>
+                  <button className={styles.btnEditar} onClick={descartarSugestoes}>Descartar tudo</button>
+                </div>
+                {sugestoesIA.length === 0 && (
+                  <p className={styles.vazio}>Nenhuma pontuação encontrada para este vinho.</p>
+                )}
+                {sugestoesIA.map((s, i) => (
+                  <div key={i} className={styles.sugestaoItem}>
+                    <div className={styles.sugestaoInfo}>
+                      <span className={styles.sugestaoFonte}>{s.fonte}</span>
+                      {s.pontuacao && <span className={styles.sugestaoPontuacao}>{s.pontuacao}</span>}
+                      {s.notas && <p className={styles.sugestaoNotas}>{s.notas}</p>}
+                    </div>
+                    <button
+                      className={styles.btnGuardarSugestao}
+                      onClick={() => {
+                        adicionarNotaExt({ ...s, adicionado_por: sessao?.apelido })
+                        descartarSugestao(i)
+                        if (!comparacaoAberta) setComparacaoAberta(true)
+                      }}
+                    >
+                      Guardar
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Form "Adicionar manualmente" */}
+            {sessao && (
+              notaFormAberto ? (
+                <form className={styles.notaManualForm} onSubmit={handleSalvarNota}>
+                  <select
+                    className="input"
+                    value={notaForm.fonte}
+                    onChange={(e) => setNotaForm((f) => ({ ...f, fonte: e.target.value }))}
+                  >
+                    {FONTES_EXTERNAS.map((f) => <option key={f} value={f}>{f}</option>)}
+                  </select>
+                  {notaForm.fonte === 'Outro' && (
+                    <input
+                      className="input"
+                      placeholder="Nome da fonte"
+                      value={notaForm.fonteCustom}
+                      onChange={(e) => setNotaForm((f) => ({ ...f, fonteCustom: e.target.value }))}
+                    />
+                  )}
+                  <input
+                    className="input"
+                    placeholder="Pontuação (ex: 94/100)"
+                    value={notaForm.pontuacao}
+                    onChange={(e) => setNotaForm((f) => ({ ...f, pontuacao: e.target.value }))}
+                  />
+                  <textarea
+                    className="input"
+                    rows={3}
+                    placeholder="Notas de degustação…"
+                    value={notaForm.notas}
+                    onChange={(e) => setNotaForm((f) => ({ ...f, notas: e.target.value }))}
+                  />
+                  <input
+                    className="input"
+                    placeholder="URL (opcional)"
+                    value={notaForm.url}
+                    onChange={(e) => setNotaForm((f) => ({ ...f, url: e.target.value }))}
+                  />
+                  <div className={styles.notaManualAcoes}>
+                    <button type="submit" className="btn-primary" disabled={salvandoNota}>
+                      {salvandoNota ? '…' : 'Guardar'}
+                    </button>
+                    <button type="button" className="btn-ghost" onClick={() => setNotaFormAberto(false)}>
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <button className={styles.btnAdicionarManual} onClick={() => setNotaFormAberto(true)}>
+                  + Adicionar manualmente
+                </button>
+              )
             )}
           </section>
         </>
