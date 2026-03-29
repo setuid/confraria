@@ -1,0 +1,267 @@
+.page {
+  min-height: 100vh;
+  background: var(--cave);
+  color: var(--creme);
+  padding: var(--space-8) var(--space-6);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  background: var(--cave);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: var(--space-12) 0 var(--space-8);
+  border-bottom: 0.5px solid var(--brique);
+  margin-bottom: var(--space-8);
+}
+
+.confrariaLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: var(--space-4);
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--creme);
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
+}
+
+.data {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--bronze);
+  margin-bottom: var(--space-1);
+}
+
+.local {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.ornamento {
+  color: var(--ouro);
+  font-size: 14px;
+  margin-top: var(--space-6);
+  opacity: 0.6;
+}
+
+/* Seções */
+.secao {
+  margin-bottom: var(--space-10);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-5);
+}
+
+/* Fotos */
+.fotosGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.fotoItem {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.fotoItem:hover { opacity: 0.85; }
+
+/* Vinhos */
+.garrafasList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.garrafaItem {
+  display: grid;
+  grid-template-columns: 32px 80px 1fr;
+  grid-template-rows: auto auto;
+  gap: 0 var(--space-4);
+  padding-bottom: var(--space-6);
+  border-bottom: 0.5px solid var(--brique);
+}
+
+.garrafaNumero {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--brique);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.garrafaFoto {
+  width: 80px;
+  height: 110px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--brique);
+  grid-row: span 2;
+}
+
+.garrafaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.garrafaSemFoto {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--tabac);
+}
+
+.garrafaInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.garrafaNome {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--creme);
+  line-height: 1.2;
+}
+
+.garrafaMeta {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.garrafaRating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.garrafaMedia {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ouro);
+}
+
+.garrafaCount {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  color: var(--bronze);
+}
+
+/* Avaliações dos membros */
+.avaliacoesList {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 0.5px solid var(--brique);
+  margin-top: var(--space-3);
+}
+
+.avaliacaoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avaliacaoNome {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  min-width: 80px;
+}
+
+.avaliacaoNota {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--ouro);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: var(--space-8) 0 var(--space-12);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--brique);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: zoom-out;
+}
+
+.lightboxImg {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 480px) {
+  .page { padding: var(--space-6) var(--space-4); }
+  .titulo { font-size: 28px; }
+  .garrafaItem { grid-template-columns: 24px 64px 1fr; }
+  .garrafaFoto { width: 64px; height: 88px; }
+  .fotosGrid { grid-template-columns: repeat(2, 1fr); }
+  .avaliacoesList { grid-column: 2 / -1; }
+}

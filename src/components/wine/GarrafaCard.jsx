@@ -10,49 +10,66 @@ function mediaNotas(avaliacoes) {
   return soma / avaliacoes.length
 }
 
-export default function GarrafaCard({ garrafa, slug, encontroId }) {
+export default function GarrafaCard({ garrafa, slug, encontroId, sessaoApelido }) {
   const media = mediaNotas(garrafa.avaliacoes)
+  const isCego = garrafa.cego && sessaoApelido !== garrafa.apelido
 
   return (
     <Link
       to={`/c/${slug}/encontros/${encontroId}/garrafas/${garrafa.id}`}
-      className={styles.card}
+      className={`${styles.card} ${isCego ? styles.cardCego : ''}`}
     >
       <div className={styles.foto}>
-        {garrafa.foto_url ? (
+        {!isCego && garrafa.foto_url ? (
           <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.img} />
         ) : (
           <div className={styles.semFoto}>
-            <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
-              <path
-                d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
-                stroke="currentColor" strokeWidth="1" strokeLinejoin="round"
-              />
-            </svg>
+            {isCego
+              ? <span className={styles.cegoIcone}>?</span>
+              : <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
+                  <path d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
+                    stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
+                </svg>
+            }
           </div>
         )}
       </div>
 
       <div className={styles.info}>
-        <p className={styles.nome}>{garrafa.nome}</p>
-        {garrafa.produtor && <p className={styles.meta}>{garrafa.produtor}{garrafa.safra ? ` · ${garrafa.safra}` : ''}</p>}
-        {garrafa.regiao && <p className={styles.meta}>{garrafa.regiao}</p>}
+        {isCego ? (
+          <>
+            <p className={styles.nome}>Vinho Misterioso</p>
+            <p className={styles.meta}>Blind Tasting · identidade oculta</p>
+          </>
+        ) : (
+          <>
+            <p className={styles.nome}>{garrafa.nome}</p>
+            {garrafa.produtor && <p className={styles.meta}>{garrafa.produtor}{garrafa.safra ? ` · ${garrafa.safra}` : ''}</p>}
+            {garrafa.regiao && <p className={styles.meta}>{garrafa.regiao}</p>}
+          </>
+        )}
 
         <div className={styles.rodape}>
-          <div className={styles.autor}>
-            <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={20} />
-            <span className={styles.autorNome}>{garrafa.apelido}</span>
-          </div>
-          <div className={styles.rating}>
-            {media !== null ? (
-              <>
-                <StarRating nota={media} readonly />
-                <span className={styles.ratingCount}>({garrafa.avaliacoes.length})</span>
-              </>
-            ) : (
-              <span className={styles.semRating}>sem avaliações</span>
-            )}
-          </div>
+          {isCego ? (
+            <span className={styles.meta}>Avaliar às cegas →</span>
+          ) : (
+            <div className={styles.autor}>
+              <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={20} />
+              <span className={styles.autorNome}>{garrafa.apelido}</span>
+            </div>
+          )}
+          {!isCego && (
+            <div className={styles.rating}>
+              {media !== null ? (
+                <>
+                  <StarRating nota={media} readonly />
+                  <span className={styles.ratingCount}>({garrafa.avaliacoes.length})</span>
+                </>
+              ) : (
+                <span className={styles.semRating}>sem avaliações</span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Link>

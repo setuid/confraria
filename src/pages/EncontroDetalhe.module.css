@@ -64,6 +64,35 @@
   color: var(--bronze);
 }
 
+.btnPartilhar {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: var(--space-2);
+  transition: opacity var(--transition);
+}
+.btnPartilhar:hover { opacity: 0.7; }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+  cursor: pointer;
+  user-select: none;
+}
+
 /* RSVP */
 .rsvpCard {
   margin-bottom: var(--space-2);

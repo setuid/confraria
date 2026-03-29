@@ -1,0 +1,322 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.loading {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--bronze);
+  text-align: center;
+  padding: var(--space-12);
+}
+
+.titulo {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--creme);
+  margin-bottom: var(--space-8);
+}
+
+/* Números gerais */
+.numerosGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.numero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-5) var(--space-4);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  gap: var(--space-1);
+}
+
+.numeroVal {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--ouro);
+  line-height: 1;
+}
+
+.numeroLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+/* Seções */
+.secao {
+  margin-bottom: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.secLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+/* Destaques */
+.destaqueGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.destaqueCard {
+  padding: var(--space-4);
+  background: var(--cave);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.destaqueLabel {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  margin-bottom: var(--space-1);
+}
+
+.destaqueNome {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--creme);
+  line-height: 1.2;
+}
+
+.destaqueMeta {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+}
+
+.destaqueRating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.destaqueMediaNum {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--ouro);
+}
+
+/* Ranking */
+.rankingList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rankingItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.rankingPos {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--brique);
+  min-width: 28px;
+}
+
+.rankingInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rankingNome {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--creme);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rankingMeta {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+}
+
+.rankingRating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.rankingMedia {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--ouro);
+}
+
+/* Membros */
+.membrosList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.membroItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.membroInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.membroNome {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pergaminho);
+}
+
+.membroStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+  min-width: 48px;
+}
+
+.membroMedia {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--ouro);
+}
+
+.membroCount {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  color: var(--bronze);
+}
+
+/* Barra horizontal */
+.barra {
+  height: 3px;
+  background: var(--brique);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barraFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Tipos */
+.tiposList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tipoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tipoDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tipoNome {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pergaminho);
+  min-width: 80px;
+}
+
+.tipoCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--bronze);
+  min-width: 20px;
+  text-align: right;
+}
+
+/* Regiões */
+.regioesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.regiaoItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.regiaoNome {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--pergaminho);
+  min-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.regiaoCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--bronze);
+  min-width: 20px;
+  text-align: right;
+}
+
+@media (max-width: 480px) {
+  .numerosGrid { grid-template-columns: repeat(2, 1fr); }
+  .destaqueGrid { grid-template-columns: 1fr; }
+}

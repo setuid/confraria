@@ -24,7 +24,7 @@ function media(avaliacoes) {
 export default function GarrafaDetalhe() {
   const { slug, encontroId, garrafaId } = useParams()
   const { sessao } = useAuth(slug)
-  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto } = useGarrafa(garrafaId)
+  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, revelar } = useGarrafa(garrafaId)
   const { remover } = useGarrafas(encontroId)
   const navigate = useNavigate()
 
@@ -44,6 +44,8 @@ export default function GarrafaDetalhe() {
   const mediaVal = media(garrafa.avaliacoes)
   const minhaAvaliacao = garrafa.avaliacoes?.find((a) => a.apelido === sessao?.apelido)
   const outrasAvaliacoes = garrafa.avaliacoes?.filter((a) => a.apelido !== sessao?.apelido) ?? []
+  const isOwner = sessao?.apelido === garrafa.apelido
+  const isCego = garrafa.cego && !isOwner
 
   async function handleSalvarFicha(nota, ficha) {
     if (!sessao) return
@@ -97,18 +99,26 @@ export default function GarrafaDetalhe() {
       </Link>
 
       {/* Hero */}
+      {isOwner && garrafa.cego && (
+        <div className={styles.cegoOwnerBanner}>
+          <span>Modo cego ativo — outros membros não veem as informações do vinho</span>
+          <button className={styles.btnRevelar} onClick={revelar}>Revelar vinho</button>
+        </div>
+      )}
+
       <div className={styles.hero}>
         <div className={styles.fotoWrap}>
-          {garrafa.foto_url && !fotoEditando ? (
+          {!isCego && garrafa.foto_url && !fotoEditando ? (
             <img src={garrafa.foto_url} alt={garrafa.nome} className={styles.foto} />
           ) : (
             <div className={styles.semFoto}>
-              <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
-                <path
-                  d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
-                  stroke="currentColor" strokeWidth="0.75" strokeLinejoin="round"
-                />
-              </svg>
+              {isCego
+                ? <span className={styles.cegoHeroIcone}>?</span>
+                : <svg viewBox="0 0 24 24" fill="none" className={styles.iconGarrafa} aria-hidden="true">
+                    <path d="M9 2h6v4c0 0 2 1.5 2 4v10a1 1 0 01-1 1H8a1 1 0 01-1-1V10c0-2.5 2-4 2-4V2z"
+                      stroke="currentColor" strokeWidth="0.75" strokeLinejoin="round" />
+                  </svg>
+              }
             </div>
           )}
           {sessao?.apelido === garrafa.apelido && !fotoEditando && (
@@ -123,17 +133,27 @@ export default function GarrafaDetalhe() {
         </div>
 
         <div className={styles.heroInfo}>
-          <h1 className={styles.nome}>{garrafa.nome}</h1>
-          {garrafa.produtor && <p className={styles.meta}>{garrafa.produtor}</p>}
-          <div className={styles.tags}>
-            {garrafa.safra && <span className={styles.tag}>{garrafa.safra}</span>}
-            {garrafa.regiao && <span className={styles.tag}>{garrafa.regiao}</span>}
-            {garrafa.tipo   && <span className={styles.tag}>{TIPO_LABELS[garrafa.tipo] || garrafa.tipo}</span>}
-          </div>
-          <div className={styles.trazidoPor}>
-            <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={24} />
-            <span className={styles.trazidoNome}>{garrafa.apelido}</span>
-          </div>
+          {isCego ? (
+            <>
+              <h1 className={styles.nome}>Vinho Misterioso</h1>
+              <p className={styles.meta}>Blind Tasting</p>
+              <p className={styles.cegoHint}>Avalie o vinho sem saber a identidade. O dono revelará quando todos tiverem avaliado.</p>
+            </>
+          ) : (
+            <>
+              <h1 className={styles.nome}>{garrafa.nome}</h1>
+              {garrafa.produtor && <p className={styles.meta}>{garrafa.produtor}</p>}
+              <div className={styles.tags}>
+                {garrafa.safra && <span className={styles.tag}>{garrafa.safra}</span>}
+                {garrafa.regiao && <span className={styles.tag}>{garrafa.regiao}</span>}
+                {garrafa.tipo   && <span className={styles.tag}>{TIPO_LABELS[garrafa.tipo] || garrafa.tipo}</span>}
+              </div>
+              <div className={styles.trazidoPor}>
+                <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={24} />
+                <span className={styles.trazidoNome}>{garrafa.apelido}</span>
+              </div>
+            </>
+          )}
           {mediaVal !== null && (
             <div className={styles.mediaRow}>
               <StarRating nota={mediaVal} readonly />
@@ -190,7 +210,7 @@ export default function GarrafaDetalhe() {
         </div>
       )}
 
-      {garrafa.notas_dono && (
+      {!isCego && garrafa.notas_dono && (
         <p className={styles.notasDono}>{garrafa.notas_dono}</p>
       )}
 

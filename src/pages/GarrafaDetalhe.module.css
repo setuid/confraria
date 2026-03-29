@@ -366,6 +366,56 @@
 }
 .btnRemoverFoto:hover { background: rgba(192, 80, 112, 0.1); }
 
+/* Modo cego */
+.cegoOwnerBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(90, 70, 50, 0.2);
+  border: 0.5px solid var(--tabac);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+}
+
+.btnRevelar {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  border: 0.5px solid rgba(200, 151, 58, 0.5);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  background: rgba(200, 151, 58, 0.06);
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+.btnRevelar:hover { background: rgba(200, 151, 58, 0.14); border-color: var(--ouro); }
+
+.cegoHeroIcone {
+  font-family: var(--font-display);
+  font-size: 52px;
+  color: var(--tabac);
+  user-select: none;
+}
+
+.cegoHint {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--cinza-quente);
+  line-height: 1.6;
+  margin-top: var(--space-2);
+}
+
 /* Botão apagar vinho */
 .btnApagarGarrafa {
   font-family: var(--font-ui);
