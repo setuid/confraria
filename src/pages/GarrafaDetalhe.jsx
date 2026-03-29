@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import { useGarrafa, useGarrafas, uploadFotoGarrafa, deleteFotoStorage } from '../hooks/useGarrafas.js'
@@ -32,7 +32,8 @@ export default function GarrafaDetalhe() {
   const { sessao } = useAuth(slug)
   const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto } = useGarrafa(garrafaId)
   const { remover } = useGarrafas(encontroId)
-  const { notas: notasExternas, buscandoIA, sugestoesIA, adicionar: adicionarNotaExt, remover: removerNotaExt, buscarComIA, descartarSugestao, descartarSugestoes } = useNotasExternas(garrafaId)
+  const { notas: notasExternas, buscandoIA, sugestoesIA, vinhoIdentificado, adicionar: adicionarNotaExt, remover: removerNotaExt, buscarComIA, analisarFotoComIA, descartarSugestao, descartarSugestoes } = useNotasExternas(garrafaId)
+  const fotoRotuloRef = useRef(null)
   const navigate = useNavigate()
 
   const [formFichaAberto, setFormFichaAberto] = useState(false)
@@ -316,13 +317,34 @@ export default function GarrafaDetalhe() {
                   </button>
                 )}
                 {sessao && (
-                  <button
-                    className={styles.btnBuscarIA}
-                    onClick={() => buscarComIA(garrafa)}
-                    disabled={buscandoIA}
-                  >
-                    {buscandoIA ? '…' : '★ Especialistas'}
-                  </button>
+                  <>
+                    <button
+                      className={styles.btnBuscarIA}
+                      onClick={() => buscarComIA(garrafa)}
+                      disabled={buscandoIA}
+                    >
+                      {buscandoIA ? '…' : '★ Especialistas'}
+                    </button>
+                    <button
+                      className={styles.btnBuscarIA}
+                      onClick={() => fotoRotuloRef.current?.click()}
+                      disabled={buscandoIA}
+                      title="Analisar foto do rótulo"
+                    >
+                      {buscandoIA ? '…' : '📷 Rótulo'}
+                    </button>
+                    <input
+                      ref={fotoRotuloRef}
+                      type="file"
+                      accept="image/*"
+                      className={styles.inputEscondido}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) analisarFotoComIA(file)
+                        e.target.value = ''
+                      }}
+                    />
+                  </>
                 )}
               </div>
             </div>
@@ -372,6 +394,17 @@ export default function GarrafaDetalhe() {
                   <span className={styles.secLabel}>Sugestões da IA</span>
                   <button className={styles.btnEditar} onClick={descartarSugestoes}>Descartar tudo</button>
                 </div>
+                {vinhoIdentificado && (
+                  <div className={styles.vinhoIdentificado}>
+                    <span className={styles.vinhoIdentificadoLabel}>Vinho identificado</span>
+                    <span className={styles.vinhoIdentificadoNome}>{vinhoIdentificado.nome}</span>
+                    {(vinhoIdentificado.produtor || vinhoIdentificado.safra || vinhoIdentificado.regiao) && (
+                      <span className={styles.vinhoIdentificadoMeta}>
+                        {[vinhoIdentificado.produtor, vinhoIdentificado.safra, vinhoIdentificado.regiao].filter(Boolean).join(' · ')}
+                      </span>
+                    )}
+                  </div>
+                )}
                 {sugestoesIA.length === 0 && (
                   <p className={styles.vazio}>Nenhuma pontuação encontrada para este vinho.</p>
                 )}
