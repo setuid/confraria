@@ -32,6 +32,7 @@ export default function GarrafaDetalhe() {
   const [comentario, setComentario] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [fichaExpandida, setFichaExpandida] = useState(null)
+  const [comparacaoAberta, setComparacaoAberta] = useState(false)
   const [fotoEditando, setFotoEditando] = useState(false)
   const [fotoFile, setFotoFile] = useState(null)
   const [salvandoFoto, setSalvandoFoto] = useState(false)
@@ -200,7 +201,7 @@ export default function GarrafaDetalhe() {
         <section className={styles.secao}>
           <div className={styles.secaoHeader}>
             <p className={styles.secLabel}>Minha ficha de degustação</p>
-            {minhaAvaliacao && !formFichaAberto && (
+            {minhaAvaliacao && minhaAvaliacao.apelido === sessao?.apelido && !formFichaAberto && (
               <button className={styles.btnEditar} onClick={() => setFormFichaAberto(true)}>
                 Editar
               </button>
@@ -272,6 +273,43 @@ export default function GarrafaDetalhe() {
           ))}
         </div>
       </section>
+
+      {/* ── Comparação de fichas ── */}
+      {garrafa.avaliacoes?.filter((a) => a.ficha).length >= 2 && (
+        <>
+          <GoldDivider />
+          <section className={styles.secao}>
+            <div className={styles.secaoHeader}>
+              <p className={styles.secLabel}>Comparar fichas</p>
+              <button
+                className={styles.btnEditar}
+                aria-expanded={comparacaoAberta}
+                onClick={() => setComparacaoAberta((v) => !v)}
+              >
+                {comparacaoAberta ? 'Fechar' : 'Ver lado a lado'}
+              </button>
+            </div>
+
+            {comparacaoAberta && (
+              <div className={styles.comparacaoScroll}>
+                {garrafa.avaliacoes
+                  .filter((a) => a.ficha)
+                  .map((a) => (
+                    <div key={a.id} className={styles.comparacaoCard}>
+                      <div className={styles.comparacaoCardHeader}>
+                        <MemberAvatar apelido={a.apelido} cor={gerarCor(a.apelido)} size={22} />
+                        <span className={styles.comparacaoNome}>{a.apelido}</span>
+                      </div>
+                      <div className={styles.comparacaoCardBody}>
+                        <FichaDegustacaoView avaliacao={a} />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </section>
+        </>
+      )}
 
       <GoldDivider />
 
