@@ -42,8 +42,8 @@ export default function EncontroDetalhe() {
   const [erroForm, setErroForm] = useState('')
   const [linkCopiado, setLinkCopiado] = useState(false)
 
-  function handlePartilhar() {
-    const url = `${window.location.href.split('#')[0]}#/c/${slug}/encontros/${id}/partilhar`
+  function handleCompartilhar() {
+    const url = `${window.location.href.split('#')[0]}#/c/${slug}/encontros/${id}/compartilhar`
     navigator.clipboard.writeText(url).then(() => {
       setLinkCopiado(true)
       setTimeout(() => setLinkCopiado(false), 2000)
@@ -126,8 +126,8 @@ export default function EncontroDetalhe() {
           <span>{formatarData(encontro.data_hora)} às {formatarHora(encontro.data_hora)}</span>
         )}
         {encontro.local_nome && <span>{encontro.local_nome}</span>}
-        <button className={styles.btnPartilhar} onClick={handlePartilhar}>
-          {linkCopiado ? '✓ Link copiado' : '↗ Partilhar'}
+        <button className={styles.btnCompartilhar} onClick={handleCompartilhar}>
+          {linkCopiado ? '✓ Link copiado' : '↗ Compartilhar'}
         </button>
       </div>
 

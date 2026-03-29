@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Encontros from './pages/Encontros.jsx'
 import EncontroDetalhe from './pages/EncontroDetalhe.jsx'
 import EncontroPrint from './pages/EncontroPrint.jsx'
-import EncontroPartilhar from './pages/EncontroPartilhar.jsx'
+import EncontroCompartilhar from './pages/EncontroCompartilhar.jsx'
 import GarrafaDetalhe from './pages/GarrafaDetalhe.jsx'
 import Membros from './pages/Membros.jsx'
 import Estatisticas from './pages/Estatisticas.jsx'
@@ -57,8 +57,8 @@ export const router = createHashRouter([
       element: <EncontroPrint />,
     },
     {
-      path: '/c/:slug/encontros/:id/partilhar',
-      element: <EncontroPartilhar />,
+      path: '/c/:slug/encontros/:id/compartilhar',
+      element: <EncontroCompartilhar />,
     },
     {
       path: '/admin',

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import StarRating from '../components/wine/StarRating.jsx'
-import styles from './EncontroPartilhar.module.css'
+import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
+import styles from './EncontroCompartilhar.module.css'
 
 function media(avaliacoes) {
   if (!avaliacoes?.length) return null
@@ -19,7 +20,7 @@ const TIPO_LABELS = {
   espumante: 'Espumante', sobremesa: 'Sobremesa', outro: 'Outro',
 }
 
-export default function EncontroPartilhar() {
+export default function EncontroCompartilhar() {
   const { slug, id } = useParams()
   const [dados, setDados] = useState(null)
   const [carregando, setCarregando] = useState(true)
@@ -89,8 +90,10 @@ export default function EncontroPartilhar() {
             {garrafas.map((g, idx) => {
               const avg = media(g.avaliacoes)
               const isCego = g.cego
+              const temFichas = g.avaliacoes?.some((a) => a.ficha)
               return (
                 <div key={g.id} className={styles.garrafaItem}>
+                  {/* Linha principal: número · foto · info */}
                   <div className={styles.garrafaNumero}>{String(idx + 1).padStart(2, '0')}</div>
                   <div className={styles.garrafaFoto}>
                     {!isCego && g.foto_url ? (
@@ -120,14 +123,22 @@ export default function EncontroPartilhar() {
                     )}
                   </div>
 
-                  {/* Notas dos membros */}
+                  {/* Fichas dos membros */}
                   {g.avaliacoes?.length > 0 && (
-                    <div className={styles.avaliacoesList}>
+                    <div className={styles.fichasMembros}>
+                      <p className={styles.fichasLabel}>Fichas dos membros</p>
                       {g.avaliacoes.map((a) => (
-                        <div key={a.id} className={styles.avaliacaoItem}>
-                          <span className={styles.avaliacaoNome}>{a.apelido}</span>
-                          <StarRating nota={Number(a.nota)} readonly />
-                          <span className={styles.avaliacaoNota}>{Number(a.nota).toFixed(1)}</span>
+                        <div key={a.id} className={styles.fichaMembro}>
+                          <div className={styles.fichaMembroHeader}>
+                            <span className={styles.fichaMembroNome}>{a.apelido}</span>
+                            <StarRating nota={Number(a.nota)} readonly />
+                            <span className={styles.fichaMembroNota}>{Number(a.nota).toFixed(1)}</span>
+                          </div>
+                          {a.ficha && (
+                            <div className={styles.fichaConteudo}>
+                              <FichaDegustacaoView avaliacao={a} />
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>

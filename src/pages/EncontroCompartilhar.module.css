@@ -194,37 +194,61 @@
   color: var(--bronze);
 }
 
-/* Avaliações dos membros */
-.avaliacoesList {
-  grid-column: 3;
+/* Fichas dos membros */
+.fichasMembros {
+  grid-column: 1 / -1;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 0.5px solid var(--brique);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding-top: var(--space-3);
-  border-top: 0.5px solid var(--brique);
-  margin-top: var(--space-3);
+  gap: var(--space-5);
 }
 
-.avaliacaoItem {
+.fichasLabel {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  margin-bottom: var(--space-1);
+}
+
+.fichaMembro {
+  background: rgba(255, 255, 255, 0.03);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+}
+
+.fichaMembroHeader {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  margin-bottom: var(--space-1);
 }
 
-.avaliacaoNome {
+.fichaMembroNome {
   font-family: var(--font-ui);
   font-size: 9px;
   font-weight: 300;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--cinza-quente);
+  color: var(--creme);
   min-width: 80px;
 }
 
-.avaliacaoNota {
+.fichaMembroNota {
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ouro);
+}
+
+.fichaConteudo {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 0.5px solid rgba(120, 80, 60, 0.3);
 }
 
 /* Footer */
@@ -263,5 +287,4 @@
   .garrafaItem { grid-template-columns: 24px 64px 1fr; }
   .garrafaFoto { width: 64px; height: 88px; }
   .fotosGrid { grid-template-columns: repeat(2, 1fr); }
-  .avaliacoesList { grid-column: 2 / -1; }
 }
