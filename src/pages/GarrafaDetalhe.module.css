@@ -478,9 +478,89 @@
   padding: var(--space-3);
 }
 
+/* Botão editar informações */
+.btnEditarInfo {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: var(--space-3);
+  transition: color var(--transition);
+}
+.btnEditarInfo:hover { color: var(--ouro); }
+
+/* Formulário de edição de informações */
+.infoEditForm {
+  background: var(--cave);
+  border: 0.5px solid var(--tabac);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.infoEditGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.campoFull { grid-column: 1 / -1; }
+
+.campoLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--bronze);
+  cursor: pointer;
+  user-select: none;
+}
+
+.erroForm {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--vinho);
+}
+
+.infoEditAcoes {
+  display: flex;
+  gap: var(--space-3);
+}
+
 @media (max-width: 768px) {
   .hero { flex-direction: column; }
   .fotoWrap { width: 100%; height: 200px; }
   .foto { object-position: center 30%; }
   .fichaExpandida { padding-left: 0; }
+  .infoEditGrid { grid-template-columns: 1fr; }
+  .campoFull { grid-column: 1; }
+  .infoEditAcoes { flex-direction: column; }
 }

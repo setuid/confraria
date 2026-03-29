@@ -24,7 +24,7 @@ function media(avaliacoes) {
 export default function GarrafaDetalhe() {
   const { slug, encontroId, garrafaId } = useParams()
   const { sessao } = useAuth(slug)
-  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, revelar } = useGarrafa(garrafaId)
+  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar } = useGarrafa(garrafaId)
   const { remover } = useGarrafas(encontroId)
   const navigate = useNavigate()
 
@@ -37,6 +37,10 @@ export default function GarrafaDetalhe() {
   const [fotoFile, setFotoFile] = useState(null)
   const [salvandoFoto, setSalvandoFoto] = useState(false)
   const [apagando, setApagando] = useState(false)
+  const [infoEditando, setInfoEditando] = useState(false)
+  const [formInfo, setFormInfo] = useState(null)
+  const [salvandoInfo, setSalvandoInfo] = useState(false)
+  const [erroInfo, setErroInfo] = useState('')
 
   if (carregando) return <div className={styles.loading} role="status" aria-live="polite">A carregar…</div>
   if (!garrafa)   return <div className={styles.loading} role="status">Garrafa não encontrada.</div>
@@ -46,6 +50,35 @@ export default function GarrafaDetalhe() {
   const outrasAvaliacoes = garrafa.avaliacoes?.filter((a) => a.apelido !== sessao?.apelido) ?? []
   const isOwner = sessao?.apelido === garrafa.apelido
   const isCego = garrafa.cego && !isOwner
+
+  function handleAbrirEditarInfo() {
+    setFormInfo({
+      nome: garrafa.nome ?? '',
+      produtor: garrafa.produtor ?? '',
+      safra: garrafa.safra ?? '',
+      regiao: garrafa.regiao ?? '',
+      tipo: garrafa.tipo ?? '',
+      notas_dono: garrafa.notas_dono ?? '',
+      cego: garrafa.cego ?? false,
+    })
+    setErroInfo('')
+    setInfoEditando(true)
+  }
+
+  async function handleSalvarInfo(e) {
+    e.preventDefault()
+    if (!formInfo.nome.trim()) { setErroInfo('Nome do vinho é obrigatório.'); return }
+    setSalvandoInfo(true)
+    setErroInfo('')
+    const campos = {
+      ...formInfo,
+      safra: formInfo.safra ? parseInt(formInfo.safra) : null,
+    }
+    const { error } = await atualizarInfo(campos)
+    if (error) { setErroInfo(error.message); setSalvandoInfo(false); return }
+    setInfoEditando(false)
+    setSalvandoInfo(false)
+  }
 
   async function handleSalvarFicha(nota, ficha) {
     if (!sessao) return
@@ -152,6 +185,11 @@ export default function GarrafaDetalhe() {
                 <MemberAvatar apelido={garrafa.apelido} cor={gerarCor(garrafa.apelido)} size={24} />
                 <span className={styles.trazidoNome}>{garrafa.apelido}</span>
               </div>
+              {isOwner && !infoEditando && (
+                <button className={styles.btnEditarInfo} onClick={handleAbrirEditarInfo}>
+                  Editar informações
+                </button>
+              )}
             </>
           )}
           {mediaVal !== null && (
@@ -208,6 +246,70 @@ export default function GarrafaDetalhe() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Painel de edição de informações */}
+      {infoEditando && isOwner && formInfo && (
+        <form className={styles.infoEditForm} onSubmit={handleSalvarInfo}>
+          <div className={styles.infoEditGrid}>
+            <div className={styles.campo}>
+              <label className={styles.campoLabel}>Nome do vinho *</label>
+              <input className="input" value={formInfo.nome}
+                onChange={(e) => setFormInfo((f) => ({ ...f, nome: e.target.value }))} />
+            </div>
+            <div className={styles.campo}>
+              <label className={styles.campoLabel}>Produtor</label>
+              <input className="input" value={formInfo.produtor}
+                onChange={(e) => setFormInfo((f) => ({ ...f, produtor: e.target.value }))} />
+            </div>
+            <div className={styles.campo}>
+              <label className={styles.campoLabel}>Safra</label>
+              <input className="input" type="number" min="1900" max="2099" placeholder="ex: 2019"
+                value={formInfo.safra}
+                onChange={(e) => setFormInfo((f) => ({ ...f, safra: e.target.value }))} />
+            </div>
+            <div className={styles.campo}>
+              <label className={styles.campoLabel}>Região</label>
+              <input className="input" value={formInfo.regiao}
+                onChange={(e) => setFormInfo((f) => ({ ...f, regiao: e.target.value }))} />
+            </div>
+            <div className={styles.campo}>
+              <label className={styles.campoLabel}>Tipo</label>
+              <select className="input" value={formInfo.tipo}
+                onChange={(e) => setFormInfo((f) => ({ ...f, tipo: e.target.value }))}>
+                <option value="">—</option>
+                <option value="tinto">Tinto</option>
+                <option value="branco">Branco</option>
+                <option value="rosé">Rosé</option>
+                <option value="espumante">Espumante</option>
+                <option value="sobremesa">Sobremesa</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div className={`${styles.campo} ${styles.campoFull}`}>
+              <label className={styles.campoLabel}>Notas pessoais</label>
+              <textarea className="input" rows={2} value={formInfo.notas_dono}
+                onChange={(e) => setFormInfo((f) => ({ ...f, notas_dono: e.target.value }))} />
+            </div>
+            <div className={`${styles.campo} ${styles.campoFull}`}>
+              <label className={styles.checkboxLabel}>
+                <input type="checkbox" checked={formInfo.cego}
+                  onChange={(e) => setFormInfo((f) => ({ ...f, cego: e.target.checked }))} />
+                Modo cego — ocultar informações do vinho para outros membros
+              </label>
+            </div>
+          </div>
+          {erroInfo && <p className={styles.erroForm}>{erroInfo}</p>}
+          <div className={styles.infoEditAcoes}>
+            <button type="button" className="btn-ghost"
+              onClick={() => { setInfoEditando(false); setErroInfo('') }}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn-primary" disabled={salvandoInfo}>
+              {salvandoInfo ? 'A guardar…' : 'Guardar'}
+            </button>
+          </div>
+        </form>
       )}
 
       {!isCego && garrafa.notas_dono && (
