@@ -226,3 +226,9 @@
 .verTodos:hover {
   color: var(--ouro);
 }
+
+@media (max-width: 640px) {
+  .page { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .confNome { font-size: 22px; }
+  .proximoTitulo { font-size: 22px; }
+}

@@ -83,3 +83,8 @@
   color: var(--ouro);
   font-size: 14px;
 }
+
+@media (max-width: 640px) {
+  .page { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .titulo { font-size: 26px; }
+}
