@@ -1,0 +1,128 @@
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--cave);
+  border: 0.5px solid var(--tabac);
+  border-radius: var(--radius);
+}
+
+.dica {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.numero {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--tabac);
+  width: 16px;
+  text-align: right;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: rgba(255, 255, 255, 0.02);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-3);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.item:hover {
+  border-color: var(--tabac);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.itemArrastando {
+  border-color: var(--ouro) !important;
+  background: rgba(200, 151, 58, 0.06) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: grab;
+  color: var(--tabac);
+  padding: 0;
+  flex-shrink: 0;
+  touch-action: none;
+  transition: color var(--transition);
+  border-radius: 3px;
+}
+.handle:hover { color: var(--bronze); }
+.handle:active { cursor: grabbing; }
+
+.handleIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.itemNome {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--creme);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemTipo {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.itemCego {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tabac);
+  border: 0.5px solid var(--brique);
+  border-radius: 2px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+.acoes {
+  display: flex;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 0.5px solid var(--brique);
+}

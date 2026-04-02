@@ -10,6 +10,7 @@ import MemberAvatar from '../components/ui/MemberAvatar.jsx'
 import GoldDivider from '../components/ui/GoldDivider.jsx'
 import ArtDecoCard from '../components/ui/ArtDecoCard.jsx'
 import GarrafaCard from '../components/wine/GarrafaCard.jsx'
+import GarrafasOrdenar from '../components/wine/GarrafasOrdenar.jsx'
 import FotoUpload from '../components/wine/FotoUpload.jsx'
 import { formatarData, formatarHora } from '../lib/utils.js'
 import styles from './EncontroDetalhe.module.css'
@@ -27,7 +28,7 @@ export default function EncontroDetalhe() {
   const { slug, id } = useParams()
   const { sessao } = useAuth(slug)
   const { encontro, carregando } = useEncontro(id)
-  const { garrafas, carregando: carregandoGarrafas, adicionar } = useGarrafas(id)
+  const { garrafas, carregando: carregandoGarrafas, adicionar, reordenar } = useGarrafas(id)
   const { fotos, adicionar: adicionarFoto, remover: removerFoto, maxFotos } = useEncontroFotos(id)
 
   const fotoInputRef = useRef(null)
@@ -41,6 +42,7 @@ export default function EncontroDetalhe() {
   const [salvando, setSalvando] = useState(false)
   const [erroForm, setErroForm] = useState('')
   const [linkCopiado, setLinkCopiado] = useState(false)
+  const [reordenando, setReordenando] = useState(false)
 
   function handleCompartilhar() {
     const url = `${window.location.href.split('#')[0]}#/c/${slug}/encontros/${id}/compartilhar`
@@ -247,7 +249,12 @@ export default function EncontroDetalhe() {
         <div className={styles.garrafasHeader}>
           <p className={styles.secLabel}>Garrafas do encontro</p>
           <div className={styles.garrafasAcoes}>
-            {sessao && !formAberto && (
+            {sessao && !formAberto && !reordenando && garrafas.length > 1 && (
+              <button className={styles.btnReordenar} onClick={() => setReordenando(true)}>
+                ⇅ Reordenar
+              </button>
+            )}
+            {sessao && !formAberto && !reordenando && (
               <button className={styles.btnAdicionarGarrafa} onClick={() => setFormAberto(true)}>
                 + Adicionar garrafa
               </button>
@@ -327,7 +334,16 @@ export default function EncontroDetalhe() {
           </form>
         )}
 
-        {carregandoGarrafas ? (
+        {reordenando && (
+          <GarrafasOrdenar
+            garrafas={garrafas}
+            sessaoApelido={sessao?.apelido}
+            onSalvar={async (novaOrdem) => { await reordenar(novaOrdem); setReordenando(false) }}
+            onCancelar={() => setReordenando(false)}
+          />
+        )}
+
+        {!reordenando && (carregandoGarrafas ? (
           <p className={styles.garrafasLoading}>...</p>
         ) : garrafas.length === 0 && !formAberto ? (
           <p className={styles.garrafasVazio}>Nenhuma garrafa registada ainda.</p>
@@ -337,7 +353,7 @@ export default function EncontroDetalhe() {
               <GarrafaCard key={g.id} garrafa={g} slug={slug} encontroId={id} sessaoApelido={sessao?.apelido} />
             ))}
           </div>
-        )}
+        ))}
       </section>
     </div>
   )

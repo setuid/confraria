@@ -283,6 +283,17 @@
 }
 .btnImprimir:hover { color: var(--ouro); }
 
+.btnReordenar {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.btnReordenar:hover { color: var(--ouro); }
+
 .btnAdicionarGarrafa {
   font-family: var(--font-ui);
   font-size: 9px;
