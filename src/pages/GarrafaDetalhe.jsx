@@ -4,6 +4,8 @@ import { useAuth } from '../hooks/useAuth.js'
 import { useGarrafa, useGarrafas, uploadFotoGarrafa, deleteFotoStorage } from '../hooks/useGarrafas.js'
 import FichaDegustacaoForm from '../components/wine/FichaDegustacaoForm.jsx'
 import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
+import FichaMestreForm from '../components/wine/FichaMestreForm.jsx'
+import FichaMestreView from '../components/wine/FichaMestreView.jsx'
 import FotoUpload from '../components/wine/FotoUpload.jsx'
 import MemberAvatar from '../components/ui/MemberAvatar.jsx'
 import GoldDivider from '../components/ui/GoldDivider.jsx'
@@ -16,23 +18,56 @@ const TIPO_LABELS = {
   espumante: 'Espumante', sobremesa: 'Sobremesa', outro: 'Outro',
 }
 
+const CAMPOS_MESTRE = [
+  { key: 'uva',      label: 'Uva',      pts: 3, opcoes: [true, false] },
+  { key: 'regiao',   label: 'Região',   pts: 2, opcoes: [true, false] },
+  { key: 'safra',    label: 'Safra',    pts: 2, opcoes: [true, 'perto', false] },
+  { key: 'produtor', label: 'Produtor', pts: 3, opcoes: [true, false] },
+]
+
 function media(avaliacoes) {
   if (!avaliacoes?.length) return null
   return avaliacoes.reduce((s, a) => s + Number(a.nota), 0) / avaliacoes.length
 }
 
+function calcularPontos(ficha) {
+  if (!ficha?.acertos) return null
+  const { acertos } = ficha
+  let pts = 0
+  if (acertos.uva === true)      pts += 3
+  if (acertos.regiao === true)   pts += 2
+  if (acertos.produtor === true) pts += 3
+  if (acertos.safra === true)    pts += 2
+  else if (acertos.safra === 'perto') pts += 1
+  return pts
+}
+
+function temAcertosMarcados(ficha) {
+  if (!ficha?.acertos) return false
+  return Object.values(ficha.acertos).some((v) => v !== null)
+}
+
+function renderFichaView(avaliacao) {
+  if (avaliacao?.ficha?.tipo === 'mestre') {
+    return <FichaMestreView avaliacao={avaliacao} />
+  }
+  return <FichaDegustacaoView avaliacao={avaliacao} />
+}
+
 export default function GarrafaDetalhe() {
   const { slug, encontroId, garrafaId } = useParams()
   const { sessao } = useAuth(slug)
-  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar } = useGarrafa(garrafaId)
+  const { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar, marcarAcertos } = useGarrafa(garrafaId)
   const { remover } = useGarrafas(encontroId)
   const navigate = useNavigate()
 
   const [formFichaAberto, setFormFichaAberto] = useState(false)
+  const [tipoFicha, setTipoFicha] = useState(null) // null | 'degustacao' | 'mestre'
   const [comentario, setComentario] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [fichaExpandida, setFichaExpandida] = useState(null)
   const [comparacaoAberta, setComparacaoAberta] = useState(false)
+  const [acertosAberto, setAcertosAberto] = useState(false)
   const [fotoEditando, setFotoEditando] = useState(false)
   const [fotoFile, setFotoFile] = useState(null)
   const [salvandoFoto, setSalvandoFoto] = useState(false)
@@ -51,39 +86,41 @@ export default function GarrafaDetalhe() {
   const isOwner = sessao?.apelido === garrafa.apelido
   const isCego = garrafa.cego && !isOwner
 
-  function handleAbrirEditarInfo() {
-    setFormInfo({
-      nome: garrafa.nome ?? '',
-      produtor: garrafa.produtor ?? '',
-      safra: garrafa.safra ?? '',
-      regiao: garrafa.regiao ?? '',
-      tipo: garrafa.tipo ?? '',
-      notas_dono: garrafa.notas_dono ?? '',
-      cego: garrafa.cego ?? false,
-    })
-    setErroInfo('')
-    setInfoEditando(true)
-  }
+  // Fichas Mestre existentes
+  const fichasMestre = garrafa.avaliacoes?.filter((a) => a.ficha?.tipo === 'mestre') ?? []
+  const fichasComAcertos = fichasMestre.filter((a) => temAcertosMarcados(a.ficha))
+  const mostrarPlacar = fichasComAcertos.length > 0
 
-  async function handleSalvarInfo(e) {
-    e.preventDefault()
-    if (!formInfo.nome.trim()) { setErroInfo('Nome do vinho é obrigatório.'); return }
-    setSalvandoInfo(true)
-    setErroInfo('')
-    const campos = {
-      ...formInfo,
-      safra: formInfo.safra ? parseInt(formInfo.safra) : null,
+  function handleAbrirFicha() {
+    if (minhaAvaliacao) {
+      // Ao editar, já sabe o tipo — abre direto
+      setTipoFicha(minhaAvaliacao.ficha?.tipo === 'mestre' ? 'mestre' : 'degustacao')
+    } else {
+      setTipoFicha(null) // mostra seletor
     }
-    const { error } = await atualizarInfo(campos)
-    if (error) { setErroInfo(error.message); setSalvandoInfo(false); return }
-    setInfoEditando(false)
-    setSalvandoInfo(false)
+    setFormFichaAberto(true)
   }
 
   async function handleSalvarFicha(nota, ficha) {
     if (!sessao) return
     await adicionarAvaliacao(sessao.apelido, nota, ficha)
     setFormFichaAberto(false)
+    setTipoFicha(null)
+  }
+
+  function handleCancelarFicha() {
+    setFormFichaAberto(false)
+    setTipoFicha(null)
+  }
+
+  async function handleToggleAcerto(avaliacaoId, campo, valorAtual) {
+    const avaliacao = garrafa.avaliacoes.find((a) => a.id === avaliacaoId)
+    if (!avaliacao?.ficha) return
+    const opcoes = CAMPOS_MESTRE.find((c) => c.key === campo)?.opcoes ?? [true, false]
+    const idxAtual = opcoes.indexOf(valorAtual)
+    const proximo = opcoes[(idxAtual + 1) % opcoes.length]
+    const novosAcertos = { ...avaliacao.ficha.acertos, [campo]: proximo }
+    await marcarAcertos(avaliacaoId, novosAcertos)
   }
 
   async function handleComentario(e) {
@@ -125,6 +162,32 @@ export default function GarrafaDetalhe() {
     setSalvandoFoto(false)
   }
 
+  function handleAbrirEditarInfo() {
+    setFormInfo({
+      nome: garrafa.nome ?? '',
+      produtor: garrafa.produtor ?? '',
+      safra: garrafa.safra ?? '',
+      regiao: garrafa.regiao ?? '',
+      tipo: garrafa.tipo ?? '',
+      notas_dono: garrafa.notas_dono ?? '',
+      cego: garrafa.cego ?? false,
+    })
+    setErroInfo('')
+    setInfoEditando(true)
+  }
+
+  async function handleSalvarInfo(e) {
+    e.preventDefault()
+    if (!formInfo.nome.trim()) { setErroInfo('Nome do vinho é obrigatório.'); return }
+    setSalvandoInfo(true)
+    setErroInfo('')
+    const campos = { ...formInfo, safra: formInfo.safra ? parseInt(formInfo.safra) : null }
+    const { error } = await atualizarInfo(campos)
+    if (error) { setErroInfo(error.message); setSalvandoInfo(false); return }
+    setInfoEditando(false)
+    setSalvandoInfo(false)
+  }
+
   return (
     <div className={styles.page}>
       <Link to={`/c/${slug}/encontros/${encontroId}`} className={styles.voltar}>
@@ -155,11 +218,7 @@ export default function GarrafaDetalhe() {
             </div>
           )}
           {sessao?.apelido === garrafa.apelido && !fotoEditando && (
-            <button
-              className={styles.btnFotoAlt}
-              onClick={() => setFotoEditando(true)}
-              disabled={salvandoFoto}
-            >
+            <button className={styles.btnFotoAlt} onClick={() => setFotoEditando(true)} disabled={salvandoFoto}>
               {garrafa.foto_url ? 'Trocar foto' : 'Adicionar foto'}
             </button>
           )}
@@ -200,11 +259,7 @@ export default function GarrafaDetalhe() {
             </div>
           )}
           {sessao?.apelido === garrafa.apelido && (
-            <button
-              className={styles.btnApagarGarrafa}
-              onClick={handleApagarGarrafa}
-              disabled={apagando}
-            >
+            <button className={styles.btnApagarGarrafa} onClick={handleApagarGarrafa} disabled={apagando}>
               {apagando ? 'A apagar…' : 'Apagar vinho'}
             </button>
           )}
@@ -217,30 +272,15 @@ export default function GarrafaDetalhe() {
           <FotoUpload onFile={setFotoFile} />
           <div className={styles.fotoEditAcoes}>
             {garrafa.foto_url && (
-              <button
-                type="button"
-                className={styles.btnRemoverFoto}
-                onClick={handleRemoverFoto}
-                disabled={salvandoFoto}
-              >
+              <button type="button" className={styles.btnRemoverFoto} onClick={handleRemoverFoto} disabled={salvandoFoto}>
                 Remover foto
               </button>
             )}
-            <button
-              type="button"
-              className="btn-ghost"
-              onClick={() => { setFotoEditando(false); setFotoFile(null) }}
-              disabled={salvandoFoto}
-            >
+            <button type="button" className="btn-ghost" onClick={() => { setFotoEditando(false); setFotoFile(null) }} disabled={salvandoFoto}>
               Cancelar
             </button>
             {fotoFile && (
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={handleSalvarFoto}
-                disabled={salvandoFoto}
-              >
+              <button type="button" className="btn-primary" onClick={handleSalvarFoto} disabled={salvandoFoto}>
                 {salvandoFoto ? 'A guardar…' : 'Guardar foto'}
               </button>
             )}
@@ -301,8 +341,7 @@ export default function GarrafaDetalhe() {
           </div>
           {erroInfo && <p className={styles.erroForm}>{erroInfo}</p>}
           <div className={styles.infoEditAcoes}>
-            <button type="button" className="btn-ghost"
-              onClick={() => { setInfoEditando(false); setErroInfo('') }}>
+            <button type="button" className="btn-ghost" onClick={() => { setInfoEditando(false); setErroInfo('') }}>
               Cancelar
             </button>
             <button type="submit" className="btn-primary" disabled={salvandoInfo}>
@@ -322,35 +361,69 @@ export default function GarrafaDetalhe() {
       {sessao && (
         <section className={styles.secao}>
           <div className={styles.secaoHeader}>
-            <p className={styles.secLabel}>Minha ficha de degustação</p>
-            {minhaAvaliacao && minhaAvaliacao.apelido === sessao?.apelido && !formFichaAberto && (
-              <button className={styles.btnEditar} onClick={() => setFormFichaAberto(true)}>
-                Editar
-              </button>
+            <p className={styles.secLabel}>Minha ficha</p>
+            {minhaAvaliacao && !formFichaAberto && (
+              <button className={styles.btnEditar} onClick={handleAbrirFicha}>Editar</button>
             )}
           </div>
 
-          {!minhaAvaliacao && !formFichaAberto && (
-            <button
-              className={styles.btnPreencher}
-              onClick={() => setFormFichaAberto(true)}
-            >
-              + Preencher ficha de degustação
-            </button>
+          {/* Seletor de tipo de ficha */}
+          {formFichaAberto && tipoFicha === null && (
+            <div className={styles.fichaSelector}>
+              <p className={styles.fichaSelectorLabel}>Escolha o modo da ficha</p>
+              <div className={styles.fichaSelectorOpcoes}>
+                <button
+                  type="button"
+                  className={styles.fichaSelectorBtn}
+                  onClick={() => setTipoFicha('degustacao')}
+                >
+                  <span className={styles.fichaSelectorIcone}>◈</span>
+                  <span className={styles.fichaSelectorNome}>Ficha Clássica</span>
+                  <span className={styles.fichaSelectorDesc}>Visual · Nariz · Boca · Conclusão</span>
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.fichaSelectorBtn} ${styles.fichaSelectorBtnMestre}`}
+                  onClick={() => setTipoFicha('mestre')}
+                >
+                  <span className={styles.fichaSelectorIcone}>🎲</span>
+                  <span className={styles.fichaSelectorNome}>Mestre dos Vinhos</span>
+                  <span className={styles.fichaSelectorDesc}>Adivinha uva, região, safra e produtor</span>
+                </button>
+              </div>
+              <button type="button" className={styles.btnCancelarSelector} onClick={handleCancelarFicha}>
+                Cancelar
+              </button>
+            </div>
           )}
 
-          {minhaAvaliacao && !formFichaAberto && (
-            <FichaDegustacaoView avaliacao={minhaAvaliacao} />
-          )}
-
-          {formFichaAberto && (
+          {/* Formulário clássico */}
+          {formFichaAberto && tipoFicha === 'degustacao' && (
             <FichaDegustacaoForm
+              fichaInicial={minhaAvaliacao?.ficha?.tipo !== 'mestre' ? (minhaAvaliacao?.ficha ?? null) : null}
+              notaInicial={minhaAvaliacao ? Number(minhaAvaliacao.nota) : 0}
+              onSalvar={handleSalvarFicha}
+              onCancelar={handleCancelarFicha}
+            />
+          )}
+
+          {/* Formulário Mestre */}
+          {formFichaAberto && tipoFicha === 'mestre' && (
+            <FichaMestreForm
               fichaInicial={minhaAvaliacao?.ficha ?? null}
               notaInicial={minhaAvaliacao ? Number(minhaAvaliacao.nota) : 0}
               onSalvar={handleSalvarFicha}
-              onCancelar={() => setFormFichaAberto(false)}
+              onCancelar={handleCancelarFicha}
             />
           )}
+
+          {/* Visualização */}
+          {!minhaAvaliacao && !formFichaAberto && (
+            <button className={styles.btnPreencher} onClick={handleAbrirFicha}>
+              + Preencher ficha
+            </button>
+          )}
+          {minhaAvaliacao && !formFichaAberto && renderFichaView(minhaAvaliacao)}
         </section>
       )}
 
@@ -379,7 +452,6 @@ export default function GarrafaDetalhe() {
                   <button
                     className={styles.btnVerFicha}
                     aria-expanded={fichaExpandida === a.id}
-                    aria-controls={`ficha-${a.id}`}
                     onClick={() => setFichaExpandida(fichaExpandida === a.id ? null : a.id)}
                   >
                     {fichaExpandida === a.id ? 'Fechar' : 'Ver ficha'}
@@ -387,8 +459,8 @@ export default function GarrafaDetalhe() {
                 )}
               </div>
               {fichaExpandida === a.id && a.ficha && (
-                <div id={`ficha-${a.id}`} className={styles.fichaExpandida}>
-                  <FichaDegustacaoView avaliacao={a} />
+                <div className={styles.fichaExpandida}>
+                  {renderFichaView(a)}
                 </div>
               )}
             </div>
@@ -396,26 +468,109 @@ export default function GarrafaDetalhe() {
         </div>
       </section>
 
-      {/* ── Comparação de fichas ── */}
-      {garrafa.avaliacoes?.filter((a) => a.ficha).length >= 2 && (
+      {/* ── Painel de acertos (só dono, só quando há fichas Mestre) ── */}
+      {isOwner && !garrafa.cego && fichasMestre.length > 0 && (
         <>
           <GoldDivider />
           <section className={styles.secao}>
             <div className={styles.secaoHeader}>
-              <p className={styles.secLabel}>Comparar fichas</p>
+              <p className={styles.secLabel}>🎲 Marcar acertos — Mestre dos Vinhos</p>
               <button
                 className={styles.btnEditar}
-                aria-expanded={comparacaoAberta}
-                onClick={() => setComparacaoAberta((v) => !v)}
+                onClick={() => setAcertosAberto((v) => !v)}
               >
-                {comparacaoAberta ? 'Fechar' : 'Ver lado a lado'}
+                {acertosAberto ? 'Fechar' : 'Corrigir chutes'}
               </button>
             </div>
 
+            {acertosAberto && (
+              <div className={styles.acertosPanel}>
+                <p className={styles.acertosDica}>
+                  Clique nos campos para ciclar entre ✓ certo · ~ quase (±1 ano) · ✗ errado
+                </p>
+                {fichasMestre.map((a) => (
+                  <div key={a.id} className={styles.acertosCard}>
+                    <div className={styles.acertosCardHeader}>
+                      <MemberAvatar apelido={a.apelido} cor={gerarCor(a.apelido)} size={24} />
+                      <span className={styles.acertosNome}>{a.apelido}</span>
+                      <span className={styles.acertosPts}>{calcularPontos(a.ficha) ?? 0} / 10 pts</span>
+                    </div>
+                    <div className={styles.acertosGrid}>
+                      {CAMPOS_MESTRE.map(({ key, label, pts, opcoes }) => {
+                        const chute = a.ficha?.chutes?.[key]
+                        const acerto = a.ficha?.acertos?.[key] ?? null
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            className={`${styles.acertosBotao} ${
+                              acerto === true ? styles.acertoBotaoCorreto :
+                              acerto === 'perto' ? styles.acertoBotaoPerto :
+                              acerto === false ? styles.acertoBotaoErrado : ''
+                            }`}
+                            onClick={() => handleToggleAcerto(a.id, key, acerto)}
+                          >
+                            <span className={styles.acertosBotaoLabel}>{label} <small>{pts}pts</small></span>
+                            <span className={styles.acertosBotaoChute}>{chute ?? '—'}</span>
+                            <span className={styles.acertosBotaoIcone}>
+                              {acerto === null ? '?' : acerto === true ? '✓' : acerto === 'perto' ? '~' : '✗'}
+                            </span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        </>
+      )}
+
+      {/* ── Placar do Mestre ── */}
+      {mostrarPlacar && (
+        <>
+          <GoldDivider />
+          <section className={styles.secao}>
+            <p className={styles.secLabel}>Placar do Mestre</p>
+            <div className={styles.placar}>
+              {[...fichasMestre]
+                .sort((a, b) => (calcularPontos(b.ficha) ?? 0) - (calcularPontos(a.ficha) ?? 0))
+                .map((a, idx) => {
+                  const pts = calcularPontos(a.ficha) ?? 0
+                  const max = 10
+                  return (
+                    <div key={a.id} className={styles.placarItem}>
+                      <span className={styles.placarPos}>{idx + 1}</span>
+                      <MemberAvatar apelido={a.apelido} cor={gerarCor(a.apelido)} size={28} />
+                      <span className={styles.placarNome}>{a.apelido}</span>
+                      <div className={styles.placarBarra}>
+                        <div className={styles.placarBarraFill} style={{ width: `${(pts / max) * 100}%` }} />
+                      </div>
+                      <span className={styles.placarPts}>{pts}<small>/10</small></span>
+                    </div>
+                  )
+                })}
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* ── Comparação de fichas clássicas ── */}
+      {garrafa.avaliacoes?.filter((a) => a.ficha && a.ficha?.tipo !== 'mestre').length >= 2 && (
+        <>
+          <GoldDivider />
+          <section className={styles.secao}>
+            <div className={styles.secaoHeader}>
+              <p className={styles.secLabel}>Comparar fichas clássicas</p>
+              <button className={styles.btnEditar} onClick={() => setComparacaoAberta((v) => !v)}>
+                {comparacaoAberta ? 'Fechar' : 'Ver lado a lado'}
+              </button>
+            </div>
             {comparacaoAberta && (
               <div className={styles.comparacaoScroll}>
                 {garrafa.avaliacoes
-                  .filter((a) => a.ficha)
+                  .filter((a) => a.ficha && a.ficha?.tipo !== 'mestre')
                   .map((a) => (
                     <div key={a.id} className={styles.comparacaoCard}>
                       <div className={styles.comparacaoCardHeader}>

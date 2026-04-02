@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import StarRating from '../components/wine/StarRating.jsx'
 import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
+import FichaMestreView from '../components/wine/FichaMestreView.jsx'
 import styles from './EncontroCompartilhar.module.css'
 
 function media(avaliacoes) {
@@ -136,7 +137,10 @@ export default function EncontroCompartilhar() {
                           </div>
                           {a.ficha && (
                             <div className={styles.fichaConteudo}>
-                              <FichaDegustacaoView avaliacao={a} />
+                              {a.ficha.tipo === 'mestre'
+                                ? <FichaMestreView avaliacao={a} />
+                                : <FichaDegustacaoView avaliacao={a} />
+                              }
                             </div>
                           )}
                         </div>

@@ -1,0 +1,134 @@
+.ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  border: 0.5px solid rgba(200, 151, 58, 0.4);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  align-self: flex-start;
+}
+
+.chutes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.chuteItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chuteHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.chuteLabel {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.chutePts {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  color: var(--tabac);
+  letter-spacing: 0.1em;
+}
+
+.chuteValor {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chuteTexto {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--creme);
+}
+
+.chuteVazio {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--tabac);
+}
+
+/* Ícones de acerto */
+.iconeCorreto {
+  font-size: 14px;
+  color: #5CA85C;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.iconeErrado {
+  font-size: 14px;
+  color: #C05070;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.iconePerto {
+  font-size: 14px;
+  color: var(--ouro);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.iconePendente {
+  font-size: 12px;
+  color: var(--tabac);
+  line-height: 1;
+}
+
+.notas {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--bronze);
+  line-height: 1.6;
+  padding-top: var(--space-2);
+  border-top: 0.5px solid var(--brique);
+}
+
+.rodape {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 0.5px solid var(--brique);
+}
+
+.pontuacao {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ouro);
+  letter-spacing: 0.05em;
+}
+
+.pendente {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tabac);
+}
