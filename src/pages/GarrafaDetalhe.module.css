@@ -555,6 +555,250 @@
   gap: var(--space-3);
 }
 
+/* ── Seletor de tipo de ficha ── */
+.fichaSelector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.fichaSelectorLabel {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.fichaSelectorOpcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.fichaSelectorBtn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition), background var(--transition);
+}
+.fichaSelectorBtn:hover {
+  border-color: var(--tabac);
+  background: rgba(255,255,255,0.05);
+}
+
+.fichaSelectorBtnMestre:hover {
+  border-color: var(--ouro);
+  background: rgba(200, 151, 58, 0.06);
+}
+
+.fichaSelectorIcone {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.fichaSelectorNome {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--creme);
+  line-height: 1.2;
+}
+
+.fichaSelectorDesc {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--bronze);
+  line-height: 1.4;
+}
+
+.btnCancelarSelector {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--transition);
+  align-self: flex-start;
+}
+.btnCancelarSelector:hover { color: var(--ouro); }
+
+/* ── Painel de acertos (Mestre dos Vinhos) ── */
+.acertosPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.acertosDica {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--cinza-quente);
+  font-style: italic;
+}
+
+.acertosCard {
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.acertosCardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.acertosNome {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--creme);
+  flex: 1;
+}
+
+.acertosPts {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ouro);
+}
+
+.acertosGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.acertosBotao {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3);
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition), background var(--transition);
+  min-height: 60px;
+}
+.acertosBotao:hover { border-color: var(--tabac); }
+
+.acertoBotaoCorreto { border-color: #5CA85C !important; background: rgba(92,168,92,0.08) !important; }
+.acertoBotaoPerto   { border-color: var(--ouro) !important; background: rgba(200,151,58,0.08) !important; }
+.acertoBotaoErrado  { border-color: #C05070 !important; background: rgba(192,80,112,0.08) !important; }
+
+.acertosBotaoLabel {
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cinza-quente);
+}
+
+.acertosBotaoLabel small {
+  color: var(--tabac);
+  letter-spacing: 0.05em;
+}
+
+.acertosBotaoChute {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--creme);
+  flex: 1;
+}
+
+.acertosBotaoIcone {
+  font-size: 14px;
+  font-weight: 600;
+  align-self: flex-end;
+  color: var(--cinza-quente);
+}
+.acertoBotaoCorreto .acertosBotaoIcone { color: #5CA85C; }
+.acertoBotaoPerto   .acertosBotaoIcone { color: var(--ouro); }
+.acertoBotaoErrado  .acertosBotaoIcone { color: #C05070; }
+
+/* ── Placar do Mestre ── */
+.placar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.placarItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.placarPos {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--tabac);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.placarNome {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--creme);
+  min-width: 80px;
+}
+
+.placarBarra {
+  flex: 1;
+  height: 3px;
+  background: var(--brique);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.placarBarraFill {
+  height: 100%;
+  background: var(--ouro);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.placarPts {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ouro);
+  min-width: 44px;
+  text-align: right;
+}
+
+.placarPts small {
+  font-size: 9px;
+  color: var(--tabac);
+}
+
 @media (max-width: 768px) {
   .hero { flex-direction: column; }
   .fotoWrap { width: 100%; height: 200px; }
@@ -563,4 +807,6 @@
   .infoEditGrid { grid-template-columns: 1fr; }
   .campoFull { grid-column: 1; }
   .infoEditAcoes { flex-direction: column; }
+  .fichaSelectorOpcoes { grid-template-columns: 1fr; }
+  .acertosGrid { grid-template-columns: 1fr; }
 }

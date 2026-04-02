@@ -20,6 +20,7 @@ export function useGarrafas(encontroId) {
         comentarios(*)
       `)
       .eq('encontro_id', encontroId)
+      .order('ordem', { ascending: true, nullsFirst: false })
       .order('criado_em', { ascending: true })
     setGarrafas(data || [])
     setCarregando(false)
@@ -42,7 +43,17 @@ export function useGarrafas(encontroId) {
     return { error }
   }
 
-  return { garrafas, carregando, adicionar, remover, refetch: buscar }
+  async function reordenar(novaOrdem) {
+    // novaOrdem: array de ids na nova sequência
+    await Promise.all(
+      novaOrdem.map((id, idx) =>
+        supabase.from('garrafas').update({ ordem: idx + 1 }).eq('id', id)
+      )
+    )
+    await buscar()
+  }
+
+  return { garrafas, carregando, adicionar, remover, reordenar, refetch: buscar }
 }
 
 // Garrafa individual com tudo
@@ -112,7 +123,19 @@ export function useGarrafa(garrafaId) {
     return { error }
   }
 
-  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar, refetch: buscar }
+  async function marcarAcertos(avaliacaoId, acertos) {
+    const avaliacao = garrafa?.avaliacoes?.find((a) => a.id === avaliacaoId)
+    if (!avaliacao?.ficha) return { error: new Error('Avaliação não encontrada') }
+    const fichaAtualizada = { ...avaliacao.ficha, acertos }
+    const { error } = await supabase
+      .from('avaliacoes')
+      .update({ ficha: fichaAtualizada })
+      .eq('id', avaliacaoId)
+    if (!error) await buscar()
+    return { error }
+  }
+
+  return { garrafa, carregando, adicionarAvaliacao, adicionarComentario, atualizarFoto, atualizarInfo, revelar, marcarAcertos, refetch: buscar }
 }
 
 // Upload de foto para o Storage
