@@ -12,13 +12,19 @@ const STATUS_LABELS = {
 
 export default function MeetingCard({ encontro, slug }) {
   const confirmados = encontro.presencas?.filter((p) => p.status === 'confirmado').length ?? 0
+  const statusEfetivo =
+    encontro.status !== 'cancelado' &&
+    encontro.data_hora &&
+    new Date(encontro.data_hora) < new Date()
+      ? 'realizado'
+      : encontro.status
 
   return (
     <Link to={`/c/${slug}/encontros/${encontro.id}`} className={styles.card}>
       <div className={styles.header}>
         <RomanNumeral value={encontro.numero_romano} size="md" />
-        <span className={`badge badge-${encontro.status}`}>
-          {STATUS_LABELS[encontro.status]}
+        <span className={`badge badge-${statusEfetivo}`}>
+          {STATUS_LABELS[statusEfetivo]}
         </span>
       </div>
 
