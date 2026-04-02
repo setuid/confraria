@@ -4,7 +4,7 @@
   gap: var(--space-2);
 }
 
-/* Seções */
+/* ── Seções ── */
 .secao {
   background: var(--cave);
   border: 0.5px solid var(--brique);
@@ -12,20 +12,21 @@
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 
 .secLabel {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 300;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.45em;
   text-transform: uppercase;
   color: var(--ouro);
-  margin-bottom: var(--space-1);
+  padding-bottom: var(--space-2);
+  border-bottom: 0.5px solid rgba(200, 151, 58, 0.2);
 }
 
-/* Campo */
+/* ── Campo ── */
 .campo {
   display: flex;
   flex-direction: column;
@@ -34,14 +35,14 @@
 
 .campoLabel {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   color: var(--bronze);
 }
 
-/* Button group */
+/* ── Button group ── */
 .btnGroup {
   display: flex;
   flex-wrap: wrap;
@@ -50,41 +51,52 @@
 
 .btn {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--bronze);
-  border: 0.5px solid var(--brique);
+  border: 1px solid var(--brique);
   border-radius: var(--radius-sm);
   padding: var(--space-3) var(--space-4);
-  min-height: 44px;
+  min-height: 46px;
   cursor: pointer;
   transition: all var(--transition);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.btn:hover { border-color: var(--tabac); color: var(--pergaminho); }
+.btn:hover {
+  border-color: var(--tabac);
+  color: var(--pergaminho);
+  background: rgba(255, 255, 255, 0.05);
+}
 
 .btnAtivo {
   border-color: var(--ouro) !important;
   color: var(--ouro) !important;
-  background: rgba(200, 151, 58, 0.08) !important;
+  background: rgba(200, 151, 58, 0.1) !important;
 }
 
-/* Escala 1–5 */
+/* ── Escala 1–5 (layout corrigido) ── */
 .escalaWrap {
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.escalaLabels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px;
 }
 
 .escalaLabel {
   font-family: var(--font-ui);
   font-size: 11px;
+  font-weight: 300;
   letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--cinza-quente);
-  white-space: nowrap;
 }
 
 .escala {
@@ -93,110 +105,190 @@
 }
 
 .escalaBt {
-  width: 44px;
-  height: 44px;
+  flex: 1;
+  height: 46px;
   border-radius: var(--radius-sm);
-  border: 0.5px solid var(--brique);
-  background: transparent;
+  border: 1px solid var(--brique);
+  background: rgba(255, 255, 255, 0.02);
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--bronze);
   cursor: pointer;
   transition: all var(--transition);
 }
 
-.escalaBt:hover { border-color: var(--tabac); color: var(--pergaminho); }
+.escalaBt:hover {
+  border-color: var(--tabac);
+  color: var(--pergaminho);
+  background: rgba(255, 255, 255, 0.05);
+}
 
 .escalaBtAtivo {
   border-color: var(--ouro) !important;
   color: var(--ouro) !important;
-  background: rgba(200, 151, 58, 0.08) !important;
+  background: rgba(200, 151, 58, 0.1) !important;
 }
 
-/* Cores */
-.cores {
+/* ── Cores ── */
+.coresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(54px, 1fr));
+  gap: var(--space-3) var(--space-2);
+}
+
+.corItem {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition);
 }
 
-.corChip {
-  width: 44px;
-  height: 44px;
+.corItem:hover { opacity: 0.85; }
+
+.corCirculo {
+  display: block;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  cursor: pointer;
+  border: 2.5px solid transparent;
   transition: transform var(--transition), border-color var(--transition);
 }
 
-.corChip:hover { transform: scale(1.15); }
+.corItem:hover .corCirculo { transform: scale(1.1); }
 
-.corChipAtivo {
-  border-color: var(--ouro) !important;
-  transform: scale(1.15);
+.corItemAtivo .corCirculo {
+  border-color: var(--ouro);
+  transform: scale(1.12);
 }
 
-.corLabel {
+.corNome {
   font-family: var(--font-ui);
-  font-size: 11px;
-  letter-spacing: 0.3em;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ouro);
+  color: var(--cinza-quente);
+  text-align: center;
+  line-height: 1.2;
+  transition: color var(--transition);
 }
 
-/* Aromas */
-.grupoAroma {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+.corItemAtivo .corNome { color: var(--ouro); }
+
+/* ── Aromas ── */
+.aromaDica {
+  font-family: var(--font-ui);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--tabac);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
 }
+
+.grupoAroma {
+  border: 0.5px solid var(--brique);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.grupoHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+  min-height: 46px;
+}
+
+.grupoHeader:hover { background: rgba(255, 255, 255, 0.05); }
 
 .grupoLabel {
   font-family: var(--font-ui);
-  font-size: 11px;
-  letter-spacing: 0.25em;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cinza-quente);
+  color: var(--creme);
 }
+
+.grupoHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.grupoCount {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ouro);
+  background: rgba(200, 151, 58, 0.15);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.grupoSeta {
+  font-size: 14px;
+  color: var(--tabac);
+  transition: transform var(--transition);
+  line-height: 1;
+}
+
+.grupoSetaAberta { transform: rotate(180deg); }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 0.5px solid var(--brique);
 }
 
 .chip {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.2em;
-  text-transform: lowercase;
+  letter-spacing: 0.1em;
   color: var(--bronze);
-  border: 0.5px solid var(--brique);
+  border: 1px solid var(--brique);
   border-radius: 20px;
-  padding: var(--space-3) var(--space-4);
-  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  min-height: 38px;
   cursor: pointer;
   transition: all var(--transition);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.chip:hover { border-color: var(--tabac); color: var(--pergaminho); }
+.chip:hover {
+  border-color: var(--tabac);
+  color: var(--pergaminho);
+  background: rgba(255, 255, 255, 0.05);
+}
 
 .chipAtivo {
   border-color: var(--ouro) !important;
   color: var(--ouro) !important;
-  background: rgba(200, 151, 58, 0.08) !important;
+  background: rgba(200, 151, 58, 0.1) !important;
 }
 
-/* Ações */
+/* ── Ações ── */
 .acoes {
   display: flex;
   gap: var(--space-3);
   padding-top: var(--space-2);
 }
 
-@media (max-width: 768px) {
-  .escalaWrap { flex-wrap: wrap; }
+@media (max-width: 480px) {
   .acoes { flex-direction: column; }
+  .coresGrid { grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); }
 }
