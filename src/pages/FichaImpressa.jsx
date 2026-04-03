@@ -39,8 +39,8 @@ const GRUPOS_AROMA = [
   { grupo: 'Herbáceos',        aromas: ['hortelã', 'eucalipto', 'ervas frescas', 'pimentão', 'tomilho', 'alecrim'] },
   { grupo: 'Especiarias',      aromas: ['pimenta', 'p. branca', 'canela', 'cravo', 'noz-mosc.', 'alcaçuz', 'anis'] },
   { grupo: 'Terra / Mineral',  aromas: ['mineral', 'pedra', 'terra', 'couro', 'cogumelo', 'trufa', 'grafite'] },
-  { grupo: 'Madeira / Carvalho', aromas: ['baunilha', 'cedro', 'tostado', 'defumado', 'café', 'chocolate', 'tabaco'] },
-  { grupo: 'Outros',           aromas: ['mel', 'manteiga', 'brioche', 'levedura', 'caramelo'] },
+  { grupo: 'Madeira / Carvalho', aromas: ['baunilha', 'cedro', 'tostado', 'defumado', 'café', 'chocolate', 'tabaco', 'carvalho'] },
+  { grupo: 'Outros',           aromas: ['mel', 'amanteigado', 'brioche', 'levedura', 'caramelo'] },
 ]
 
 function Circulo() {
