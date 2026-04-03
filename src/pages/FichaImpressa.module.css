@@ -1,0 +1,384 @@
+/* ─── Loading ───────────────────────────────────────────────────────────────── */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Georgia, serif;
+  font-style: italic;
+  color: #888;
+}
+
+/* ─── Página A4 ─────────────────────────────────────────────────────────────── */
+
+.pagina {
+  width: 794px;
+  margin: 0 auto;
+  padding: 36px 48px 40px;
+  background: #fff;
+  color: #1C1008;
+  font-family: Georgia, 'Times New Roman', serif;
+  box-sizing: border-box;
+}
+
+/* ─── Cabeçalho ─────────────────────────────────────────────────────────────── */
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.logoMarca {
+  font-size: 11pt;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: #8B7A4A;
+}
+
+.confNome {
+  font-size: 8pt;
+  color: #888;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+.cabDir {
+  text-align: right;
+}
+
+.encNum {
+  font-size: 9pt;
+  font-style: italic;
+  color: #5C4A28;
+}
+
+.encData {
+  font-size: 8pt;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ─── Divisores ─────────────────────────────────────────────────────────────── */
+
+.dividerOuro {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #C8A830, transparent);
+  margin: 6px 0;
+}
+
+.dividerFino {
+  height: 1px;
+  background: #E0D8CC;
+  margin: 8px 0 10px;
+}
+
+/* ─── Título do encontro ─────────────────────────────────────────────────────── */
+
+.tituloArea {
+  text-align: center;
+  margin: 6px 0 4px;
+}
+
+.titulo {
+  font-size: 13pt;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 0.06em;
+  color: #1C1008;
+}
+
+.tema {
+  font-size: 8.5pt;
+  font-style: italic;
+  color: #666;
+  margin: 2px 0 0;
+}
+
+/* ─── Linha do nome ──────────────────────────────────────────────────────────── */
+
+.nomeLinha {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+
+.nomeRotulo {
+  font-size: 8.5pt;
+  font-style: italic;
+  color: #666;
+  white-space: nowrap;
+}
+
+.nomeTracejado {
+  flex: 1;
+  border-bottom: 1px solid #999;
+}
+
+/* ─── Bloco de vinho ─────────────────────────────────────────────────────────── */
+
+.blocoVinho {
+  margin-bottom: 14px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.vinhoHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: #F5EFE3;
+  border-left: 3px solid #C8A830;
+  padding: 5px 10px;
+  margin-bottom: 6px;
+}
+
+.vinhoRomano {
+  font-size: 9.5pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: #5C4A28;
+  white-space: nowrap;
+}
+
+.vinhoNome {
+  font-size: 8.5pt;
+  color: #3A2E1C;
+  font-style: italic;
+}
+
+/* ─── Secções ────────────────────────────────────────────────────────────────── */
+
+.secao {
+  padding: 0 4px 6px;
+  border-bottom: 1px solid #EDE6D8;
+  margin-bottom: 4px;
+}
+
+.secao:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.secaoTitulo {
+  font-size: 6.5pt;
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  color: #9B8A6A;
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+
+/* ─── Campos ─────────────────────────────────────────────────────────────────── */
+
+.campo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 3px;
+  flex: 1;
+}
+
+.campoRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.campoLabel {
+  font-size: 7.5pt;
+  color: #888;
+  white-space: nowrap;
+  min-width: 62px;
+  font-style: italic;
+}
+
+/* ─── Opções (círculos) ──────────────────────────────────────────────────────── */
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.escalaOpcoes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.escalaHint {
+  font-size: 6.5pt;
+  color: #aaa;
+  font-style: italic;
+  margin-left: 2px;
+}
+
+.opcaoItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 7.5pt;
+  color: #3A2E1C;
+  white-space: nowrap;
+}
+
+.circulo {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #555;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #555;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* ─── Cores ──────────────────────────────────────────────────────────────────── */
+
+.coresGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+}
+
+.corItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7.5pt;
+  color: #3A2E1C;
+  white-space: nowrap;
+}
+
+.corBox {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+/* ─── Aromas agrupados ───────────────────────────────────────────────────────── */
+
+.aromasGrupos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.aromaLinha {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.aromaGrupoLabel {
+  font-size: 7pt;
+  font-weight: bold;
+  color: #8B7A4A;
+  white-space: nowrap;
+  min-width: 110px;
+  font-style: normal;
+}
+
+.aromaItens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.aromaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 7.5pt;
+  color: #3A2E1C;
+  white-space: nowrap;
+}
+
+/* ─── Nota e estrelas ────────────────────────────────────────────────────────── */
+
+.notaEstrelas {
+  font-size: 9pt;
+  color: #C8A830;
+  letter-spacing: 2px;
+}
+
+/* ─── Linhas para escrever ───────────────────────────────────────────────────── */
+
+.linhasNotas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linhaEscrita {
+  border-bottom: 1px solid #C8B99A;
+  width: 100%;
+  height: 14px;
+}
+
+/* ─── Rodapé ─────────────────────────────────────────────────────────────────── */
+
+.rodape {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 7pt;
+  color: #AAA;
+  letter-spacing: 0.08em;
+  border-top: 1px solid #EDE6D8;
+  padding-top: 8px;
+}
+
+/* ─── Print ──────────────────────────────────────────────────────────────────── */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .pagina {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .blocoVinho {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Garantir que as caixinhas coloridas imprimem */
+  .corBox {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .vinhoHeader {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

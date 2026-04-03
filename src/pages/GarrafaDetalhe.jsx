@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.js'
 import { useGarrafa, useGarrafas, uploadFotoGarrafa, deleteFotoStorage } from '../hooks/useGarrafas.js'
 import FichaDegustacaoForm from '../components/wine/FichaDegustacaoForm.jsx'
+import LerFichaFoto from '../components/wine/LerFichaFoto.jsx'
 import FichaDegustacaoView from '../components/wine/FichaDegustacaoView.jsx'
 import FichaMestreForm from '../components/wine/FichaMestreForm.jsx'
 import FichaMestreView from '../components/wine/FichaMestreView.jsx'
@@ -63,6 +64,7 @@ export default function GarrafaDetalhe() {
 
   const [formFichaAberto, setFormFichaAberto] = useState(false)
   const [tipoFicha, setTipoFicha] = useState(null) // null | 'degustacao' | 'mestre'
+  const [modoFoto, setModoFoto] = useState(false)
   const [comentario, setComentario] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [fichaExpandida, setFichaExpandida] = useState(null)
@@ -111,6 +113,13 @@ export default function GarrafaDetalhe() {
   function handleCancelarFicha() {
     setFormFichaAberto(false)
     setTipoFicha(null)
+    setModoFoto(false)
+  }
+
+  async function handleSalvarFichaFoto(nota, ficha) {
+    if (!sessao) return
+    await adicionarAvaliacao(sessao.apelido, nota, ficha)
+    setModoFoto(false)
   }
 
   async function handleToggleAcerto(avaliacaoId, campo, valorAtual) {
@@ -417,13 +426,28 @@ export default function GarrafaDetalhe() {
             />
           )}
 
-          {/* Visualização */}
-          {!minhaAvaliacao && !formFichaAberto && (
-            <button className={styles.btnPreencher} onClick={handleAbrirFicha}>
-              + Preencher ficha
-            </button>
+          {/* Modo digitalização por foto */}
+          {modoFoto && (
+            <LerFichaFoto
+              garrafaId={garrafaId}
+              notaInicial={minhaAvaliacao ? Number(minhaAvaliacao.nota) : 0}
+              onSalvar={handleSalvarFichaFoto}
+              onCancelar={handleCancelarFicha}
+            />
           )}
-          {minhaAvaliacao && !formFichaAberto && renderFichaView(minhaAvaliacao)}
+
+          {/* Botões de entrada (sem ficha, sem form aberto) */}
+          {!minhaAvaliacao && !formFichaAberto && !modoFoto && (
+            <div className={styles.fichaEntrada}>
+              <button className={styles.btnPreencher} onClick={handleAbrirFicha}>
+                + Preencher ficha
+              </button>
+              <button className={styles.btnFoto} onClick={() => setModoFoto(true)}>
+                📷 Digitalizar via foto
+              </button>
+            </div>
+          )}
+          {minhaAvaliacao && !formFichaAberto && !modoFoto && renderFichaView(minhaAvaliacao)}
         </section>
       )}
 

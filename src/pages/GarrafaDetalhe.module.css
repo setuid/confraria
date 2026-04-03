@@ -204,6 +204,30 @@
 }
 .btnPreencher:hover { background: rgba(200, 151, 58, 0.10); border-color: var(--ouro); }
 
+.fichaEntrada {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btnFoto {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted, #888);
+  border: 0.5px solid rgba(136, 136, 136, 0.3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-5);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: transparent;
+}
+.btnFoto:hover { color: var(--ouro); border-color: rgba(200, 151, 58, 0.4); }
+
 .btnEditar {
   font-family: var(--font-ui);
   font-size: 9px;
