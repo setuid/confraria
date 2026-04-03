@@ -3,12 +3,24 @@ import { supabase } from '../../lib/supabase.js'
 import FichaDegustacaoForm from './FichaDegustacaoForm.jsx'
 import styles from './LerFichaFoto.module.css'
 
-function fileToBase64(file) {
+// Redimensiona e comprime a imagem para no máximo 1600px e ~500KB
+function comprimirImagem(file, maxWidth = 1600, qualidade = 0.82) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = (e) => resolve(e.target.result.split(',')[1])
-    reader.onerror = reject
-    reader.readAsDataURL(file)
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const scale = Math.min(1, maxWidth / img.width)
+      const canvas = document.createElement('canvas')
+      canvas.width  = Math.round(img.width  * scale)
+      canvas.height = Math.round(img.height * scale)
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+      // base64 sem o prefixo data URL
+      const dataUrl = canvas.toDataURL('image/jpeg', qualidade)
+      resolve(dataUrl.split(',')[1])
+    }
+    img.onerror = reject
+    img.src = url
   })
 }
 
@@ -26,7 +38,7 @@ export default function LerFichaFoto({ garrafaId, notaInicial = 0, onSalvar, onC
     setErro('')
     setResultado(null)
     setPreview(URL.createObjectURL(file))
-    setBase64(await fileToBase64(file))
+    setBase64(await comprimirImagem(file))
     // Limpa o input para permitir selecionar o mesmo ficheiro de novo
     e.target.value = ''
   }
