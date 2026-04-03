@@ -42,8 +42,22 @@ export default function LerFichaFoto({ garrafaId, notaInicial = 0, onSalvar, onC
 
     setAnalisando(false)
 
-    if (error || data?.erro) {
-      setErro(error?.message || data?.erro || 'Não foi possível analisar a ficha.')
+    if (error) {
+      // Tenta extrair mensagem detalhada do corpo da resposta
+      let msg = error.message || 'Erro ao chamar a edge function.'
+      try {
+        const ctx = error.context
+        if (ctx) {
+          const body = await ctx.json?.() ?? null
+          if (body?.erro) msg = body.erro
+        }
+      } catch (_) { /* ignora */ }
+      setErro(msg)
+      return
+    }
+
+    if (data?.erro) {
+      setErro(data.erro)
       return
     }
 
