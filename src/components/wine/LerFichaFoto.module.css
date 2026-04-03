@@ -1,0 +1,122 @@
+.inputEscondido {
+  display: none;
+}
+
+/* ── Etapa 1: escolher foto ── */
+
+.etapa1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 28px 16px;
+  text-align: center;
+}
+
+.btnCapturar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 32px;
+  background: var(--surface, #1E1209);
+  border: 1.5px dashed var(--gold, #C8A830);
+  border-radius: 10px;
+  color: var(--gold, #C8A830);
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+  max-width: 280px;
+}
+
+.btnCapturar:hover {
+  background: color-mix(in srgb, var(--gold, #C8A830) 8%, var(--surface, #1E1209));
+}
+
+.btnCapturarIcone {
+  font-size: 2rem;
+}
+
+.dica {
+  font-size: 0.8rem;
+  color: var(--text-muted, #888);
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+/* ── Etapa 2: preview ── */
+
+.etapa2 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.previewImg {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border, #2E2010);
+  background: #000;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.erro {
+  color: #E87060;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  background: rgba(232, 112, 96, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #E87060;
+}
+
+/* ── Banner de sucesso ── */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(100, 180, 100, 0.12);
+  border-left: 3px solid #5A9E5A;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.bannerIcone {
+  color: #5A9E5A;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.bannerTexto {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text, #F0E8D8);
+}
+
+.btnBannerLink {
+  background: none;
+  border: none;
+  color: var(--gold, #C8A830);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.btnBannerLink:hover {
+  opacity: 0.8;
+}
