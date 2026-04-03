@@ -58,11 +58,11 @@ const GRUPOS_AROMA = [
   },
   {
     grupo: 'Madeira / Carvalho',
-    aromas: ['baunilha', 'cedro', 'tostado', 'defumado', 'café', 'chocolate', 'tabaco', 'resina'],
+    aromas: ['baunilha', 'cedro', 'tostado', 'defumado', 'café', 'chocolate', 'tabaco', 'resina', 'carvalho'],
   },
   {
     grupo: 'Outros',
-    aromas: ['mel', 'manteiga', 'brioche', 'levedura', 'caramelo', 'alcatrão', 'petróleo'],
+    aromas: ['mel', 'amanteigado', 'brioche', 'levedura', 'caramelo', 'alcatrão', 'petróleo'],
   },
 ]
 

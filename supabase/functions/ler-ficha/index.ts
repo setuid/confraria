@@ -147,10 +147,14 @@ Responde APENAS com JSON válido, sem texto extra, markdown ou explicações:
     const anthropicData = await anthropicResp.json()
     const rawText = anthropicData.content?.[0]?.text?.trim() ?? ""
 
+    // Remove blocos de markdown se o Claude os incluir (```json ... ```)
+    const jsonText = rawText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim()
+
     let parsed: unknown
     try {
-      parsed = JSON.parse(rawText)
+      parsed = JSON.parse(jsonText)
     } catch {
+      console.error("JSON parse failed. Raw:", rawText)
       return new Response(
         JSON.stringify({ erro: "Resposta inválida do Claude", raw: rawText }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
