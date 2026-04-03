@@ -162,6 +162,7 @@ Responde APENAS com JSON válido, sem texto extra, markdown ou explicações:
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     })
   } catch (err) {
+    console.error("ler-ficha error:", err)
     return new Response(
       JSON.stringify({ erro: (err as Error).message }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
