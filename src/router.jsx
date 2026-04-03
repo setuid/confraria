@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Encontros from './pages/Encontros.jsx'
 import EncontroDetalhe from './pages/EncontroDetalhe.jsx'
 import EncontroPrint from './pages/EncontroPrint.jsx'
+import FichaImpressa from './pages/FichaImpressa.jsx'
 import EncontroCompartilhar from './pages/EncontroCompartilhar.jsx'
 import GarrafaDetalhe from './pages/GarrafaDetalhe.jsx'
 import Membros from './pages/Membros.jsx'
@@ -55,6 +56,10 @@ export const router = createHashRouter([
     {
       path: '/c/:slug/encontros/:id/imprimir',
       element: <EncontroPrint />,
+    },
+    {
+      path: '/c/:slug/encontros/:id/fichas',
+      element: <FichaImpressa />,
     },
     {
       path: '/c/:slug/encontros/:id/compartilhar',

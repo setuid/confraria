@@ -131,6 +131,14 @@ export default function EncontroDetalhe() {
         <button className={styles.btnCompartilhar} onClick={handleCompartilhar}>
           {linkCopiado ? '✓ Link copiado' : '↗ Compartilhar'}
         </button>
+        <Link
+          to={`/c/${slug}/encontros/${id}/fichas`}
+          className={styles.btnCompartilhar}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ⎙ Imprimir fichas
+        </Link>
       </div>
 
       <GoldDivider />
